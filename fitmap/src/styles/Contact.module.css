@@ -1,0 +1,1030 @@
+/* Contact.module.css - משופר ומקצועי יותר */
+.pageContainer {
+  max-width: 1200px;
+  margin: 4.3rem auto 6rem;
+  padding: 0;
+  direction: rtl;
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* חלק גיבור עליון */
+.heroSection {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(6, 182, 212, 0.1) 100%);
+  border-radius: var(--radius-xl);
+  padding: 4rem 2rem;
+  margin-bottom: 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.heroSection::after {
+  content: '';
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, rgba(124, 58, 237, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.heroContent h1 {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-weight: 800;
+  animation: fadeIn 1s ease-out;
+}
+
+.heroContent p {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+  animation: fadeIn 1.2s ease-out;
+}
+
+/* כרטיסי קשר */
+.contactCards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  animation: fadeIn 1.4s ease-out;
+}
+
+.contactCard {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  flex: 1;
+  max-width: 250px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.contactCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.contactCard:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+}
+
+.contactCard:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.cardIcon {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(124, 58, 237, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: var(--primary);
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.contactCard:hover .cardIcon {
+  background-color: var(--primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+.contactCard h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.contactCard p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* איקון כותרת */
+.iconWrapper {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  box-shadow: 0 15px 30px rgba(124, 58, 237, 0.3);
+  position: relative;
+  z-index: 1;
+  animation: floatIcon 6s ease-in-out infinite;
+}
+
+.iconWrapper::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(6, 182, 212, 0.3));
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.6;
+  animation: pulse 2s infinite;
+}
+
+.headerIcon {
+  font-size: 2.75rem;
+  color: white;
+}
+
+/* איקון כותרת קטן */
+.smallIconWrapper {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
+}
+
+.sectionIcon {
+  font-size: 1.75rem;
+  color: white;
+}
+
+/* כותרות סקשנים */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionHeader h2 {
+  font-size: 2.25rem;
+  color: var(--primary);
+  margin: 0.75rem 0;
+  font-weight: 700;
+}
+
+.sectionHeader p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* סקשן הטופס */
+.formSection {
+  margin-bottom: 5rem;
+}
+
+/* סטיילינג למיכל הטופס */
+.contactContainer {
+  margin-bottom: 3rem;
+}
+
+.contactHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.contactHeader h2 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.headerDescription {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* טופס צור קשר */
+.contactForm {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.contactForm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  z-index: 1;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.formGroup.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formGroup label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.requiredMark {
+  color: var(--error);
+  font-weight: bold;
+}
+
+.inputIcon {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.formGroup.hasError input,
+.formGroup.hasError select,
+.formGroup.hasError textarea {
+  border-color: var(--error);
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+  transform: translateY(-2px);
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.errorFeedback {
+  color: var(--error);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.fieldHint {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.formPrivacy {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 1.5rem 0;
+}
+
+/* כפתור שליחה */
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1rem;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.25);
+}
+
+.submitButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: 1;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.35);
+}
+
+.submitButton:hover::before {
+  transform: translateX(100%);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.buttonIcon {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.submitButton:hover .buttonIcon {
+  transform: translateX(-3px);
+}
+
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+/* הודעות הצלחה ושגיאה */
+.successMessage,
+.errorMessage {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  animation: fadeSlideDown 0.5s ease-out;
+}
+
+.successMessage {
+  background-color: rgba(16, 185, 129, 0.1);
+  border-right: 4px solid var(--success);
+}
+
+.errorMessage {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-right: 4px solid var(--error);
+}
+
+.messageIcon {
+  font-size: 2rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.messageContent h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.messageContent p {
+  margin: 0;
+}
+
+.successMessage .messageIcon {
+  color: var(--success);
+}
+
+.errorMessage .messageIcon {
+  color: var(--error);
+}
+
+/* סקציית מידע ליצירת קשר */
+.contactInfoSection {
+  background-color: var(--bg-light);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  margin-bottom: 5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.contactInfoSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 90% 10%, rgba(124, 58, 237, 0.08) 0%, transparent 70%),
+              radial-gradient(circle at 10% 90%, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
+  z-index: 0;
+}
+
+/* דרכי התקשרות */
+.contactDetails {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 3rem;
+}
+
+.contactMethod {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+}
+
+.contactIcon {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(124, 58, 237, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.contactMethod:hover .contactIcon {
+  background-color: var(--primary);
+  color: white;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+}
+
+.contactText h3 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin: 0 0 0.3rem;
+  font-weight: 600;
+}
+
+.contactText p {
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.contactText a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contactText a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* רשתות חברתיות */
+.socialLinks {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.socialLinks h3 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.socialIcon {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(124, 58, 237, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 1.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.socialIcon:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-5px) rotate(5deg);
+  box-shadow: 0 10px 15px rgba(124, 58, 237, 0.3);
+}
+
+/* סקציית מפה */
+.mapSection {
+  background-color: var(--bg-light);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  margin-bottom: 5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.mapSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to left, var(--primary), var(--accent));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.mapInfo {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.mapInfoDetails {
+  flex: 0 0 300px;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  align-self: flex-start;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.mapInfoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mapInfoIcon {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-top: 0.2rem;
+}
+
+.mapInfoItem p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.directionsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.directionsButton:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.mapWrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  height: 400px;
+}
+
+.mapWrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 4px solid rgba(6, 182, 212, 0.3);
+  border-radius: var(--radius-lg);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.mapWrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* שאלות נפוצות */
+.faqSection {
+  background-color: var(--bg-light);
+  border-radius: var(--radius-xl);
+  padding: 3.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.faqSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.faqList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.faqItem {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.faqItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 0;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  transition: height 0.3s ease;
+}
+
+.faqItem:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.faqItem:hover::before {
+  height: 100%;
+}
+
+.faqItem h3 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.faqItem p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.moreQuestionsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-top: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.moreQuestionsContainer p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.scrollToContactButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.scrollToContactButton:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* אנימציות */
+@keyframes pulse {
+  0% {
+      box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+  }
+  70% {
+      box-shadow: 0 0 0 10px rgba(124, 58, 237, 0);
+  }
+  100% {
+      box-shadow: 0 0 0 0 rgba(124, 58, 237, 0);
+  }
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+}
+
+@keyframes spin {
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes fadeSlideDown {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* רספונסיביות */
+@media (max-width: 1100px) {
+  .mapInfo {
+      flex-direction: column;
+  }
+  
+  .mapInfoDetails {
+      flex: none;
+      width: 100%;
+      order: 2;
+  }
+  
+  .mapWrapper {
+      order: 1;
+      margin-bottom: 2rem;
+  }
+  
+  .faqList {
+      grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .pageContainer {
+      padding: 0 1rem;
+  }
+  
+  .heroContent h1 {
+      font-size: 2.5rem;
+  }
+  
+  .contactCards {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+  }
+  
+  .contactCard {
+      max-width: 100%;
+      width: 100%;
+  }
+  
+  .formGrid {
+      grid-template-columns: 1fr;
+  }
+  
+  .contactDetails {
+      gap: 2rem;
+  }
+  
+  .contactForm,
+  .mapSection,
+  .faqSection,
+  .contactInfoSection {
+      padding: 2rem;
+  }
+  
+  .sectionHeader h2 {
+      font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+      padding: 3rem 1.5rem;
+  }
+  
+  .heroContent h1 {
+      font-size: 2.2rem;
+  }
+  
+  .heroContent p {
+      font-size: 1.1rem;
+  }
+  
+  .iconWrapper {
+      width: 75px;
+      height: 75px;
+  }
+  
+  .headerIcon {
+      font-size: 2.25rem;
+  }
+  
+  .contactMethod {
+      flex-direction: column;
+      text-align: center;
+      min-width: auto;
+  }
+  
+  .faqItem {
+      padding: 1.5rem;
+  }
+  
+  .faqItem h3 {
+      font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .heroContent h1 {
+      font-size: 1.8rem;
+  }
+  
+  .iconWrapper {
+      width: 65px;
+      height: 65px;
+  }
+  
+  .headerIcon {
+      font-size: 2rem;
+  }
+  
+  .contactInfoSection,
+  .mapSection,
+  .faqSection {
+      padding: 2rem 1.25rem;
+  }
+  
+  .mapWrapper {
+      height: 300px;
+  }
+  
+  .contactForm {
+      padding: 1.75rem 1.25rem;
+  }
+  
+  .submitButton {
+      max-width: 100%;
+  }
+  
+  .faqList {
+      gap: 1.5rem;
+  }
+  
+  .faqItem {
+      padding: 1.25rem;
+  }
+  
+  .sectionHeader h2 {
+      font-size: 1.75rem;
+  }
+}

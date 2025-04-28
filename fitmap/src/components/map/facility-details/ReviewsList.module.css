@@ -1,0 +1,56 @@
+.section {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--bg-card);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+  }
+  
+  .reviewList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .reviewItem {
+    padding: 1rem;
+    background-color: var(--bg-input);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  
+  .reviewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+  
+  .reviewDate {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  
+  .reviewRating {
+    font-size: 1rem;
+    color: var(--warning);
+    margin-bottom: 0.5rem;
+  }
+  
+  .reviewComment {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+  
+  .errorMessage {
+    padding: 1rem;
+    background-color: var(--error);
+    color: var(--text-light);
+    border-radius: var(--radius);
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  

@@ -1,0 +1,1251 @@
+/* src/styles/RoleSelection.module.css */
+
+.container {
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 4rem;
+  direction: rtl;
+  animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* אפקט רקע דינמי */
+.container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.03) 0%, transparent 60%),
+              radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.03) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero {
+  position: relative;
+  height: 450px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: 4rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  filter: brightness(0.6);
+  transition: transform 8s ease;
+}
+
+.hero:hover .heroImage {
+  transform: scale(1.05);
+}
+
+/* צל מדורג על גבי התמונה לשיפור הניגודיות */
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, 
+              rgba(15, 23, 42, 0.4) 0%, 
+              rgba(15, 23, 42, 0.3) 40%, 
+              rgba(124, 58, 237, 0.3) 100%);
+  z-index: 1;
+}
+
+.heroContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.heroContent h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  font-weight: 800;
+  background: linear-gradient(to bottom right, white, rgba(226, 232, 240, 0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroContent p {
+  font-size: 1.4rem;
+  max-width: 700px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.6;
+}
+
+.roleTitle {
+  align-items: center;
+  margin-bottom: 2.5rem;
+  font-size: 2.2rem;
+  color: var(--primary);
+  font-weight: 700;
+  position: -ms-page;
+  display: inline-table;
+  transform: translateX(-50%);
+  padding-bottom: 0.6rem;
+}
+
+.roleTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 25%;
+  left: 25%;
+  height: 3px;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  border-radius: var(--radius);
+}
+
+.roleCards {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  perspective: 1000px; /* אפקט תלת מימדי */
+}
+
+.roleCard {
+  flex: 1;
+  max-width: 380px;
+  padding: 2.5rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(124, 58, 237, 0.05);
+  transition: all 0.4s cubic-bezier(0.17, 0.67, 0.3, 0.96);
+  text-align: center;
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  animation: cardEnter 0.8s calc(var(--index, 0) * 0.1s) both cubic-bezier(0.21, 1.02, 0.73, 1);
+}
+
+/* אפקט גרדיאנט בכרטיס */
+.roleCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 95% 5%, rgba(124, 58, 237, 0.08) 0%, transparent 45%),
+    linear-gradient(135deg, transparent 65%, rgba(124, 58, 237, 0.08));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* אפקט זוהר בקצה העליון */
+.roleCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--accent-light), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scaleX(0.7);
+}
+
+.roleCard:hover {
+  transform: translateY(-10px) rotateX(1.5deg);
+  box-shadow: var(--shadow-lg), 0 15px 40px rgba(124, 58, 237, 0.15);
+  border-color: rgba(124, 58, 237, 0.2);
+}
+
+.roleCard:hover::before {
+  opacity: 1;
+}
+
+.roleCard:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.cardIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.5rem;
+  background-color: rgba(124, 58, 237, 0.1);
+  border-radius: 50%;
+  color: var(--primary);
+  font-size: 2.2rem;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 5px 15px -5px rgba(124, 58, 237, 0.3);
+}
+
+/* אפקט הילה מסביב לאייקון */
+.cardIcon::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, transparent, rgba(124, 58, 237, 0.1), transparent);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* אפקט גלים */
+.cardIcon::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 2px solid rgba(124, 58, 237, 0.2);
+  z-index: -1;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: all 0.5s ease;
+}
+
+.roleCard:hover .cardIcon {
+  transform: translateY(-5px) scale(1.1) rotate(5deg);
+  background-color: var(--primary);
+  color: white;
+}
+
+.roleCard:hover .cardIcon::before {
+  opacity: 1;
+}
+
+.roleCard:hover .cardIcon::after {
+  opacity: 1;
+  animation: ripple 1.5s infinite;
+}
+
+.roleCard h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  font-weight: 700;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+/* קו תחתון מסוגנן */
+.roleCard h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 25%;
+  left: 25%;
+  height: 3px;
+  background: linear-gradient(to left, var(--accent-light), var(--primary-light));
+  border-radius: var(--radius);
+  opacity: 0.7;
+  transform: scaleX(0.5);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.roleCard:hover h3 {
+  transform: scale(1.05);
+}
+
+.roleCard:hover h3::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.roleCard p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.cardButton {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  background: linear-gradient(to left, var(--accent), var(--secondary));
+  color: white;
+  text-decoration: none;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+  letter-spacing: 0.5px;
+}
+
+/* אפקט זוהר */
+.cardButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.cardButton:hover {
+  background: linear-gradient(to left, var(--accent-dark), var(--secondary-dark));
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+}
+
+.cardButton:hover::before {
+  transform: translateX(100%);
+}
+
+.cardButton:active {
+  transform: translateY(0);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 4rem;
+}
+
+.feature {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+/* אפקט רקע */
+.feature::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.03), transparent);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature:hover {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-7px);
+  border-color: rgba(124, 58, 237, 0.15);
+}
+
+.feature:hover::before {
+  opacity: 1;
+}
+
+.featureIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 1.2rem;
+  background-color: rgba(6, 182, 212, 0.1);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+.feature:hover .featureIcon {
+  transform: scale(1.1) rotate(5deg);
+  background-color: var(--accent);
+  color: white;
+  box-shadow: 0 5px 15px rgba(6, 182, 212, 0.25);
+}
+
+.feature h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.feature:hover h3 {
+  color: var(--primary);
+}
+
+.feature p {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.loginLink {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.loginLink a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  padding-right: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* קו תחתון בריחוף עכבר */
+.loginLink a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.loginLink a:hover {
+  color: var(--primary-dark);
+}
+
+.loginLink a:hover::after {
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: var(--primary);
+}
+
+.button {
+  display: inline-block;
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+}
+
+/* אפקט זוהר */
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.button:hover {
+  background: linear-gradient(to left, var(--accent-dark), var(--primary-dark));
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+}
+
+.button:hover::before {
+  transform: translateX(100%);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+/* תוספות למשתמש מחובר */
+
+/* אנימציה לכניסה חלקה */
+.animateIn .welcomeSection,
+.animateIn .dashboardSection,
+.animateIn .favoritesSection,
+.animateIn .activitySection {
+  animation: fadeSlideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animateIn .dashboardSection {
+  animation-delay: 0.2s;
+}
+
+.animateIn .favoritesSection {
+  animation-delay: 0.3s;
+}
+
+.animateIn .activitySection {
+  animation-delay: 0.4s;
+}
+
+/* מסך התנתקות */
+.alertOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+.alert {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  animation: alertScale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.alertIcon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  animation: pulse 1.5s infinite;
+}
+
+.alertText {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+@keyframes alertScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* אזור ברוך הבא */
+.welcomeSection {
+  background: linear-gradient(135deg, var(--bg-card), rgba(124, 58, 237, 0.05));
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(124, 58, 237, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcomeSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--accent), var(--primary));
+  background-size: 200% 100%;
+  animation: shine 3s infinite;
+}
+
+.welcomeHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.userAvatarLarge {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.userAvatarLarge::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  border: 2px dashed rgba(124, 58, 237, 0.3);
+  animation: rotate 20s linear infinite;
+}
+
+.welcomeText h1 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.userName {
+  color: var(--primary);
+  font-weight: 800;
+  border-bottom: 2px dashed rgba(124, 58, 237, 0.3);
+  padding-bottom: 2px;
+}
+
+.userRole {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.roleIcon {
+  color: var(--primary);
+}
+
+.welcomeActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: none;
+}
+
+.logoutButton {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.logoutButton:hover {
+  background-color: var(--error);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.2);
+}
+
+/* אזור ניווט מהיר */
+.dashboardSection {
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: 1.6rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionIcon {
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+
+.quickLinks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboardCard {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.17, 0.67, 0.3, 0.96);
+  position: relative;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: var(--shadow-sm);
+  animation: cardEnter 0.8s calc(var(--index, 0) * 0.1s + 0.2s) both cubic-bezier(0.21, 1.02, 0.73, 1);
+}
+
+.dashboardCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--card-color, var(--primary));
+  transition: transform 0.3s ease;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.dashboardCard:hover {
+  transform: translateY(-7px);
+  border-color: rgba(124, 58, 237, 0.2);
+  box-shadow: 0 12px 28px rgba(124, 58, 237, 0.12);
+}
+
+.dashboardCard:hover::before {
+  transform: scaleY(1);
+}
+
+.dashboardIcon {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(124, 58, 237, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.5rem;
+  color: var(--icon-color, var(--primary));
+  transition: all 0.3s ease;
+}
+
+.dashboardCard:hover .dashboardIcon {
+  background-color: var(--icon-color, var(--primary));
+  color: white;
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 6px 15px rgba(124, 58, 237, 0.2);
+}
+
+.dashboardCard h3 {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.dashboardCard p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboardCard:hover h3 {
+  color: var(--card-color, var(--primary));
+}
+
+.cardArrow {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: var(--card-color, var(--primary));
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.cardArrow::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid white;
+  border-right: 2px solid white;
+  transform: rotate(45deg);
+  margin-right: 3px;
+}
+
+.dashboardCard:hover .cardArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* אזור מועדפים */
+.favoritesSection {
+  margin-bottom: 3rem;
+  background-color: var(--bg-light);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.viewAllLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.viewAllLink:hover {
+  transform: translateX(-5px);
+  color: var(--primary-dark);
+}
+
+.favoritesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.favoriteItem {
+  display: flex;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.favoriteItem:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(124, 58, 237, 0.2);
+}
+
+.favoriteImage {
+  width: 100px;
+  height: 100px;
+  background-color: var(--bg-dark-lighter);
+  overflow: hidden;
+}
+
+.favoriteImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.favoriteItem:hover img {
+  transform: scale(1.1);
+}
+
+.favoriteImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+  font-size: 2rem;
+}
+
+.favoriteInfo {
+  padding: 1rem;
+  flex: 1;
+}
+
+.favoriteInfo h3 {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.favoriteInfo p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.favoriteItem:hover h3 {
+  color: var(--primary);
+}
+
+/* אזור פעילות אחרונה */
+.activitySection {
+  margin-bottom: 3rem;
+}
+
+.activityHeader {
+  margin-bottom: 1.5rem;
+}
+
+.timelineContainer {
+  background-color: var(--bg-light);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary), rgba(124, 58, 237, 0.1));
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelinePoint {
+  position: absolute;
+  top: 6px;
+  left: -2rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  border: 3px solid var(--bg-light);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+  transition: all 0.3s ease;
+}
+
+.timelineItem:hover .timelinePoint {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 5px rgba(124, 58, 237, 0.15);
+}
+
+.timelineContent {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.timelineDate {
+  display: inline-block;
+  background-color: rgba(124, 58, 237, 0.1);
+  color: var(--primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.timelineContent h3 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.timelineContent p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.timelineItem:hover .timelineContent {
+  transform: translateX(5px);
+  box-shadow: var(--shadow-sm);
+  border-color: rgba(124, 58, 237, 0.2);
+}
+
+.inlineLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.inlineLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.inlineLink:hover {
+  color: var(--primary-dark);
+}
+
+.inlineLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* אנימציות */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* רספונסיביות */
+@media (max-width: 992px) {
+  .heroContent h1 {
+    font-size: 2.5rem;
+  }
+  
+  .welcomeSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  
+  .roleCards {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .roleCard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 5rem 1rem 3rem;
+  }
+  
+  .hero {
+    height: 350px;
+    margin-bottom: 3rem;
+  }
+  
+  .heroContent h1 {
+    font-size: 2.2rem;
+  }
+  
+  .heroContent p {
+    font-size: 1.1rem;
+  }
+  
+  .roleTitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .cardIcon {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+  
+  .roleCard h3 {
+    font-size: 1.5rem;
+  }
+  
+  .welcomeHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .welcomeActions {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 4rem 1rem 2rem;
+  }
+  
+  .hero {
+    height: 300px;
+    margin-bottom: 2.5rem;
+  }
+  
+  .heroContent h1 {
+    font-size: 1.8rem;
+  }
+  
+  .features {
+    gap: 1.5rem;
+  }
+  
+  .feature {
+    padding: 1.5rem;
+  }
+  
+  .featureIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .userAvatarLarge {
+    width: 70px;
+    height: 70px;
+    font-size: 1.6rem;
+  }
+  
+  .welcomeText h1 {
+    font-size: 1.6rem;
+  }
+  
+  .favoritesList,
+  .quickLinks {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,99 @@
+.section {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--bg-card);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+  }
+  
+  .loadingIndicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+  }
+  
+  .trafficSection {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  
+  .daysSelector {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .dayButton {
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+  }
+  
+  .dayButton:hover {
+    background-color: var(--bg-light-darker);
+  }
+  
+  .selectedDay {
+    background-color: var(--primary);
+    color: var(--text-light);
+    border-color: var(--primary-dark);
+  }
+  
+  .trafficContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .trafficHour {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .hourLabel {
+    width: 50px;
+    text-align: end;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  
+  .trafficBarContainer {
+    flex: 1;
+    height: 10px;
+    background-color: var(--bg-input);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  
+  .trafficBar {
+    height: 100%;
+    border-radius: var(--radius);
+    transition: width 0.3s ease;
+  }
+  
+  .trafficLevel {
+    width: 80px;
+    font-size: 0.85rem;
+    text-align: start;
+    color: var(--text-tertiary);
+  }
+  
+  .trafficNote {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  

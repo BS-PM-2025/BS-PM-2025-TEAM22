@@ -1,0 +1,440 @@
+/* src/styles/Auth.module.css - מעודכן לסכמת צבעים סגול-כחול-טורקיז */
+
+.container {
+  max-width: 600px;
+  margin: 5rem auto;
+  padding: 4rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), 0 10px 50px rgba(124, 58, 237, 0.1);
+  direction: rtl;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--primary);
+  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* אפקט תפאורה */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(to left bottom, rgba(124, 58, 237, 0.08), transparent);
+  border-radius: 0 var(--radius-xl) 0 150px;
+  z-index: 0;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(to right top, rgba(6, 182, 212, 0.08), transparent);
+  border-radius: 0 120px 0 var(--radius-xl);
+  z-index: 0;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.logo img {
+  height: 70px;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 4px 6px rgba(124, 58, 237, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.05);
+}
+
+.logo h1 {
+  background: linear-gradient(to left, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.logo p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  z-index: 1;
+}
+
+.tabButton {
+  flex: 1;
+  padding: 0.9rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tabButton:hover {
+  color: var(--primary);
+}
+
+.activeTab {
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+}
+
+/* אפקט גרדיאנט לקו התחתון בלשונית הפעילה */
+.activeTab::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  z-index: 1;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.input:focus, .select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
+}
+
+.input::placeholder {
+  color: var(--gray-400);
+}
+
+.fieldGroup {
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+/* אייקון שדה (אם נדרש) */
+.fieldIcon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.input:focus ~ .fieldIcon {
+  color: var(--accent);
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.checkboxGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox label {
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.button {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(to left, var(--accent), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+}
+
+/* אפקט זוהר */
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: -1;
+}
+
+.button:hover {
+  background: linear-gradient(to left, var(--accent-dark), var(--secondary-dark));
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.35);
+}
+
+.button:hover::before {
+  transform: translateX(100%);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:disabled {
+  background: var(--gray-400);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.errorMessage {
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+  border-radius: var(--radius-lg);
+  font-size: 0.95rem;
+  border-right: 4px solid var(--error);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.errorMessage i {
+  font-size: 1.2rem;
+  color: var(--error);
+}
+
+.forgotPassword {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.forgotPasswordLink {
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.forgotPasswordLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--secondary);
+  transition: width 0.3s ease;
+}
+
+.forgotPasswordLink:hover {
+  color: var(--primary);
+}
+
+.forgotPasswordLink:hover::after {
+  width: 100%;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.socialLogin {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.socialButton {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.socialButton:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--secondary-light);
+}
+
+.googleButton i {
+  color: #EA4335;
+}
+
+.facebookButton i {
+  color: #1877F2;
+}
+
+.signupOptions {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.signupLink {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 0.3rem;
+  transition: color 0.3s ease;
+}
+
+.signupLink:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* אנימציות */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translateX(-1px);
+  }
+  
+  20%, 80% {
+    transform: translateX(2px);
+  }
+
+  30%, 50%, 70% {
+    transform: translateX(-4px);
+  }
+
+  40%, 60% {
+    transform: translateX(4px);
+  }
+}
+
+/* רספונסיביות */
+@media (max-width: 576px) {
+  .container {
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+    box-shadow: none;
+    border-radius: var(--radius-lg);
+  }
+
+  .logo h1 {
+    font-size: 1.7rem;
+  }
+  
+  .tabs {
+    margin-bottom: 1.5rem;
+  }
+  
+  .tabButton {
+    font-size: 1rem;
+    padding: 0.75rem 0;
+  }
+  
+  .input, .select, .button {
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .socialLogin {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}

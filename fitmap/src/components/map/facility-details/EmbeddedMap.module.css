@@ -1,0 +1,29 @@
+.mapPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: var(--bg-light-darker);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 0.95rem;
+    gap: 0.5rem;
+  }
+  
+  .mapPlaceholder i {
+    font-size: 2rem;
+    color: var(--accent);
+  }
+  
+  .embeddedMapContainer {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 300px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  

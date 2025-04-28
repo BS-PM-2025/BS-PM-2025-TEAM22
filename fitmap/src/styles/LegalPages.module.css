@@ -1,0 +1,343 @@
+/* LegalPages.module.css */
+.legalContainer {
+    max-width: 900px;
+    margin: 5rem auto 5rem;
+    padding: 0 1.5rem;
+    direction: rtl;
+    color: var(--text-primary);
+  }
+  
+  .legalHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .iconWrapper {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .iconWrapper::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(6, 182, 212, 0.3));
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.6;
+    animation: pulse 2s infinite;
+  }
+  
+  .headerIcon {
+    font-size: 2.5rem;
+    color: white;
+  }
+  
+  .legalHeader h1 {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+  
+  .lastUpdated {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-tertiary);
+    margin-bottom: 3rem;
+    font-style: italic;
+  }
+  
+  .legalContent {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    position: relative;
+  }
+  
+  .legalContent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to left, var(--accent), var(--primary));
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    z-index: 1;
+  }
+  
+  .introduction {
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  
+  .legalContent section {
+    margin-bottom: 3rem;
+  }
+  
+  .legalContent h2 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    position: relative;
+    padding-right: 1.5rem;
+  }
+  
+  .legalContent h2::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary), var(--accent));
+    border-radius: var(--radius);
+  }
+  
+  .legalContent h3 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    margin: 1.5rem 0 1rem;
+    font-weight: 600;
+  }
+  
+  .legalContent p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+  
+  .legalContent ul, 
+  .legalContent ol {
+    margin-bottom: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .legalContent li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  
+  .legalContent a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .legalContent a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+  }
+  
+  .legalContent a:hover {
+    color: var(--primary-dark);
+  }
+  
+  .legalContent a:hover::after {
+    width: 100%;
+  }
+  
+  .inlineLink {
+    font-weight: 600;
+  }
+  
+  .infoBox,
+  .warningBox {
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border-right: 4px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .infoBox::before,
+  .warningBox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 0% 0%, rgba(124, 58, 237, 0.05), transparent);
+    z-index: 0;
+  }
+  
+  .infoBox p,
+  .warningBox p {
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .infoIcon,
+  .warningIcon {
+    font-size: 1.5rem;
+    color: var(--primary);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .warningBox {
+    border-right-color: var(--warning);
+  }
+  
+  .warningBox::before {
+    background: radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.05), transparent);
+  }
+  
+  .warningIcon {
+    color: var(--warning);
+  }
+  
+  .acceptanceBox {
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px dashed var(--border-color);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .acceptanceBox::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.05), transparent);
+    z-index: 0;
+  }
+  
+  .acceptanceBox p {
+    margin: 0;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .checkIcon {
+    font-size: 1.3rem;
+    color: var(--success);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .contactInfo {
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+  
+  .contactInfo p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .contactInfo p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .cookieType {
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-right: 4px solid var(--primary);
+  }
+  
+  .cookieType h3 {
+    color: var(--primary);
+    margin-top: 0;
+  }
+  
+  .cookieExample,
+  .cookieExpiry {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+  
+  .cookieExpiry {
+    margin-top: 0.5rem;
+  }
+  
+  .cookiesDetailTable {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  
+  .cookiesDetailTable table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  
+  .cookiesDetailTable th,
+  .cookiesDetailTable td {
+    padding: 1rem;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .cookiesDetailTable th {
+    background-color: var(--bg-light);
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .cookiesDetailTable tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .cookiesDetailTable tr:nth-child(even) {
+    background-color: var(--bg-light);
+  }
+  
+  .cookiesDetailTable tr:hover {
+    background-color: rgba(124, 58, 237, 0.05);
+  }

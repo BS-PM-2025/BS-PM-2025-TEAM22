@@ -1,0 +1,210 @@
+.filterPanel {
+  padding: 1.5rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  max-height: 75vh;
+  overflow-y: auto;
+  position: relative;
+  z-index: 10;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterPanel::-webkit-scrollbar {
+  width: 6px;
+}
+.filterPanel::-webkit-scrollbar-track {
+  background: var(--bg-light-darker);
+}
+.filterPanel::-webkit-scrollbar-thumb {
+  background-color: var(--primary-light);
+  border-radius: var(--radius);
+}
+
+.filterTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  padding: 1rem;
+  margin: -1.5rem -1.5rem 1.5rem;
+  background: linear-gradient(to right, var(--primary-dark), var(--primary));
+  border-top-left-radius: var(--radius-xl);
+  border-top-right-radius: var(--radius-xl);
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filterSection {
+  margin-bottom: 1.5rem;
+  background-color: var(--bg-light);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterSubtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--secondary-dark);
+  margin-bottom: 0.75rem;
+  position: relative;
+  padding-inline-start: 0.5rem;
+}
+
+.filterSubtitle::before {
+  content: '';
+  position: absolute;
+  right: -0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--primary), var(--accent));
+  border-radius: var(--radius);
+}
+
+.filterItem {
+  margin-bottom: 0.6rem;
+  padding: 0.25rem 0;
+  transition: background 0.3s, transform 0.2s;
+  border-radius: var(--radius);
+}
+
+.filterItem:hover {
+  background-color: rgba(6, 182, 212, 0.05);
+  transform: translateX(-4px);
+}
+
+.filterItem label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.filterItem:hover label {
+  color: var(--primary);
+}
+
+.filterItem input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.filterItem input[type="checkbox"]:hover {
+  transform: scale(1.1);
+}
+
+.filterItem input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right, var(--primary-light), var(--accent));
+  border-radius: 10px;
+  appearance: none;
+  margin-top: 0.75rem;
+}
+
+.filterItem input[type="range"]::-webkit-slider-thumb,
+.filterItem input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.filterItem span {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
+
+.filterActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.resetButton {
+  flex: 1;
+  padding: 0.75rem;
+  background: none;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resetButton:hover {
+  background-color: var(--bg-light-darker);
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+
+.applyButton {
+  flex: 2;
+  padding: 0.75rem;
+  background: linear-gradient(to left, var(--accent), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.applyButton:hover {
+  box-shadow: 0 8px 20px rgba(6, 182, 212, 0.25);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .filterPanel {
+    padding: 1.25rem;
+  }
+
+  .filterTitle {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+  }
+
+  .filterActions {
+    flex-direction: column;
+  }
+
+  .applyButton, .resetButton {
+    width: 100%;
+  }
+}

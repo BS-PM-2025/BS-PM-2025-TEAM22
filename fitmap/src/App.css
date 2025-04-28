@@ -1,0 +1,1669 @@
+/*
+ * app.css
+ * מערכת עיצוב מחודשת - ערכת נושא חדשה
+ */
+
+/* ==================== משתני צבע ועיצוב בסיסיים ==================== */
+:root {
+  /* מערכת צבעים ראשית */
+  --primary: #ff5c8d;        /* ורוד עז */
+  --primary-light: #ff92b2;
+  --primary-dark: #cc3360;
+  
+  --secondary: #00bcd4;      /* טורקיז-כחול */
+  --secondary-light: #62e7f2;
+  --secondary-dark: #008ba3;
+  
+  --accent: #ffc107;         /* צהוב-כתום */
+  --accent-light: #ffe082;
+  --accent-dark: #ff8f00;
+  
+  /* צבעים נוספים */
+  --energy: #ff7043;         /* כתום חם */
+  --energy-light: #ffab91;
+  --energy-dark: #c63f17;
+  
+  --nature: #66bb6a;         /* ירוק רענן */
+  --nature-light: #a5d6a7;
+  --nature-dark: #338a3e;
+  
+  --power: #ab47bc;          /* סגול פוקסיה */
+  --power-light: #e1bee7;
+  --power-dark: #790e8b;
+  
+  --royal: #5c6bc0;          /* כחול מלכותי */
+  --royal-light: #9fa8da;
+  --royal-dark: #26418f;
+  
+  --calm: #29b6f6;           /* כחול רגוע רענן */
+  --calm-light: #81d4fa;
+  --calm-dark: #0288d1;
+  
+  /* צבעים סמנטיים */
+  --success: #43a047;
+  --success-light: rgba(67, 160, 71, 0.1);
+  --success-dark: #2e7d32;
+  
+  --info: #039be5;
+  --info-light: rgba(3, 155, 229, 0.1);
+  --info-dark: #0277bd;
+  
+  --warning: #ffa000;
+  --warning-light: rgba(255, 160, 0, 0.1);
+  --warning-dark: #ff6f00;
+  
+  --error: #e53935;
+  --error-light: rgba(229, 57, 53, 0.1);
+  --error-dark: #b71c1c;
+  
+  /* גווני אפור */
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #eeeeee;
+  --gray-300: #e0e0e0;
+  --gray-400: #bdbdbd;
+  --gray-500: #9e9e9e;
+  --gray-600: #757575;
+  --gray-700: #616161;
+  --gray-800: #424242;
+  --gray-900: #212121;
+  
+  /* צבעי רקע */
+  --bg-card: #ffffff;
+  --bg-light: #fafafa;
+  --bg-light-darker: #f0f0f0;
+  --bg-input: #f9f9f9;
+  --bg-dark: #1e1e1e;
+  --bg-dark-lighter: #333333;
+  
+  /* צבעי טקסט */
+  --text-primary: var(--gray-800);
+  --text-secondary: var(--gray-600);
+  --text-tertiary: var(--gray-400);
+  --text-light: #ffffff;
+  
+  /* צבעי גבול */
+  --border-color: var(--gray-300);
+  
+  /* מערכת מרווחים */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  
+  /* רדיוסים */
+  --radius-sm: 0.25rem;
+  --radius: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  /* צללים */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.2);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  
+  /* צללים צבעוניים */
+  --shadow-primary: 0 4px 14px rgba(255, 92, 141, 0.25);
+  --shadow-secondary: 0 4px 14px rgba(0, 188, 212, 0.25);
+  --shadow-accent: 0 4px 14px rgba(255, 193, 7, 0.25);
+  --shadow-energy: 0 4px 14px rgba(255, 112, 67, 0.25);
+  --shadow-power: 0 4px 14px rgba(171, 71, 188, 0.25);
+  --shadow-nature: 0 4px 14px rgba(102, 187, 106, 0.25);
+  
+  /* טיפוגרפיה */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  
+  /* גובה שורה */
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+  
+  /* משקל פונט */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  /* משפחות פונטים */
+  --font-family-primary: 'Heebo', 'Assistant', sans-serif;
+  --font-family-secondary: 'Rubik', 'Alef', sans-serif;
+  --font-family-special: 'Karantina', 'Bellefair', cursive;
+  --font-family-mono: 'Fira Code', 'Cousine', monospace;
+  
+  /* שכבות Z-index */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal: 1300;
+  --z-popover: 1400;
+  --z-tooltip: 1500;
+  
+  /* מעברים */
+  --transition-fast: 0.2s ease;
+  --transition: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --bezier-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --bezier-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  
+  /* גרדיאנטים */
+  --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  --gradient-energy: linear-gradient(135deg, var(--energy), var(--energy-dark));
+  --gradient-calm: linear-gradient(135deg, var(--calm), var(--calm-dark));
+  --gradient-nature: linear-gradient(135deg, var(--nature), var(--nature-dark));
+  --gradient-sunset: linear-gradient(135deg, var(--power), var(--energy));
+  --gradient-ocean: linear-gradient(135deg, var(--calm-dark), var(--accent));
+  --gradient-rainbow: linear-gradient(to right, var(--energy), var(--power), var(--primary), var(--accent));
+  
+  /* שקיפויות */
+  --overlay-light: rgba(255, 255, 255, 0.8);
+  --overlay-dark: rgba(33, 33, 33, 0.7);
+  --overlay-primary: rgba(255, 92, 141, 0.15);
+  --overlay-secondary: rgba(0, 188, 212, 0.15);
+  --overlay-accent: rgba(255, 193, 7, 0.15);
+  --overlay-energy: rgba(255, 112, 67, 0.15);
+  
+  /* קונטיינרים */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+}
+
+/* מצב כהה */
+[data-theme='dark'] {
+  --bg-card: #1a1a1a;
+  --bg-light: #121212;
+  --bg-light-darker: #0a0a0a;
+  --bg-input: #2c2c2c;
+  --bg-dark: #000000;
+  --bg-dark-lighter: #202020;
+  
+  --text-primary: #e0e0e0; /* טקסט ראשי בהיר ונעים */
+  --text-secondary: #aaaaaa; /* טקסט משני פחות דומיננטי */
+  --text-tertiary: #777777; /* טקסט עזר/רקע */
+  
+  --border-color: #3a3a3a;
+  
+  /* צבעים מותאמים לכהה */
+  --primary-light: #ff85a2;    /* primary-light חדש */
+  --secondary-light: #4dd0e1;  /* secondary-light חדש */
+  --accent-light: #ffd54f;     /* accent-light חדש */
+  --energy-light: #ff8a65;     /* energy-light חדש */
+  --nature-light: #81c784;     /* nature-light חדש */
+  --power-light: #ce93d8;      /* power-light חדש */
+  
+  /* צללים כהים */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.5);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  
+  /* שקיפויות כהות */
+  --overlay-light: rgba(255, 255, 255, 0.07);
+  --overlay-dark: rgba(0, 0, 0, 0.6);
+  --overlay-primary: rgba(255, 92, 141, 0.15);
+  --overlay-secondary: rgba(0, 188, 212, 0.15);
+  --overlay-accent: rgba(255, 213, 79, 0.15);
+  --overlay-energy: rgba(255, 112, 67, 0.15);
+}
+
+/* ==================== איפוס וסגנון בסיסי ==================== */
+/* ייבוא גופנים מ-Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cousine:wght@400;700&display=swap');
+
+html, body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-light);
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+}
+
+/* ==================== נגישות ==================== */
+.skipLink {
+  position: absolute;
+  top: -40px;
+  right: 1rem;
+  background: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  z-index: var(--z-fixed);
+  transition: top 0.3s ease;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.skipLink:focus {
+  top: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* מתקן עבור VoiceOver וקורא מסך */
+[aria-hidden="true"] {
+  display: none !important;
+}
+
+/* ==================== לייאאוט ==================== */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: var(--space-4);
+  padding-left: var(--space-4);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.section {
+  padding: var(--space-12) 0;
+}
+
+.section-sm {
+  padding: var(--space-8) 0;
+}
+
+.section-lg {
+  padding: var(--space-16) 0;
+}
+
+/* גריד מודרני */
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.grid-cols-auto-fit { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+/* פלקסבוקס */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+.justify-evenly { justify-content: space-evenly; }
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-grow { flex-grow: 1; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+/* מרווחים */
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+.gap-12 { gap: var(--space-12); }
+
+/* ==================== טיפוגרפיה ==================== */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--space-4);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+  font-family: var(--font-family-primary);
+}
+
+h1 { font-size: var(--font-size-5xl); }
+h2 { font-size: var(--font-size-4xl); }
+h3 { font-size: var(--font-size-3xl); }
+h4 { font-size: var(--font-size-2xl); }
+h5 { font-size: var(--font-size-xl); }
+h6 { font-size: var(--font-size-lg); }
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-relaxed);
+  font-family: var(--font-family-primary);
+}
+
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+
+.font-light { font-weight: var(--font-weight-light); }
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-extrabold { font-weight: var(--font-weight-extrabold); }
+
+/* משפחות פונטים */
+.font-primary { font-family: var(--font-family-primary); }
+.font-secondary { font-family: var(--font-family-secondary); }
+.font-special { font-family: var(--font-family-special); }
+.font-mono { font-family: var(--font-family-mono); }
+
+/* יישור טקסט */
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-justify { text-align: justify; }
+
+/* צבעי טקסט */
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--secondary); }
+.text-accent { color: var(--accent); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-error { color: var(--error); }
+.text-energy { color: var(--energy); }
+.text-nature { color: var(--nature); }
+.text-power { color: var(--power); }
+.text-gray { color: var(--gray-500); }
+.text-light { color: var(--text-light); }
+
+/* טקסט מיוחד */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* כותרות עם גרדיאנט */
+.gradient-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-text-primary {
+  background-image: linear-gradient(to left, var(--accent), var(--primary));
+}
+
+.gradient-text-energy {
+  background-image: linear-gradient(to left, var(--energy), var(--power));
+}
+
+.gradient-text-nature {
+  background-image: linear-gradient(to left, var(--nature), var(--accent));
+}
+
+/* ==================== קלאסים מיוחדים לטיפוגרפיה ==================== */
+.font-heading {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
+
+.font-body {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-normal);
+}
+
+.font-feature-settings {
+  font-feature-settings: "tnum", "salt", "ss01";
+}
+
+.font-hebrew {
+  font-language-override: "HEB";
+  font-feature-settings: "locl" 1;
+}
+/* ==================== רכיבים ==================== */
+
+/* === כפתורים === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+  border: none;
+  line-height: 1.5;
+  font-size: var(--font-size-base);
+  will-change: transform, box-shadow;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-primary {
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  color: var(--text-light);
+  box-shadow: var(--shadow-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: 1;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(to left, var(--accent-dark), var(--primary-dark));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary), var(--shadow-md);
+}
+
+.btn-primary:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--bg-light-darker);
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-energy {
+  background: linear-gradient(to left, var(--energy), var(--power));
+  color: var(--text-light);
+  box-shadow: var(--shadow-energy);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-energy::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: 1;
+}
+
+.btn-energy:hover:not(:disabled) {
+  background: linear-gradient(to left, var(--energy-dark), var(--power-dark));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-energy), var(--shadow-md);
+}
+
+.btn-energy:hover::before {
+  transform: translateX(100%);
+}
+
+.btn-nature {
+  background: linear-gradient(to left, var(--nature), var(--accent));
+  color: var(--text-light);
+  box-shadow: var(--shadow-nature);
+}
+
+.btn-nature:hover:not(:disabled) {
+  background: linear-gradient(to left, var(--nature-dark), var(--accent-dark));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-nature), var(--shadow-md);
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: var(--text-light);
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: var(--success-dark);
+  transform: translateY(-2px);
+}
+
+.btn-warning {
+  background-color: var(--warning);
+  color: var(--text-light);
+}
+
+.btn-warning:hover:not(:disabled) {
+  background-color: var(--warning-dark);
+  transform: translateY(-2px);
+}
+
+.btn-error {
+  background-color: var(--error);
+  color: var(--text-light);
+}
+
+.btn-error:hover:not(:disabled) {
+  background-color: var(--error-dark);
+  transform: translateY(-2px);
+}
+
+/* כפתורי מתאר */
+.btn-outline-primary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  position: relative;
+  z-index: 1;
+  transition: color var(--transition);
+}
+
+.btn-outline-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--primary);
+  border-radius: calc(var(--radius) - 2px);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--bezier-smooth);
+}
+
+.btn-outline-primary:hover {
+  color: var(--text-light);
+}
+
+.btn-outline-primary:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn-outline-energy {
+  background-color: transparent;
+  color: var(--energy);
+  border: 2px solid var(--energy);
+}
+
+.btn-outline-energy:hover {
+  background-color: var(--energy);
+  color: var(--text-light);
+  transform: translateY(-2px);
+}
+/* המשך הקובץ app.css */
+
+/* גדלי כפתורים */
+.btn-sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-md);
+}
+
+/* כפתור אייקון */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: var(--radius-full);
+}
+
+.btn-icon-sm {
+  width: 2rem;
+  height: 2rem;
+}
+
+.btn-icon-lg {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* אפקט ריפל לכפתורים */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.6s, height 0.6s, opacity 0.6s;
+}
+
+.btn-ripple:active::after {
+  width: 300%;
+  height: 300%;
+  opacity: 1;
+  transition: 0s;
+}
+
+/* === כרטיסים === */
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.card-body {
+  padding: var(--space-6);
+}
+
+.card-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-4);
+}
+
+/* כרטיס עם גבול גרדיאנט */
+.card-gradient-border {
+  position: relative;
+  box-shadow: var(--shadow-md);
+  z-index: 1;
+}
+
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary), var(--primary));
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  background-size: 300% 300%;
+  animation: moveGradient 5s ease infinite;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.card-gradient-border:hover::before {
+  opacity: 1;
+}
+
+@keyframes moveGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === תגיות === */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+.badge-primary {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.badge-secondary {
+  background-color: var(--secondary-light);
+  color: var(--secondary-dark);
+}
+
+.badge-accent {
+  background-color: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.badge-success {
+  background-color: var(--success-light);
+  color: var(--success-dark);
+}
+
+.badge-warning {
+  background-color: var(--warning-light);
+  color: var(--warning-dark);
+}
+
+.badge-error {
+  background-color: var(--error-light);
+  color: var(--error-dark);
+}
+
+.badge-energy {
+  background-color: var(--energy-light);
+  color: var(--energy-dark);
+}
+
+.badge-power {
+  background-color: var(--power-light);
+  color: var(--power-dark);
+}
+
+.badge-nature {
+  background-color: var(--nature-light);
+  color: var(--nature-dark);
+}
+
+/* === הודעות אלרט === */
+.alert {
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  position: relative;
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  font-size: var(--font-size-xl);
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-1);
+}
+
+.alert-dismiss {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  padding: 0;
+  margin-right: auto;
+  color: inherit;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+.alert-dismiss:hover {
+  opacity: 1;
+}
+
+.alert-success {
+  background-color: var(--success-light);
+  border-right: 4px solid var(--success);
+  color: var(--success-dark);
+}
+
+.alert-warning {
+  background-color: var(--warning-light);
+  border-right: 4px solid var(--warning);
+  color: var(--warning-dark);
+}
+
+.alert-error {
+  background-color: var(--error-light);
+  border-right: 4px solid var(--error);
+  color: var(--error-dark);
+}
+
+.alert-info {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-right: 4px solid var(--secondary);
+  color: var(--secondary-dark);
+}
+
+/* === מדדי התקדמות === */
+.progress {
+  height: 0.5rem;
+  background-color: var(--bg-light-darker);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  transition: width 0.5s ease;
+}
+
+.progress-bar-energy {
+  background: linear-gradient(to right, var(--energy), var(--power));
+}
+
+.progress-bar-nature {
+  background: linear-gradient(to right, var(--nature), var(--accent));
+}
+
+.progress-striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+}
+
+.progress-animated {
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  from { background-position: 1rem 0; }
+  to { background-position: 0 0; }
+}
+
+/* === טפסים === */
+.form-group {
+  margin-bottom: var(--space-6);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-base);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+  transform: translateY(-1px);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 16px 16px;
+  padding-left: 2.5rem;
+}
+
+.input-sm {
+  padding: 0.5rem 0.75rem;
+  font-size: var(--font-size-sm);
+}
+
+.input-lg {
+  padding: 1rem 1.25rem;
+  font-size: var(--font-size-lg);
+}
+
+.form-checkbox,
+.form-radio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  margin-bottom: var(--space-2);
+}
+
+.form-checkbox input[type="checkbox"],
+.form-radio input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.form-helper-text {
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-1);
+  color: var(--text-secondary);
+}
+
+.form-error {
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-1);
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.input-error {
+  border-color: var(--error) !important;
+}
+
+.input-error:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+.input-group {
+  display: flex;
+  position: relative;
+}
+
+.input-group .form-input:not(:first-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group .form-input:not(:last-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group-prepend,
+.input-group-append {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background-color: var(--bg-light-darker);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.input-group-prepend {
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.input-group-append {
+  border-left: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+/* === גלילה מותאמת === */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--bg-light-darker);
+  border-radius: var(--radius);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--gray-400);
+  border-radius: var(--radius);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gray-500);
+}
+
+/* === מודלים === */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--overlay-dark);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  max-width: 90%;
+  width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: var(--z-modal);
+  animation: slideInUp 0.3s var(--bezier-smooth);
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.modal-close:hover {
+  color: var(--error);
+}
+
+.modal-body {
+  padding: var(--space-6);
+}
+
+.modal-footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-4);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === הוספה מותאמת === */
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.select-display:hover {
+  border-color: var(--gray-400);
+}
+
+.select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: var(--z-dropdown);
+  margin-top: 0.25rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  display: none;
+}
+
+.select-option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.select-option:hover,
+.select-option.selected {
+  background-color: var(--bg-light-darker);
+  color: var(--primary);
+}
+
+/* === לוחות === */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+}
+
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: right;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+}
+
+.table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.table tbody tr:hover {
+  background-color: var(--bg-light-darker);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: var(--bg-light);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--border-color);
+}
+
+/* === אייקונים וסמלי מדיה === */
+.icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all var(--transition);
+  color: var(--text-primary);
+}
+
+.icon-primary {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.icon-accent {
+  background-color: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.icon-secondary {
+  background-color: var(--secondary-light);
+  color: var(--secondary-dark);
+}
+
+.icon-energy {
+  background-color: var(--energy-light);
+  color: var(--energy-dark);
+}
+
+.icon-sm {
+  width: 32px;
+  height: 32px;
+  font-size: var(--font-size-sm);
+}
+
+.icon-lg {
+  width: 48px;
+  height: 48px;
+  font-size: var(--font-size-xl);
+}
+
+/* אייקוני מדיה חברתית */
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all var(--transition);
+  background-color: var(--bg-light-darker);
+  color: var(--text-primary);
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  background-color: var(--primary);
+  color: var(--text-light);
+  box-shadow: var(--shadow-md);
+}
+
+/* === טעינה ומצבים === */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--primary);
+  animation: spin 1s linear infinite;
+}
+
+.spinner-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 2px;
+}
+
+.spinner-md {
+  width: 2rem;
+  height: 2rem;
+  border-width: 3px;
+}
+
+.spinner-lg {
+  width: 3rem;
+  height: 3rem;
+  border-width: 4px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.loading-text {
+  margin-top: var(--space-4);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-light-darker) 0%, var(--bg-light) 50%, var(--bg-light-darker) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--radius);
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.skeleton-circle {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.skeleton-button {
+  height: 2.5rem;
+  width: 100px;
+  border-radius: var(--radius);
+}
+
+/* === מצבי שגיאה וריק === */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-color);
+  margin: var(--space-8) 0;
+}
+
+.empty-icon {
+  font-size: var(--font-size-5xl);
+  color: var(--gray-300);
+  margin-bottom: var(--space-6);
+}
+
+.empty-state h3 {
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  max-width: 500px;
+}
+
+.error-state {
+  padding: var(--space-6);
+  background-color: var(--error-light);
+  border-radius: var(--radius-lg);
+  border-right: 4px solid var(--error);
+  margin: var(--space-8) 0;
+  color: var(--error-dark);
+}
+
+.error-icon {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-4);
+  color: var(--error);
+}
+
+/* === אנימציות === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  50% {
+    transform: translateY(-10px);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+}
+
+/* תוספות לאנימציות */
+.animate-fadeIn { animation: fadeIn var(--transition) ease both; }
+.animate-slideInUp { animation: slideInUp var(--transition) var(--bezier-smooth) both; }
+.animate-slideInRight { animation: slideInRight var(--transition) var(--bezier-smooth) both; }
+.animate-pulse { animation: pulse 2s ease-in-out infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-bounce { animation: bounce 1s infinite; }
+
+/* עיכוב אנימציה */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* === תצוגות ומיקומים === */
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+.hidden { display: none; }
+.invisible { visibility: hidden; }
+
+.fixed { position: fixed; }
+.absolute { position: absolute; }
+.relative { position: relative; }
+.sticky { position: sticky; }
+
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+.z-0 { z-index: var(--z-0); }
+.z-10 { z-index: var(--z-10); }
+.z-20 { z-index: var(--z-20); }
+.z-30 { z-index: var(--z-30); }
+.z-40 { z-index: var(--z-40); }
+.z-50 { z-index: var(--z-50); }
+
+/* === שוליים ומילוי === */
+.m-0 { margin: 0; }
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-3 { margin: var(--space-3); }
+.m-4 { margin: var(--space-4); }
+.m-6 { margin: var(--space-6); }
+.m-8 { margin: var(--space-8); }
+
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mx-1 { margin-left: var(--space-1); margin-right: var(--space-1); }
+.mx-2 { margin-left: var(--space-2); margin-right: var(--space-2); }
+.mx-4 { margin-left: var(--space-4); margin-right: var(--space-4); }
+
+.my-1 { margin-top: var(--space-1); margin-bottom: var(--space-1); }
+.my-2 { margin-top: var(--space-2); margin-bottom: var(--space-2); }
+.my-4 { margin-top: var(--space-4); margin-bottom: var(--space-4); }
+.my-6 { margin-top: var(--space-6); margin-bottom: var(--space-6); }
+.my-8 { margin-top: var(--space-8); margin-bottom: var(--space-8); }
+
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+.ml-1 { margin-left: var(--space-1); }
+.ml-2 { margin-left: var(--space-2); }
+.ml-4 { margin-left: var(--space-4); }
+.ml-auto { margin-left: auto; }
+
+.mr-1 { margin-right: var(--space-1); }
+.mr-2 { margin-right: var(--space-2); }
+.mr-4 { margin-right: var(--space-4); }
+.mr-auto { margin-right: auto; }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }

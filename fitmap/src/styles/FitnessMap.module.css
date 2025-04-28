@@ -1,0 +1,463 @@
+.mapContainer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vh, 4rem);
+  margin: clamp(3rem, 10vh, 5.5rem) auto;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.mapContainer::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.035) 0%, transparent 60%),
+    radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.035) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.mapWrapper {
+  width: 100%;
+  height: clamp(300px, 50vh, 500px);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 2px solid var(--primary);
+  position: relative;
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(124, 58, 237, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.mapWrapper:hover {
+  box-shadow: var(--shadow-xl), 0 20px 40px rgba(124, 58, 237, 0.15);
+}
+
+.mapWrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary), var(--primary));
+  background-size: 400% 400%;
+  animation: gradientBorder 8s ease infinite;
+  opacity: 0.45;
+  z-index: -1;
+}
+
+@keyframes gradientBorder {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.userLocationButton {
+  position: absolute;
+  top: 60px;
+  right: 2rem;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  color: var(--text-light);
+  border: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 20;
+}
+
+.userLocationButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(59, 130, 246, 0.25);
+}
+
+.userLocationButton:active {
+  transform: scale(0.95);
+}
+
+.userLocationButton svg {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.userLocationButton:hover svg {
+  transform: scale(1);
+}
+
+/* אנימציית ריפל בלחיצה */
+.userLocationButton:active::after {
+  content: '';
+  position: fixed;
+
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.5s ease-out forwards;
+}
+
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+
+.filterToggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  z-index: 5;
+}
+
+.filterButton {
+  background-color: var(--bg-dark);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.17, 0.67, 0.3, 0.96);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filterButton:hover {
+  background: linear-gradient(to left, var(--primary), var(--secondary));
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
+  border-color: transparent;
+}
+
+.filterButton i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.filterButton:hover i {
+  transform: rotate(90deg);
+}
+
+.filterPanelAnimated {
+  animation: fadeSlideDown 0.4s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 1.5rem 2rem;
+  margin: 0 auto;
+  max-width: 700px;
+  width: 100%;
+  z-index: 10;
+  border: 1px solid rgba(124, 58, 237, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* אפקט תפאורה */
+.filterPanelAnimated::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(to left bottom, rgba(124, 58, 237, 0.08), transparent);
+  border-radius: 0 var(--radius-xl) 0 150px;
+  z-index: 0;
+}
+
+.filterPanelAnimated::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(to right top, rgba(6, 182, 212, 0.08), transparent);
+  border-radius: 0 100px 0 var(--radius-xl);
+  z-index: 0;
+}
+
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.facilitySidebar {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: 1.25rem 1.5rem;
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid rgba(124, 58, 237, 0.05);
+  transition: all 0.3s ease;
+}
+
+.facilitySidebar:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.facilitySidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.facilitySidebar::-webkit-scrollbar-track {
+  background: var(--bg-light-darker);
+  border-radius: 10px;
+}
+
+.facilitySidebar::-webkit-scrollbar-thumb {
+  background-color: var(--primary-light);
+  border-radius: 10px;
+}
+
+.sidebarTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1.25rem;
+  text-align: right;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  position: relative;
+}
+
+/* קו מעוצב תחת הכותרת */
+.sidebarTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to left, var(--accent), var(--primary));
+  border-radius: var(--radius);
+}
+
+.facilityList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.facilityItem {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: right;
+  border-radius: var(--radius);
+}
+
+.facilityItem:hover {
+  background-color: rgba(124, 58, 237, 0.05);
+  transform: translateX(-5px);
+}
+
+.facilityItem:last-child {
+  border-bottom: none;
+}
+
+.facilityName {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.facilityItem:hover .facilityName {
+  color: var(--primary);
+}
+
+.facilityAddress {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+}
+
+.facilityType {
+  display: inline-block;
+  font-size: 0.75rem;
+  background-color: var(--accent-light);
+  color: var(--accent-dark);
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-top: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.facilityItem:hover .facilityType {
+  background-color: var(--accent);
+  color: white;
+  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);
+}
+
+.detailsPanel {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 380px;
+  max-height: calc(100% - 3rem);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), 0 15px 40px rgba(124, 58, 237, 0.15);
+  overflow-y: auto;
+  z-index: 10;
+  animation: slideInRight 0.4s cubic-bezier(0.21, 1.02, 0.73, 1);
+  border-left: 3px solid var(--primary);
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.loadingContainer, .errorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  gap: 1rem;
+}
+
+.loading, .noResults {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  padding: 2rem;
+}
+
+/* אייקון טעינה מסתובב */
+.loading i {
+  color: var(--primary);
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorContainer {
+  border-left: 3px solid var(--error);
+}
+
+.errorContainer i {
+  color: var(--error);
+  font-size: 2rem;
+}
+
+.noResults i {
+  color: var(--primary-light);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* רספונסיביות */
+@media (max-width: 992px) {
+  .detailsPanel {
+    width: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mapContainer {
+    margin: 4rem auto;
+    gap: 3rem;
+  }
+  
+  .mapWrapper {
+    height: 400px;
+  }
+  
+  .detailsPanel {
+    width: 300px;
+    right: 1rem;
+    top: 1rem;
+    max-height: calc(100% - 2rem);
+  }
+  
+  .filterPanelAnimated {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .mapContainer {
+    padding: 0 0rem auto;
+    margin: 3.5rem auto;
+    gap: 1.2rem;
+  }
+  
+  .mapWrapper {
+    height: 350px;
+  }
+  
+  .detailsPanel {
+    position: fixed;
+    width: calc(100% - 2rem);
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    top: auto;
+    max-height: 60vh;
+  }
+
+  .facilitySidebar {
+    max-height: 220px;
+    padding: 1rem;
+  }
+  
+  .sidebarTitle {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .facilityItem {
+    padding: 0.75rem;
+  }
+}

@@ -1,0 +1,90 @@
+
+.shareContainer {
+    position: relative;
+  }
+  
+  .shareButton {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .shareButton:hover {
+    background-color: var(--bg-light-darker);
+    color: var(--primary-dark);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  
+  .sharePopup {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .shareHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .closeShareButton {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  
+  .shareUrl {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .shareUrl input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+  }
+  
+  .sharePlatforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .shareOption {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-weight: 500;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .shareOption:hover {
+    opacity: 0.85;
+  }
+  
