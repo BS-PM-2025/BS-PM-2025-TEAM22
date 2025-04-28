@@ -237,7 +237,9 @@ function Auth() {
       )}
 
       {activeTab === 'login' ? (
-        <form onSubmit={handleLogin} className={styles.form}>
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
+        <form onSubmit={handleLogin} className={styles.form}  role="form" 
+        aria-label="טופס התחברות" >
           <input
             type="email"
             className={styles.input}
@@ -245,6 +247,7 @@ function Auth() {
             onChange={e => setLoginEmail(e.target.value)}
             placeholder="אימייל"
             required
+
             dir="rtl"
           />
           <input
@@ -261,7 +264,9 @@ function Auth() {
           </button>
         </form>
       ) : (
-        <form onSubmit={handleSignup} className={styles.form}>
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
+        <form onSubmit={handleSignup} className={styles.form}role="form"
+        aria-label="טופס הרשמה">
           <input
             type="email"
             className={styles.input}
