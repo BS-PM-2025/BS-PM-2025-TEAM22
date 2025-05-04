@@ -42,28 +42,49 @@ export const useCombinedFacilities = (filters, userLocation, googleMaps) => {
   const searchNearby = useCallback((location, distanceKm = 10) => {
     if (!googleMaps.placesService || !location) return;
     setIsSearchingGoogle(true);
+  
     const radius = Math.min(distanceKm * 1000, 50000);
+  
+    const typesToSearch = [
+      { type: 'gym', keyword: 'fitness' },
+      { type: 'park', keyword: 'fitness park' },
+      { type: 'stadium', keyword: 'stadium' },
+      { type: 'swimming_pool', keyword: 'swimming pool' },
+      { type: 'spa', keyword: 'spa massage' },
+      { type: 'yoga', keyword: 'yoga studio' },
+      { type: 'basketball_court', keyword: 'basketball' },
+      { type: 'soccer_field', keyword: 'soccer field' },
+      { type: 'tennis_court', keyword: 'tennis court' },
+      { type: 'skatepark', keyword: 'skate park' }
+    ];
+  
     let allResults = [];
     let completed = 0;
-    const requests = [
-      { location: new window.google.maps.LatLng(location.lat, location.lng), radius, type: 'gym', keyword: 'fitness' },
-      { location: new window.google.maps.LatLng(location.lat, location.lng), radius, type: 'park', keyword: 'fitness' }
-    ];
+  
     const handle = (results, status) => {
       completed++;
       if (status === window.google.maps.places.PlacesServiceStatus.OK && results) {
         allResults.push(...results.filter(r => !allResults.some(e => e.place_id === r.place_id)));
       }
-      if (completed === requests.length) {
+      if (completed === typesToSearch.length) {
         const formatted = allResults.map(createFacilityFromGooglePlace).filter(Boolean);
         console.log(`Google places found: ${formatted.length}`);
         setGoogleFacilities(formatted);
         setIsSearchingGoogle(false);
       }
     };
-    requests.forEach(req => googleMaps.placesService.nearbySearch(req, handle));
+  
+    typesToSearch.forEach(({ type, keyword }) => {
+      const request = {
+        location: new window.google.maps.LatLng(location.lat, location.lng),
+        radius,
+        type,
+        keyword
+      };
+      googleMaps.placesService.nearbySearch(request, handle);
+    });
   }, [googleMaps.placesService]);
-
+  
   // Trigger search when location or distance changes
   const prevLocationRef = useRef(null);
   useEffect(() => {
