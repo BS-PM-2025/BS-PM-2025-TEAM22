@@ -121,7 +121,7 @@ export default function Auth() {
     setLoading(true);
     setErrorMessage('');
     try {
-      // המרת המערך לפורמט מתאים לפי סוג העמודה ב-Supabase
+      
       const workoutsStr = JSON.stringify(preferredWorkouts);
       
       console.log("רישום משתמש חדש עם תפקיד:", role);
