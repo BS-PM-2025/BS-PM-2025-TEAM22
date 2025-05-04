@@ -22,7 +22,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('fitmap') {
-                    // use npm ci for clean, repeatable install
                     bat 'npm ci'
                 }
             }
@@ -31,13 +30,14 @@ pipeline {
         stage('Run Tests in Docker') {
             steps {
                 dir('fitmap') {
-                    // spin up a throw-away Node container and run your tests there
+                    // Run in CI mode, disable watch, passWithNoTests
                     bat """
                     docker run --rm ^
+                      -e CI=true ^
                       -v "%cd%":/app ^
                       -w /app ^
                       node:18 ^
-                      npm test -- --passWithNoTests
+                      npm test -- --passWithNoTests --watchAll=false
                     """
                 }
             }
