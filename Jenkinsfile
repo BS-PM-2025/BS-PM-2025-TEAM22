@@ -30,7 +30,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 dir('fitmap') {
-                    bat 'npm test -- --passWithNoTests'
+                    bat 'npm test'
                 }
             }
         }
