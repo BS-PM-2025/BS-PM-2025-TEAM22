@@ -12,7 +12,7 @@ pipeline {
             }
         }
 
-        stage('Setup Node.js') {
+        stage('Setup Node.js (host)') {
             steps {
                 bat 'node --version'
                 bat 'npm --version'
@@ -22,15 +22,23 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir('fitmap') {
-                    bat 'npm install'
+                    // use npm ci for clean, repeatable install
+                    bat 'npm ci'
                 }
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Tests in Docker') {
             steps {
                 dir('fitmap') {
-                    bat 'npm test'
+                    // spin up a throw-away Node container and run your tests there
+                    bat """
+                    docker run --rm ^
+                      -v "%cd%":/app ^
+                      -w /app ^
+                      node:18 ^
+                      npm test -- --passWithNoTests
+                    """
                 }
             }
         }
@@ -38,7 +46,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('fitmap') {
-                    // build context is fitmap/, Dockerfile is one level up
                     bat 'docker build -t fitmap-app --no-cache -f ../Dockerfile .'
                 }
             }
@@ -47,11 +54,8 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 dir('fitmap') {
-                    // bring up containers
                     bat 'docker-compose -f ../docker-compose.yml up -d'
-                    // wait without stdin issues
                     bat 'powershell -Command "Start-Sleep -Seconds 10"'
-                    // list running containers
                     bat 'docker-compose -f ../docker-compose.yml ps'
                 }
             }
@@ -60,7 +64,6 @@ pipeline {
 
     post {
         always {
-            // teardown and clean
             dir('fitmap') {
                 bat 'docker-compose -f ../docker-compose.yml down'
             }
