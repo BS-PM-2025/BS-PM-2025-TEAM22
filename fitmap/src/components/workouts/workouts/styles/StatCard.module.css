@@ -1,0 +1,399 @@
+/* כרטיסי סטטיסטיקה משודרגים עם אנימציות ואפקטים */
+
+.statCard {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(var(--border-color-rgb, 230, 230, 230), 0.1);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* אפקט זוהר בריחוף */
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(var(--primary-rgb, 0, 120, 212), 0.05) 30%,
+    rgba(var(--primary-rgb, 0, 120, 212), 0.1) 40%,
+    rgba(var(--primary-rgb, 0, 120, 212), 0.05) 50%,
+    transparent 100%
+  );
+  background-size: 200% 200%;
+  background-position: 100% 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease, background-position 1.5s ease;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(var(--primary-rgb, 0, 120, 212), 0.2);
+}
+
+.statCard:hover::before {
+  opacity: 1;
+  background-position: 0% 0%;
+}
+
+/* קו מודגש בצד הימני - אפקט ויזואלי */
+.statCard::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  right: 0;
+  width: 4px;
+  height: 80%;
+  background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+  opacity: 0.6;
+  transition: height 0.3s ease, opacity 0.3s ease;
+  border-radius: var(--radius-full);
+}
+
+.statCard:hover::after {
+  height: 90%;
+  opacity: 1;
+}
+
+.iconContainer {
+  width: 60px;
+  height: 60px;
+  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-light), rgba(var(--primary-rgb, 0, 120, 212), 0.2));
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(var(--primary-rgb, 0, 120, 212), 0.2);
+}
+
+/* אנימציית פעימה לאייקון */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb, 0, 120, 212), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--primary-rgb, 0, 120, 212), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb, 0, 120, 212), 0);
+  }
+}
+
+.statCard:hover .iconContainer {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+.statContent {
+  flex-grow: 1;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+  padding-right: var(--space-3);
+}
+
+.statCard:hover .statContent {
+  transform: translateX(5px);
+}
+
+.statTitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  position: relative;
+}
+
+.statTitle::after {
+  content: '';
+  height: 1px;
+  width: 0;
+  background: linear-gradient(to right, var(--primary), transparent);
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  transition: width 0.4s ease;
+}
+
+.statCard:hover .statTitle {
+  color: var(--primary);
+}
+
+.statCard:hover .statTitle::after {
+  width: 100%;
+}
+
+.statValue {
+  font-size: var(--font-size-2xl);
+  font-weight: bold;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  position: relative;
+}
+
+.statCard:hover .statValue {
+  color: var(--primary-dark);
+  transform: scale(1.05);
+  transform-origin: right;
+}
+
+/* סימון הערך עם אפקט הדגשה */
+.statHighlight {
+  position: relative;
+}
+
+.statHighlight::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 10%;
+  bottom: 5%;
+  right: 0;
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.2);
+  z-index: -1;
+  transition: height 0.3s ease, background-color 0.3s ease;
+}
+
+.statCard:hover .statHighlight::after {
+  height: 40%;
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.3);
+}
+
+/* תג מידע נוסף */
+.statBadge {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  color: var(--primary);
+  position: absolute;
+  top: -10px;
+  left: 0;
+  transform: translateY(0);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.statCard:hover .statBadge {
+  transform: translateY(-8px);
+  opacity: 1;
+}
+
+/* אייקון מגמה */
+.trendIcon {
+  font-size: var(--font-size-md);
+  margin-right: var(--space-1);
+  transition: transform 0.3s ease;
+}
+
+.trendUp {
+  color: var(--success);
+}
+
+.trendDown {
+  color: var(--error);
+}
+
+.statCard:hover .trendIcon {
+  transform: translateY(-3px) scale(1.2);
+}
+
+/* מידע נוסף שמופיע בריחוף */
+.statInfo {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
+  opacity: 0;
+  margin-top: 0;
+}
+
+.statCard:hover .statInfo {
+  max-height: 50px;
+  opacity: 1;
+  margin-top: var(--space-2);
+}
+
+/* וריאציות צבע לכרטיסים */
+.statCardPrimary .iconContainer {
+  background: linear-gradient(135deg, rgba(var(--primary-rgb, 0, 120, 212), 0.2), rgba(var(--primary-rgb, 0, 120, 212), 0.4));
+  color: var(--primary);
+}
+
+.statCardPrimary:hover .iconContainer {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.statCardSuccess .iconContainer {
+  background: linear-gradient(135deg, rgba(var(--success-rgb, 40, 167, 69), 0.2), rgba(var(--success-rgb, 40, 167, 69), 0.4));
+  color: var(--success);
+}
+
+.statCardSuccess:hover .iconContainer {
+  background: linear-gradient(135deg, var(--success), var(--success-dark, #1e7e34));
+}
+
+.statCardWarning .iconContainer {
+  background: linear-gradient(135deg, rgba(var(--warning-rgb, 255, 193, 7), 0.2), rgba(var(--warning-rgb, 255, 193, 7), 0.4));
+  color: var(--warning);
+}
+
+.statCardWarning:hover .iconContainer {
+  background: linear-gradient(135deg, var(--warning), var(--warning-dark, #d39e00));
+}
+
+.statCardDanger .iconContainer {
+  background: linear-gradient(135deg, rgba(var(--error-rgb, 220, 53, 69), 0.2), rgba(var(--error-rgb, 220, 53, 69), 0.4));
+  color: var(--error);
+}
+
+.statCardDanger:hover .iconContainer {
+  background: linear-gradient(135deg, var(--error), var(--error-dark, #bd2130));
+}
+
+/* סידור גריד לקבוצת כרטיסים */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-4);
+}
+
+/* אנימציית כניסה מדורגת */
+.statsGrid .statCard:nth-child(1) { animation-delay: 0s; }
+.statsGrid .statCard:nth-child(2) { animation-delay: 0.1s; }
+.statsGrid .statCard:nth-child(3) { animation-delay: 0.2s; }
+.statsGrid .statCard:nth-child(4) { animation-delay: 0.3s; }
+
+/* מצב עם טעינת נתונים */
+.statCardLoading .statValue,
+.statCardLoading .statTitle {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bg-light);
+  color: transparent;
+  border-radius: var(--radius);
+}
+
+.statCardLoading .statValue::after,
+.statCardLoading .statTitle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* רספונסיביות */
+@media screen and (max-width: 576px) {
+  .statCard {
+    padding: var(--space-3);
+  }
+  
+  .iconContainer {
+    width: 50px;
+    height: 50px;
+    font-size: var(--font-size-lg);
+  }
+  
+  .statTitle {
+    font-size: var(--font-size-xs);
+  }
+  
+  .statValue {
+    font-size: var(--font-size-xl);
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-3);
+  }
+}
+
+/* אנימציה לערך שמשתנה */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statValueChanging {
+  animation: countUp 0.5s ease-out;
+}
+
+/* אפקט זכוכית מעומעמת (glassmorphism) */
+.statCardGlass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.statCardGlass .iconContainer {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* אינטראקציה עם mousemove */
+.statCard3D {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.1s ease;
+}
+
+.statCard3D .statContent, 
+.statCard3D .iconContainer {
+  transform: translateZ(20px);
+}

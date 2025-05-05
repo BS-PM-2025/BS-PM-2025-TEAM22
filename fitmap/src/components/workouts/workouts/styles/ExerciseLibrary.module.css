@@ -1,0 +1,437 @@
+/* src/components/workouts/styles/ExerciseLibrary.module.css */
+
+.libraryContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  direction: rtl;
+  font-family: 'Rubik', sans-serif;
+}
+
+.libraryHeader {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.libraryHeader h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.libraryHeader p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.searchAndFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.searchContainer {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.clearSearch {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearSearch:hover {
+  color: #e53935;
+}
+
+.filterToggle {
+  padding: 10px 16px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.filterToggle:hover {
+  background-color: #e0e0e0;
+}
+
+.activeFilter {
+  background-color: #e8f5e9;
+  border-color: #a5d6a7;
+  color: #2e7d32;
+}
+
+.filtersPanel {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filtersHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.filtersHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.resetButton {
+  padding: 6px 12px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.resetButton:hover {
+  background-color: #f5f5f5;
+  border-color: #ccc;
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterGroup label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.filterGroup select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 0.9rem;
+}
+
+.exerciseResults {
+  margin-top: 20px;
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.resultsHeader h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+.resultCount {
+  font-size: 0.9rem;
+  color: #666;
+  padding: 4px 10px;
+  background-color: #f1f1f1;
+  border-radius: 12px;
+}
+
+.exerciseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.noResultsIcon {
+  font-size: 3rem;
+  color: #bdbdbd;
+  margin-bottom: 15px;
+}
+
+.noResults h3 {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.noResults p {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #4CAF50;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ExerciseCard styles */
+.libraryItem {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.libraryItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.exerciseImage {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.exerciseInfo {
+  padding: 15px;
+  flex-grow: 1;
+}
+
+.exerciseInfo h3 {
+  font-size: 1.2rem;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.exerciseInfo p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.exerciseInfo p strong {
+  color: #444;
+}
+
+.favoriteButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+  font-size: 1.1rem;
+}
+
+.favoriteButton:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .exerciseGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .searchAndFilters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .searchContainer {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .exerciseGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .libraryHeader h1 {
+    font-size: 1.8rem;
+  }
+}
+/* תוספות לקובץ ExerciseLibrary.module.css עבור הטמעת וידאו בכרטיסים */
+/* תוספות לקובץ ExerciseLibrary.module.css עבור הטמעת וידאו בכרטיסים */
+
+/* סגנון חדש לאזור המדיה בכרטיס */
+.mediaSection {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+/* מסגרת הווידאו */
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+/* סגנון הוידאו עצמו */
+.cardVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+
+/* מצב טעינה לוידאו */
+.videoLoading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.loadingIcon {
+  font-size: 3rem;
+  color: #fff;
+  opacity: 0.7;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* אנימציית פעימה לאייקון טעינה */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* עיצוב כרטיס התרגיל מעודכן */
+.libraryItem {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.libraryItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* שמירה על עיצוב התמונה המקורי */
+.exerciseImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* התאמה לתצוגות מסך קטנות */
+@media (max-width: 480px) {
+  .mediaSection {
+    height: 160px;
+  }
+}

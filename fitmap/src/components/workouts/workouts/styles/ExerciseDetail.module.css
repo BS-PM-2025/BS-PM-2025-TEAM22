@@ -1,0 +1,613 @@
+/* styles/ExerciseDetail.module.css */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  background: none;
+  border: none;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.backIcon {
+  margin-left: 0.5rem;
+}
+
+.exerciseHeader {
+  margin-bottom: 2rem;
+}
+
+.exerciseHeader h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.headerActions {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.actionButton {
+  background: var(--bg-subtle);
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background: var(--primary-light);
+}
+
+.actionIcon {
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.difficulty {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.starFilled, .starEmpty {
+  color: var(--warning);
+  margin-left: 0.25rem;
+}
+
+.difficultyText {
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mediaSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.imageContainer {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background-color: var(--bg-subtle);
+}
+
+.exerciseImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: 3rem;
+}
+
+.playButton {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.playButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.playIcon {
+  font-size: 1.2rem;
+}
+
+.noVideoMessage {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border-radius: 2rem;
+  padding: 0.6rem 1.2rem;
+}
+
+.warningIcon {
+  color: var(--warning);
+}
+
+.videoModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.videoContainer {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  aspect-ratio: 16/9;
+  background-color: black;
+}
+
+.closeVideoButton {
+  position: absolute;
+  top: -2.5rem;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1010;
+}
+
+.videoFrame {
+  width: 100%;
+  height: 100%;
+}
+
+.quickInfo {
+  background-color: var(--bg-subtle);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.detailItem {
+  margin-bottom: 0.5rem;
+}
+
+.detailLabel {
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tabsContainer {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.tabButton {
+  padding: 0.8rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activeTab {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.tabContent {
+  min-height: 300px;
+}
+
+.instructionsTab, .tipsTab, .trainingTab, .historyTab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.instructions, .description {
+  line-height: 1.6;
+}
+
+.benefitsSection, .mistakesSection, .generalTips {
+  background-color: var(--bg-subtle);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.benefitsList, .mistakesList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.benefitItem, .mistakeItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.benefitIcon {
+  color: var(--success);
+}
+
+.mistakeIcon {
+  color: var(--warning);
+}
+
+.trainingRecommendations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.recommendationCard {
+  background-color: var(--bg-subtle);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.recommendationCard h3 {
+  margin-top: 0;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.additionalTip {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background-color: var(--primary-light);
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+}
+
+.tipIcon {
+  color: var(--primary);
+  margin-top: 0.2rem;
+}
+
+.progressionTips {
+  background-color: var(--bg-subtle);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.progressionTips ul {
+  padding-right: 1.5rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.progressionTips li {
+  margin-bottom: 0.5rem;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.historyItem {
+  background-color: var(--bg-subtle);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.historyLink {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.historyLink:hover {
+  background-color: var(--primary-light);
+}
+
+.historyItemContent {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.workoutName {
+  font-weight: 500;
+}
+
+.workoutDate, .workoutDuration {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.historyArrow {
+  color: var(--primary);
+}
+
+.noHistory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--bg-subtle);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.noHistoryIcon {
+  font-size: 2.5rem;
+  color: var(--text-secondary);
+}
+
+.addToWorkoutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.addToWorkoutButton:hover {
+  background-color: var(--primary-dark);
+}
+
+.buttonIcon {
+  font-size: 1.1rem;
+}
+
+.relatedSection {
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+}
+
+.relatedSection h2 {
+  margin-bottom: 1.5rem;
+}
+
+.relatedCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.relatedCard {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.relatedCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.relatedImageContainer {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.relatedImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.relatedImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: 2rem;
+}
+
+.relatedInfo {
+  padding: 1rem;
+}
+
+.relatedInfo h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.relatedInfo p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.relatedDifficulty {
+  color: var(--warning);
+}
+
+.bottomActions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: white;
+  box-shadow: 0 -2px 8px rgba(247, 210, 210, 0.1);
+  z-index: 100;
+}
+
+.bottomActionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: var(--primary);
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bottomActionButton:first-child {
+  background-color: var(--primary);
+}
+
+.bottomActionButton:last-child {
+  background-color: var(--secondary);
+}
+
+.bottomActionButton:hover {
+  filter: brightness(1.1);
+}
+
+.bottomActionIcon {
+  font-size: 1.2rem;
+}
+
+.successMessage {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background-color: var(--success-light);
+  color: var(--success-dark);
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: fadeInOut 3s ease;
+}
+
+.successIcon {
+  color: var(--success);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -1rem); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -1rem); }
+}
+
+/* Loading and error styles */
+.loading, .errorMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 50vh;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 4px solid var(--bg-subtle);
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorIcon {
+  font-size: 3rem;
+  color: var(--danger);
+}
+
+.backButton {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: var(--primary-dark);
+}

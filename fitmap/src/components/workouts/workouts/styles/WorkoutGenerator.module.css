@@ -1,0 +1,170 @@
+.container {
+    padding: var(--space-6);
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+  
+  .header {
+    margin-bottom: var(--space-6);
+    text-align: center;
+  }
+  
+  .formSection {
+    margin-bottom: var(--space-6);
+  }
+  
+  .goalOptions,
+  .intensityOptions,
+  .experienceOptions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  
+  .goalOption,
+  .intensityButton,
+  .experienceButton {
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  
+  .goalOption:hover,
+  .intensityButton:hover,
+  .experienceButton:hover {
+    background-color: var(--bg-light-darker);
+  }
+  
+  .selected {
+    background-color: var(--primary);
+    color: var(--text-light);
+    border-color: var(--primary-dark);
+  }
+  
+  .goalIcon {
+    margin-left: var(--space-2);
+  }
+  
+  .durationSlider input[type="range"] {
+    width: 100%;
+    margin-top: var(--space-2);
+  }
+  
+  .durationValue {
+    margin-top: var(--space-2);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+  }
+  
+  .generateButton {
+    background: var(--gradient-primary);
+    color: white;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulseGlow 2s infinite;
+  }
+  
+  .generateButton:hover {
+    background: var(--gradient-energy);
+    transform: scale(1.05);
+  }
+  
+  @keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(75, 62, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(75, 62, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(75, 62, 255, 0); }
+  }
+  
+  /* ===========================
+     Global Animations (usable in all files)
+     =========================== */
+  
+  .animateFadeIn {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  .animateSlideIn {
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  @keyframes bounceIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    60% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  
+  .errorMessage,
+  .loading {
+    text-align: center;
+    padding: var(--space-6);
+    color: var(--text-error);
+  }
+  
+  .backButton {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-4);
+    margin-top: var(--space-4);
+    cursor: pointer;
+  }
+  .goalContainer {
+    background-color: var(--bg-card);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    margin-bottom: var(--space-6);
+  }
+  
+  .goalTitle {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+  }
+  
+  .goalOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  
+  .goalOption {
+    padding: var(--space-3) var(--space-5);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color var(--transition), transform var(--transition);
+  }
+  
+  .goalOption:hover {
+    background-color: var(--bg-light-darker);
+    transform: translateY(-2px);
+  }
+  
+  .goalOption.selected {
+    background-color: var(--primary);
+    color: var(--text-light);
+    border-color: var(--primary-dark);
+  }
+    .goalIcon {
+        margin-left: var(--space-2);
+    }  

@@ -1,0 +1,1958 @@
+/* עיצוב משודרג לגרפים בסטטיסטיקות - עם אפקטים ויזואליים מתקדמים */
+.chartsContainer {
+  background-color: var(--bg-card);
+  background-image: 
+    linear-gradient(135deg, rgba(var(--primary-rgb, 0, 120, 212), 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 95% 5%, rgba(var(--accent-rgb, 155, 89, 182), 0.05) 0%, transparent 45%);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.05),
+    0 5px 10px -5px rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  direction: rtl;
+  animation: fadeInSlide 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* אפקט זוהר משודרג */
+.chartsContainer::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: 
+    radial-gradient(
+      circle at center,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.03) 0%,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.01) 30%,
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.01) 0%,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.02) 10%,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.01) 20%
+    );
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 15s linear;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.chartsContainer:hover::before {
+  opacity: 1;
+  animation: rotateBg 25s linear infinite;
+}
+
+@keyframes rotateBg {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* אפקט קו זוהר בקצוות */
+.chartsContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 90px;
+  background: linear-gradient(to bottom, var(--primary), rgba(var(--primary-rgb, 0, 120, 212), 0.3), transparent);
+  border-radius: var(--radius) 0 0 var(--radius);
+  opacity: 0.7;
+  box-shadow: 0 0 12px rgba(var(--primary-rgb, 0, 120, 212), 0.4);
+  filter: blur(1px);
+}
+
+.chartsContainer:hover {
+  box-shadow: 
+    0 15px 35px -5px rgba(0, 0, 0, 0.1),
+    0 10px 15px -5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.1),
+    0 0 30px rgba(var(--primary-rgb, 0, 120, 212), 0.05);
+  transform: translateY(-4px) scale(1.005);
+}
+
+/* אפקט מסגרת זוהרת */
+.chartsContainer:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--primary-rgb, 0, 120, 212), 0.2), 
+    transparent 50%,
+    rgba(var(--accent-rgb, 155, 89, 182), 0.1)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.chartsContainer:hover:before {
+  opacity: 1;
+}
+
+/* שיפור לשונית סוגי תרשימים */
+.chartTypeTabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+  padding: var(--space-2);
+  background-color: var(--bg-light);
+  background-image: linear-gradient(to right, rgba(var(--primary-rgb, 0, 120, 212), 0.03), transparent);
+  border-radius: var(--radius-lg);
+  position: relative;
+  z-index: 2;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+  box-shadow: 
+    0 3px 10px -5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+}
+
+.chartTypeTabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.chartTypeTabs::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+.chartTab {
+  padding: var(--space-2) var(--space-4);
+  background-color: transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  border: none;
+  position: relative;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* אפקט גל בלחיצה */
+.chartTab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.3);
+  border-radius: var(--radius);
+  opacity: 0;
+  transform: scale(2);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.chartTab:active::after {
+  animation: ripple 0.8s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0.3;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+/* אייקון קטן בכל טאב עם אפקט מעופף */
+.chartTabIcon {
+  font-size: var(--font-size-md);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
+}
+
+.chartTab:hover .chartTabIcon {
+  transform: scale(1.3) translateY(-3px) rotate(5deg);
+  text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chartTab:hover {
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* אנימציית סימון טאב משודרת */
+.activeTab {
+  background: linear-gradient(135deg, var(--primary), rgba(var(--primary-rgb, 0, 120, 212), 0.9));
+  color: var(--text-light);
+  box-shadow: 
+    0 4px 12px -2px rgba(var(--primary-rgb, 0, 120, 212), 0.4),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.5);
+  transform: translateY(-3px);
+  font-weight: var(--font-weight-semibold);
+}
+
+.activeTab::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 0 2px var(--bg-light),
+    0 0 15px rgba(var(--primary-rgb, 0, 120, 212), 0.5);
+}
+
+.activeTab .chartTabIcon {
+  transform: scale(1.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: scale(1.3) translateY(0);
+  }
+  50% {
+    transform: scale(1.3) translateY(-3px);
+  }
+}
+
+/* מיכל לגרף עצמו עם אפקט עומק */
+.chartContainer {
+  padding-top: var(--space-4);
+  position: relative;
+  min-height: 300px;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+/* אפקט מראה תלת-ממדי בגרפים */
+.timeChart, .typeChart, .frequencyChart {
+  transform-style: preserve-3d;
+  animation: appear 0.8s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
+  opacity: 0;
+  transform: rotateX(10deg) scale(0.95);
+  backface-visibility: hidden;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: rotateX(10deg) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0) scale(1);
+  }
+}
+
+/* כותרת הגרף עם כפתורי שליטה וצל טקסט */
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+}
+
+.chartTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  letter-spacing: -0.01em;
+}
+
+.chartTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 30%;
+  height: 2px;
+  background: linear-gradient(to left, var(--primary), transparent);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0.7;
+}
+
+.chartHeader:hover .chartTitle::after {
+  width: 100%;
+  opacity: 1;
+}
+
+/* כפתורי בקרת רזולוציית נתונים עם אפקט גלאס מורפיזם */
+.chartControls {
+  display: flex;
+  gap: var(--space-2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+  background: rgba(var(--bg-light-rgb, 245, 247, 250), 0.5);
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  padding: 2px;
+}
+
+.dataResolutionButton {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-sm);
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  z-index: 1;
+}
+
+.dataResolutionButton:hover {
+  color: var(--text-primary);
+}
+
+.dataResolutionButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  z-index: -1;
+  border-radius: var(--radius);
+}
+
+.dataResolutionButton:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.activeResolution {
+  background-color: var(--primary);
+  color: var(--text-light);
+  font-weight: var(--font-weight-medium);
+  box-shadow: 0 1px 5px rgba(var(--primary-rgb, 0, 120, 212), 0.3);
+}
+
+.activeResolution::before {
+  opacity: 0 !important;
+}
+
+/* לגנדה ייעודית לגרפי זמן עם אפקט זכוכית */
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(var(--bg-light-rgb, 245, 247, 250), 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  justify-content: center;
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+  transform: translateZ(0);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.1);
+}
+
+.legendItem:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: var(--text-primary);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.2);
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.legendItem:hover .legendDot {
+  transform: scale(1.3);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 0 10px rgba(var(--primary-rgb, 0, 120, 212), 0.2);
+}
+
+/* עיצוב נקודות בגרף זמן עם אפקט זוהר */
+.maxDot {
+  background-color: #9747FF;
+  box-shadow: 
+    0 0 0 2px rgba(151, 71, 255, 0.2),
+    0 0 8px rgba(151, 71, 255, 0.3);
+}
+
+.minDot {
+  background-color: #f97316;
+  box-shadow: 
+    0 0 0 2px rgba(249, 115, 22, 0.2),
+    0 0 8px rgba(249, 115, 22, 0.3);
+}
+
+.regularDot {
+  background-color: #3b82f6;
+  box-shadow: 
+    0 0 0 2px rgba(59, 130, 246, 0.2),
+    0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+/* עיצוב חדש לטולטיפים עם אפקט זכוכית מתקדם */
+.customTooltip, .pieTooltip {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: 
+    0 5px 20px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  text-align: right;
+  direction: rtl;
+  min-width: 150px;
+  max-width: 280px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  transform: translateY(-8px) scale(0.98);
+  border-right: 3px solid var(--primary);
+  animation: tooltipPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes tooltipPop {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.95);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.customTooltip::before, .pieTooltip::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  transform: rotate(45deg);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: -1;
+}
+
+.tooltipTitle, .pieTooltipTitle {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.tooltipDate {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0 0 6px 0;
+}
+
+.tooltipValue, .pieTooltipValue {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--primary);
+  margin: 6px 0;
+  text-shadow: 0 1px 2px rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.tooltipName {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 6px 0 0 0;
+}
+
+.tooltipBadge, .pieTooltipPercentage {
+  color: var(--primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 8px;
+
+}
+
+/* ייחודי לטולטיפ פאי */
+.pieTooltipColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-left: var(--space-1);
+  vertical-align: middle;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* שיפורים לגרפי עוגה */
+.typeChart {
+  position: relative;
+  padding: var(--space-2);
+}
+
+.typeChart :global(.recharts-wrapper) {
+  margin: 0 auto;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* שיפור גרף עוגה */
+:global(.recharts-pie) path {
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 2;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.1));
+}
+
+:global(.recharts-pie-sector:hover) path {
+  transform: translateY(-5px) scale(1.05);
+  transform-origin: center;
+  filter: 
+    brightness(1.05)
+    drop-shadow(0 8px 15px rgba(0, 0, 0, 0.15));
+  stroke-width: 3;
+  stroke: white;
+}
+
+/* שיפור תוויות גרף העוגה */
+:global(.recharts-pie-label-text) {
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: 14px !important;
+  fill: var(--text-primary) !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease !important;
+}
+
+:global(.recharts-pie-sector:hover + g .recharts-pie-label-text) {
+  font-weight: var(--font-weight-bold) !important;
+  font-size: 16px !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* שיפור מקרא גרף העוגה עם אפקט קארד מרחף */
+.typeLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: rgba(var(--bg-light-rgb, 245, 247, 250), 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  box-shadow: 
+    0 3px 15px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+}
+
+.typeLegendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 120px;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.typeLegendItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 8px 15px rgba(0, 0, 0, 0.08),
+    0 2px 5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+/* אפקט הבזק בריחוף */
+.typeLegendItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent
+  );
+  transition: all 0.6s ease;
+}
+
+.typeLegendItem:hover::before {
+  animation: flash 1.5s;
+}
+
+@keyframes flash {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.typeLegendType {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.typeLegendColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.typeLegendItem:hover .typeLegendColor {
+  transform: scale(1.3) rotate(-5deg);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.typeLegendLabel {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.typeLegendItem:hover .typeLegendLabel {
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-dark);
+}
+
+.typeLegendItem:hover .typeLegendValue {
+  background: linear-gradient(135deg, var(--primary), rgba(var(--primary-rgb, 0, 120, 212), 0.8));
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 
+    0 3px 6px rgba(var(--primary-rgb, 0, 120, 212), 0.3),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* שיפורים לגרף הקווי */
+.improvedLineChart :global(.recharts-cartesian-grid-horizontal line) {
+  stroke: rgba(0, 0, 0, 0.05);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.improvedLineChart :global(.recharts-cartesian-grid-horizontal line:nth-child(even)) {
+  stroke: rgba(0, 0, 0, 0.02);
+}
+
+.improvedLineChart :global(.recharts-xAxis .recharts-cartesian-axis-tick-value),
+.improvedLineChart :global(.recharts-yAxis .recharts-cartesian-axis-tick-value) {
+  fill: var(--text-secondary) !important;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease !important;
+}
+
+.improvedLineChart:hover :global(.recharts-xAxis .recharts-cartesian-axis-tick-value),
+.improvedLineChart:hover :global(.recharts-yAxis .recharts-cartesian-axis-tick-value) {
+  fill: var(--text-primary) !important;
+}
+
+/* קו גרף משופר עם אפקט זוהר */
+.improvedLineChart :global(.recharts-line-curve) {
+  stroke-width: 3;
+  filter: drop-shadow(0 3px 3px rgba(var(--primary-rgb, 0, 120, 212), 0.2));
+  transition: all 0.3s ease !important;
+}
+
+.improvedLineChart:hover :global(.recharts-line-curve) {
+  stroke-width: 4;
+  filter: drop-shadow(0 5px 8px rgba(var(--primary-rgb, 0, 120, 212), 0.3));
+}
+
+/* אנימציה לנקודות מיוחדות */
+.improvedLineChart :global(.recharts-layer.recharts-line-dots circle[data-is-max="true"]) {
+  animation: pulseDot 2s infinite;
+  filter: drop-shadow(0 3px 5px rgba(var(--primary-rgb, 0, 120, 212), 0.5));
+}
+
+@keyframes pulseDot {
+  0% {
+    r: 6;
+    stroke-width: 2;
+    filter: drop-shadow(0 3px 5px rgba(var(--primary-rgb, 0, 120, 212), 0.3));
+  }
+  50% {
+    r: 8;
+    stroke-width: 3;
+    filter: drop-shadow(0 5px 10px rgba(var(--primary-rgb, 0, 120, 212), 0.5));
+  }
+  100% {
+    r: 6;
+    stroke-width: 2;
+    filter: drop-shadow(0 3px 5px rgba(var(--primary-rgb, 0, 120, 212), 0.3));
+  }
+}
+
+/* שיפורים לגרף העמודות */
+:global(.recharts-bar) rect {
+  rx: 6;
+  ry: 6;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.05));
+}
+
+:global(.recharts-bar):hover rect {
+  filter: 
+    brightness(1.1)
+    drop-shadow(0 5px 10px rgba(var(--primary-rgb, 0, 120, 212), 0.2));
+  transform: translateY(-2px) !important;
+}
+
+:global(.recharts-tooltip-cursor) {
+  fill: rgba(var(--primary-rgb), 0.05);
+  rx: 6;
+  ry: 6;
+}
+
+/* כרטיס הנחיות והסברים משודרג */
+.chartInstructions {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), rgba(var(--primary-rgb), 0.02));
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  border-right: 3px solid var(--primary);
+  box-shadow: 
+    0 3px 10px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--primary-rgb), 0.1);
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+/* אפקט קו רץ לכרטיס הנחיות */
+.chartInstructions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 10px;
+  background-color: var(--primary);
+  border-radius: var(--radius);
+  opacity: 0.7;
+  box-shadow: 0 0 8px var(--primary);
+  animation: instructionsLine 4s infinite alternate ease-in-out;
+}
+
+@keyframes instructionsLine {
+  0% { height: 10px; top: 0; opacity: 0.5; }
+  100% { height: 70%; top: 30%; opacity: 0.9; }
+}
+
+.instructionIcon {
+  font-size: var(--font-size-xl);
+  line-height: 1;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.1));
+}
+
+.instructionText {
+  flex: 1;
+}
+
+.instructionText p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  transition: all 0.3s ease;
+}
+
+.chartInstructions:hover .instructionText p {
+  color: var(--text-primary);
+}
+
+.instructionText strong {
+  color: var(--primary);
+  font-weight: var(--font-weight-semibold);
+  position: relative;
+  display: inline-block;
+}
+
+/* אפקט הדגשה לטקסט מודגש */
+.instructionText strong::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+
+.chartInstructions:hover .instructionText strong::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* מצב ללא נתונים עם אנימציה */
+.noDataContainer {
+  padding: var(--space-10);
+  text-align: center;
+  background: linear-gradient(135deg, var(--bg-light), #f8fafc);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  border: 2px dashed var(--border-color);
+  margin-top: var(--space-4);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.03),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  animation: pulseBackground 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseBackground {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.noDataContainer p {
+  margin: 10px 0;
+  animation: fadeInStagger 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+  position: relative;
+}
+
+.noDataContainer p:nth-child(1) {
+  animation-delay: 0.2s;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+}
+
+.noDataContainer p:nth-child(2) {
+  animation-delay: 0.4s;
+  color: var(--text-tertiary);
+}
+
+@keyframes fadeInStagger {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* אפקט גלים בתיבת אין נתונים */
+.noDataContainer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity: 0.5;
+  animation: wave 3s infinite ease-in-out;
+}
+
+@keyframes wave {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* התאמה למסכים קטנים */
+@media screen and (max-width: 768px) {
+  .chartsContainer {
+    padding: var(--space-4);
+  }
+  
+  .chartHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .chartControls {
+    width: 100%;
+    margin-top: var(--space-2);
+  }
+  
+  .dataResolutionButton {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .typeLegend {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .typeLegendItem {
+    width: 100%;
+  }
+  
+  .chartLegend {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .legendItem {
+    width: 100%;
+  }
+}
+
+/* התאמה למכשירים קטנים מאוד */
+@media screen and (max-width: 480px) {
+  .chartTitle {
+    font-size: var(--font-size-lg);
+  }
+  
+  .chartTab {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-sm);
+  }
+  
+  .legendItem {
+    font-size: var(--font-size-xs);
+  }
+  
+  .typeLegendLabel, .typeLegendValue {
+    font-size: var(--font-size-xs);
+  }
+  
+  .customTooltip, .pieTooltip {
+    max-width: 240px;
+    padding: 10px 14px;
+  }
+
+  .tooltipTitle, .pieTooltipTitle {
+    font-size: var(--font-size-base);
+  }
+
+  .tooltipValue, .pieTooltipValue {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* תמיכה במצב כהה */
+:global(.dark-theme) .chartLegend,
+:global(.dark-theme) .typeLegendItem,
+:global(.dark-theme) .chartsContainer {
+  background-color: rgba(15, 15, 20, 0.8);
+  background-image: linear-gradient(135deg, rgba(25, 25, 35, 0.6), rgba(15, 15, 20, 0.8));
+}
+
+:global(.dark-theme) .chartTypeTabs {
+  background-color: rgba(25, 25, 35, 0.5);
+}
+
+:global(.dark-theme) .typeLegend {
+  background-color: rgba(25, 25, 35, 0.5);
+}
+
+:global(.dark-theme) .typeLegendItem {
+  background-color: rgba(35, 35, 45, 0.7);
+}
+
+:global(.dark-theme) .chartInstructions {
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.15), rgba(var(--primary-rgb), 0.05));
+}
+
+:global(.dark-theme) .customTooltip,
+:global(.dark-theme) .pieTooltip {
+  background-color: rgba(35, 35, 45, 0.85);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-right: 3px solid var(--primary);
+}
+
+:global(.dark-theme) .customTooltip::before,
+:global(.dark-theme) .pieTooltip::before {
+  background-color: rgba(35, 35, 45, 0.85);
+}
+
+:global(.dark-theme) .tooltipTitle,
+:global(.dark-theme) .pieTooltipTitle {
+  color: var(--text-light);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark-theme) .tooltipDate,
+:global(.dark-theme) .tooltipName {
+  color: var(--text-secondary-dark, #aaa);
+}
+
+:global(.dark-theme) .improvedLineChart :global(.recharts-cartesian-grid-horizontal line) {
+  stroke: rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark-theme) .improvedLineChart :global(.recharts-cartesian-grid-horizontal line:nth-child(even)) {
+  stroke: rgba(255, 255, 255, 0.02);
+}
+
+:global(.dark-theme) .improvedLineChart :global(.recharts-xAxis .recharts-cartesian-axis-tick-value),
+:global(.dark-theme) .improvedLineChart :global(.recharts-yAxis .recharts-cartesian-axis-tick-value) {
+  fill: var(--text-secondary-dark, #aaa) !important;
+}
+
+:global(.dark-theme) .chartControls {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(35, 35, 45, 0.5);
+}
+
+:global(.dark-theme) .dataResolutionButton {
+  background-color: rgba(35, 35, 45, 0.7);
+  color: var(--text-secondary-dark, #aaa);
+}
+
+:global(.dark-theme) .dataResolutionButton:hover {
+  color: var(--text-light);
+}
+
+:global(.dark-theme) .noDataContainer {
+  background: linear-gradient(135deg, #1a1a25, #20202d);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark-theme) .legendDot,
+:global(.dark-theme) .typeLegendColor {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* תמיכה בניגודיות גבוהה */
+@media (forced-colors: active) {
+  .legendDot,
+  .typeLegendColor {
+    border: 1px solid ButtonText;
+  }
+  
+  .customTooltip,
+  .pieTooltip {
+    border: 1px solid ButtonText;
+  }
+  
+  .chartInstructions {
+    border: 1px solid ButtonText;
+  }
+  
+  .improvedLineChart :global(.recharts-line-curve) {
+    stroke: CanvasText !important;
+    stroke-width: 3px !important;
+  }
+
+  :global(.recharts-bar) rect {
+    stroke: ButtonText;
+    stroke-width: 1px;
+  }
+
+  :global(.recharts-pie) path {
+    stroke: ButtonText;
+    stroke-width: 1px;
+  }
+
+  .chartTab,
+  .dataResolutionButton {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* תמיכה בהעדפת הפחתת תנועה */
+@media (prefers-reduced-motion: reduce) {
+  .chartsContainer,
+  .chartTab,
+  .activeTab,
+  .chartTab:hover .chartTabIcon,
+  .dataResolutionButton,
+  .typeLegendItem:hover,
+  .improvedLineChart :global(.recharts-layer.recharts-line-dots .recharts-dot[data-is-max="true"]),
+  .instructionIcon,
+  .chartInstructions::before,
+  .noDataContainer::after,
+  .noDataContainer {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .typeLegendItem::before {
+    display: none;
+  }
+}
+
+/* אנימציית כניסת גרף */
+@keyframes dataReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.timeChart, .typeChart, .frequencyChart {
+  animation: dataReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* שיפור עיצוב טולטיפ */
+:global(.recharts-tooltip-wrapper) {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  z-index: 10 !important;
+}
+
+:global(.recharts-default-tooltip) {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* צל לכל גרף */
+:global(.recharts-surface) {
+  filter: drop-shadow(0px 5px 15px rgba(0, 0, 0, 0.08));
+}/* עיצוב משודרג לגרפים בסטטיסטיקות - עם אפקטים ויזואליים מתקדמים */
+.chartsContainer {
+  background-color: var(--bg-card);
+  background-image: 
+    linear-gradient(135deg, rgba(var(--primary-rgb, 0, 120, 212), 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 95% 5%, rgba(var(--accent-rgb, 155, 89, 182), 0.05) 0%, transparent 45%);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.05),
+    0 5px 10px -5px rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  direction: rtl;
+  animation: fadeInSlide 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* אפקט זוהר משודרג */
+.chartsContainer::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: 
+    radial-gradient(
+      circle at center,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.03) 0%,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.01) 30%,
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.01) 0%,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.02) 10%,
+      rgba(var(--primary-rgb, 0, 120, 212), 0.01) 20%
+    );
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 15s linear;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.chartsContainer:hover::before {
+  opacity: 1;
+  animation: rotateBg 25s linear infinite;
+}
+
+@keyframes rotateBg {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* אפקט קו זוהר בקצוות */
+.chartsContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 90px;
+  background: linear-gradient(to bottom, var(--primary), rgba(var(--primary-rgb, 0, 120, 212), 0.3), transparent);
+  border-radius: var(--radius) 0 0 var(--radius);
+  opacity: 0.7;
+  box-shadow: 0 0 12px rgba(var(--primary-rgb, 0, 120, 212), 0.4);
+  filter: blur(1px);
+}
+
+.chartsContainer:hover {
+  box-shadow: 
+    0 15px 35px -5px rgba(0, 0, 0, 0.1),
+    0 10px 15px -5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.1),
+    0 0 30px rgba(var(--primary-rgb, 0, 120, 212), 0.05);
+  transform: translateY(-4px) scale(1.005);
+}
+
+/* אפקט מסגרת זוהרת */
+.chartsContainer:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 2px;
+  background: linear-gradient(
+    135deg, 
+    rgba(var(--primary-rgb, 0, 120, 212), 0.2), 
+    transparent 50%,
+    rgba(var(--accent-rgb, 155, 89, 182), 0.1)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.chartsContainer:hover:before {
+  opacity: 1;
+}
+
+/* שיפור לשונית סוגי תרשימים */
+.chartTypeTabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-6);
+  padding: var(--space-2);
+  background-color: var(--bg-light);
+  background-image: linear-gradient(to right, rgba(var(--primary-rgb, 0, 120, 212), 0.03), transparent);
+  border-radius: var(--radius-lg);
+  position: relative;
+  z-index: 2;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+  box-shadow: 
+    0 3px 10px -5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+}
+
+.chartTypeTabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.chartTypeTabs::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+.chartTab {
+  padding: var(--space-2) var(--space-4);
+  background-color: transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  border: none;
+  position: relative;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* אפקט גל בלחיצה */
+.chartTab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.3);
+  border-radius: var(--radius);
+  opacity: 0;
+  transform: scale(2);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.chartTab:active::after {
+  animation: ripple 0.8s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0.3;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+/* אייקון קטן בכל טאב עם אפקט מעופף */
+.chartTabIcon {
+  font-size: var(--font-size-md);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
+}
+
+.chartTab:hover .chartTabIcon {
+  transform: scale(1.3) translateY(-3px) rotate(5deg);
+  text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chartTab:hover {
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* אנימציית סימון טאב משודרת */
+.activeTab {
+  background: linear-gradient(135deg, var(--primary), rgba(var(--primary-rgb, 0, 120, 212), 0.9));
+  color: var(--text-light);
+  box-shadow: 
+    0 4px 12px -2px rgba(var(--primary-rgb, 0, 120, 212), 0.4),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.5);
+  transform: translateY(-3px);
+  font-weight: var(--font-weight-semibold);
+}
+
+.activeTab::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 0 2px var(--bg-light),
+    0 0 15px rgba(var(--primary-rgb, 0, 120, 212), 0.5);
+}
+
+.activeTab .chartTabIcon {
+  transform: scale(1.3);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: scale(1.3) translateY(0);
+  }
+  50% {
+    transform: scale(1.3) translateY(-3px);
+  }
+}
+
+/* מיכל לגרף עצמו עם אפקט עומק */
+.chartContainer {
+  padding-top: var(--space-4);
+  position: relative;
+  min-height: 300px;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+/* אפקט מראה תלת-ממדי בגרפים */
+.timeChart, .typeChart, .frequencyChart {
+  transform-style: preserve-3d;
+  animation: appear 0.8s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
+  opacity: 0;
+  transform: rotateX(10deg) scale(0.95);
+  backface-visibility: hidden;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: rotateX(10deg) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0) scale(1);
+  }
+}
+
+/* כותרת הגרף עם כפתורי שליטה וצל טקסט */
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+}
+
+.chartTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  letter-spacing: -0.01em;
+}
+
+.chartTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 30%;
+  height: 2px;
+  background: linear-gradient(to left, var(--primary), transparent);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0.7;
+}
+
+.chartHeader:hover .chartTitle::after {
+  width: 100%;
+  opacity: 1;
+}
+
+/* כפתורי בקרת רזולוציית נתונים עם אפקט גלאס מורפיזם */
+.chartControls {
+  display: flex;
+  gap: var(--space-2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+  background: rgba(var(--bg-light-rgb, 245, 247, 250), 0.5);
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  padding: 2px;
+}
+
+.dataResolutionButton {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-sm);
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  z-index: 1;
+}
+
+.dataResolutionButton:hover {
+  color: var(--text-primary);
+}
+
+.dataResolutionButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  z-index: -1;
+  border-radius: var(--radius);
+}
+
+.dataResolutionButton:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.activeResolution {
+  background-color: var(--primary);
+  color: var(--text-light);
+  font-weight: var(--font-weight-medium);
+  box-shadow: 0 1px 5px rgba(var(--primary-rgb, 0, 120, 212), 0.3);
+}
+
+.activeResolution::before {
+  opacity: 0 !important;
+}
+
+/* לגנדה ייעודית לגרפי זמן עם אפקט זכוכית */
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(var(--bg-light-rgb, 245, 247, 250), 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  justify-content: center;
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.02),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+  transform: translateZ(0);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.1);
+}
+
+.legendItem:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: var(--text-primary);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.2);
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.legendItem:hover .legendDot {
+  transform: scale(1.3);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 0 10px rgba(var(--primary-rgb, 0, 120, 212), 0.2);
+}
+
+/* עיצוב נקודות בגרף זמן עם אפקט זוהר */
+.maxDot {
+  background-color: #9747FF;
+  box-shadow: 
+    0 0 0 2px rgba(151, 71, 255, 0.2),
+    0 0 8px rgba(151, 71, 255, 0.3);
+}
+
+.minDot {
+  background-color: #f97316;
+  box-shadow: 
+    0 0 0 2px rgba(249, 115, 22, 0.2),
+    0 0 8px rgba(249, 115, 22, 0.3);
+}
+
+.regularDot {
+  background-color: #3b82f6;
+  box-shadow: 
+    0 0 0 2px rgba(59, 130, 246, 0.2),
+    0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+/* עיצוב חדש לטולטיפים עם אפקט זכוכית מתקדם */
+.customTooltip, .pieTooltip {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: 
+    0 5px 20px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  text-align: right;
+  direction: rtl;
+  min-width: 150px;
+  max-width: 280px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  transform: translateY(-8px) scale(0.98);
+  border-right: 3px solid var(--primary);
+  animation: tooltipPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes tooltipPop {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.95);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.customTooltip::before, .pieTooltip::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 20px;
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  transform: rotate(45deg);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: -1;
+}
+
+.tooltipTitle, .pieTooltipTitle {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.tooltipDate {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0 0 6px 0;
+}
+
+.tooltipValue, .pieTooltipValue {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  color: var(--primary);
+  margin: 6px 0;
+  text-shadow: 0 1px 2px rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.tooltipName {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 6px 0 0 0;
+}
+
+.tooltipBadge, .pieTooltipPercentage {
+  background: linear-gradient(135deg, rgba(var(--primary-rgb, 0, 120, 212), 0.1), rgba(var(--primary-rgb, 0, 120, 212), 0.2));
+  color: var(--primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 8px;
+  backdrop-filter: blur(5px);
+  box-shadow: 
+    0 1px 3px rgba(var(--primary-rgb, 0, 120, 212), 0.1),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+}
+
+/* ייחודי לטולטיפ פאי */
+.pieTooltipColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-left: var(--space-1);
+  vertical-align: middle;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* שיפורים לגרפי עוגה */
+.typeChart {
+  position: relative;
+  padding: var(--space-2);
+}
+
+.typeChart :global(.recharts-wrapper) {
+  margin: 0 auto;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* שיפור גרף עוגה */
+:global(.recharts-pie) path {
+  stroke: rgba(255, 255, 255, 0.8);
+  stroke-width: 2;
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.1));
+}
+
+:global(.recharts-pie-sector:hover) path {
+  transform: translateY(-5px) scale(1.05);
+  transform-origin: center;
+  filter: 
+    brightness(1.05)
+    drop-shadow(0 8px 15px rgba(0, 0, 0, 0.15));
+  stroke-width: 3;
+  stroke: white;
+}
+
+/* שיפור תוויות גרף העוגה */
+:global(.recharts-pie-label-text) {
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: 14px !important;
+  fill: var(--text-primary) !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  transition: all 0.3s ease !important;
+}
+
+:global(.recharts-pie-sector:hover + g .recharts-pie-label-text) {
+  font-weight: var(--font-weight-bold) !important;
+  font-size: 16px !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* שיפור מקרא גרף העוגה עם אפקט קארד מרחף */
+.typeLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: rgba(var(--bg-light-rgb, 245, 247, 250), 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  box-shadow: 
+    0 3px 15px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(var(--border-color-rgb, 229, 231, 235), 0.3);
+}
+
+.typeLegendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius);
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 120px;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.typeLegendItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 8px 15px rgba(0, 0, 0, 0.08),
+    0 2px 5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+/* אפקט הבזק בריחוף */
+.typeLegendItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent
+  );
+  transition: all 0.6s ease;
+}
+
+.typeLegendItem:hover::before {
+  animation: flash 1.5s;
+}
+
+@keyframes flash {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.typeLegendType {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.typeLegendColor {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.typeLegendItem:hover .typeLegendColor {
+  transform: scale(1.3) rotate(-5deg);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.typeLegendLabel {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.typeLegendItem:hover .typeLegendLabel {
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-dark);
+}
+
+.typeLegendValue {
+  font-size: var(--font-size-sm);
+  background: linear-gradient(135deg, rgba(var(--primary-rgb, 0, 120, 212), 0.1), rgba(var(--primary-rgb, 0, 120, 212), 0.2));
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 1px 3px rgba(var(--primary-rgb, 0, 120, 212), 0.1),
+    0 0 0 1px rgba(var(--primary-rgb, 0, 120, 212), 0.1);
+}
