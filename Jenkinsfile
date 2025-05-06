@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NODE_VERSION = '18.x'
+        NODE_VERSION = '18'
     }
 
     stages {
