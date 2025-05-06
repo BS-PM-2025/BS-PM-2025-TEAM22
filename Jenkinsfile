@@ -6,12 +6,14 @@ pipeline {
     }
 
     stages {
+        /* ---------- Source ---------- */
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
 
+        /* ---------- Tooling ---------- */
         stage('Setup Node.js (host)') {
             steps {
                 bat 'node --version'
@@ -19,6 +21,7 @@ pipeline {
             }
         }
 
+        /* ---------- Dependencies ---------- */
         stage('Install Dependencies') {
             steps {
                 dir('fitmap') {
@@ -27,22 +30,31 @@ pipeline {
             }
         }
 
-        stage('Run Tests in Docker') {
+        /* ---------- Tests & JUnit ---------- */
+        stage('Run Tests (Docker + JUnit)') {
             steps {
                 dir('fitmap') {
-                    // Run in CI mode, disable watch, passWithNoTests
                     bat """
                     docker run --rm ^
                       -e CI=true ^
                       -v "%cd%":/app ^
                       -w /app ^
-                      node:18 ^
-                      npm test -- --passWithNoTests --watchAll=false
+                      node:%NODE_VERSION% ^
+                      npm run test:ci
                     """
+                }
+            }
+            /* פרסום תוצאות הבדיקות כדי לקבל את אחוז ההצלחה */
+            post {
+                always {
+                    // XML נוצר ע"י jest-junit → fitmap/junit.xml
+                    junit testResults: 'fitmap/junit.xml',
+                          allowEmptyResults: true
                 }
             }
         }
 
+        /* ---------- Build ---------- */
         stage('Build Docker Image') {
             steps {
                 dir('fitmap') {
@@ -51,6 +63,7 @@ pipeline {
             }
         }
 
+        /* ---------- Run ---------- */
         stage('Run Docker Container') {
             steps {
                 dir('fitmap') {
@@ -62,6 +75,7 @@ pipeline {
         }
     }
 
+    /* ---------- Cleanup & Notifications ---------- */
     post {
         always {
             dir('fitmap') {
@@ -70,10 +84,10 @@ pipeline {
             cleanWs()
         }
         success {
-            echo 'Pipeline completed successfully!'
+            echo '✅  Pipeline completed successfully!'
         }
         failure {
-            echo 'Pipeline failed, dumping logs:'
+            echo '❌  Pipeline failed, dumping logs:'
             dir('fitmap') {
                 bat 'docker-compose -f ../docker-compose.yml logs'
             }
