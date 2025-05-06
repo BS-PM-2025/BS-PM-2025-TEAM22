@@ -1,0 +1,407 @@
+/* src/components/challenges/styles/ChallengeCard.module.css */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+  cursor: pointer;
+  height: 100%;
+  border: 1px solid var(--border-color);
+  will-change: transform, box-shadow;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card:active {
+  transform: translateY(-2px);
+}
+
+.futureChallenge {
+  background: linear-gradient(to bottom, var(--bg-card), var(--bg-card) 80%, var(--info-light));
+  border-bottom: 3px solid var(--info);
+}
+
+.activeChallenge {
+  background: linear-gradient(to bottom, var(--bg-card), var(--bg-card) 80%, var(--primary-light));
+  border-bottom: 3px solid var(--primary);
+}
+
+.completedChallenge {
+  background: linear-gradient(to bottom, var(--bg-card), var(--bg-card) 80%, var(--gray-100));
+  border-bottom: 3px solid var(--gray-400);
+}
+
+.completedByUserChallenge {
+  background: linear-gradient(to bottom, var(--bg-card), var(--bg-card) 80%, var(--success-light));
+  border-bottom: 3px solid var(--success);
+}
+
+.cardHeader {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.challengeImage {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform var(--transition);
+}
+
+.card:hover .challengeImage {
+  transform: scale(1.05);
+}
+
+.challengeImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  color: white;
+  font-size: 3rem;
+}
+
+.challengeBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
+.futureBadge,
+.activeBadge,
+.completedBadge,
+.completedByUserBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  box-shadow: var(--shadow-md);
+  color: white;
+}
+
+.futureBadge {
+  background-color: var(--info);
+}
+
+.activeBadge {
+  background-color: var(--primary);
+  animation: pulse 2s infinite;
+}
+
+.completedBadge {
+  background-color: var(--gray-500);
+}
+
+.completedByUserBadge {
+  background-color: var(--success);
+}
+
+@keyframes pulse {
+  0% { opacity: 0.9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.9; transform: scale(1); }
+}
+
+.cardBody {
+  padding: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.challengeTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  line-height: 1.3;
+  position: relative;
+}
+
+.challengeTitle::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--gradient-primary);
+  margin-top: 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.challengeDetails {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  row-gap: 0.75rem;
+  column-gap: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  position: relative;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  transition: background-color var(--transition-fast);
+}
+
+.detailItem:hover {
+  background-color: var(--bg-light);
+}
+
+.detailIcon {
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+}
+
+.targetValueBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 6px 12px;
+  background-color: var(--gray-100);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.targetIcon {
+  color: var(--warning);
+}
+
+.challengeDescription {
+  margin: 1rem 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.progressSection {
+  margin: 0 1.25rem;
+  padding: 1rem;
+  background-color: var(--bg-light);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition);
+  transform-origin: center top;
+}
+
+.progressSection:hover {
+  background-color: var(--bg-medium);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.progressPercent {
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
+}
+
+.expandedProgress {
+  padding: 1.25rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cardActions {
+  display: flex;
+  padding: 1.25rem;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.detailsButton,
+.joinButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition);
+  border: none;
+}
+
+.detailsButton {
+  background-color: var(--bg-medium);
+  color: var(--text-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.detailsButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: var(--primary-bg);
+  transition: height var(--transition-fast);
+  transform: translateY(-50%);
+  z-index: 0;
+  opacity: 0;
+}
+
+.detailsButton:hover {
+  color: var(--primary);
+}
+
+.detailsButton:hover::before {
+  height: 100%;
+  opacity: 1;
+}
+
+.buttonIcon {
+  position: relative;
+  z-index: 1;
+}
+
+.joinButton {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: var(--shadow-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.joinButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+  z-index: 1;
+}
+
+.joinButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary), var(--shadow-md);
+}
+
+.joinButton:hover::before {
+  transform: translateX(100%);
+}
+
+.joinButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.joinButton:disabled::before {
+  display: none;
+}
+
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* טולטיפ מידע */
+.infoTooltip {
+  position: absolute;
+  top: -3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: var(--font-size-xs);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  white-space: nowrap;
+  animation: fadeIn 0.2s ease;
+  max-width: 250px;
+}
+
+.infoTooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--bg-dark) transparent transparent transparent;
+}
+
+.tooltipIcon {
+  margin-right: 0.5rem;
+  color: var(--info);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 5px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
+  .cardHeader {
+    height: 130px;
+  }
+  
+  .challengeTitle {
+    font-size: var(--font-size-lg);
+  }
+  
+  .cardActions {
+    flex-direction: column;
+  }
+}
+
+/* התאמות נגישות */
+@media (prefers-reduced-motion: reduce) {
+  .card, .challengeImage, .progressSection, .joinButton, .detailsButton {
+    transition: none;
+  }
+  
+  .joinButton::before, .activeBadge {
+    animation: none;
+  }
+}

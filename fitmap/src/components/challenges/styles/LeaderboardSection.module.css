@@ -1,0 +1,394 @@
+/* src/components/challenges/styles/LeaderboardSection.module.css */
+
+.leaderboardContainer {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.leaderboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+  background-color: var(--bg-light);
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.leaderboardHeader:hover {
+  background-color: var(--bg-medium);
+}
+
+.leaderboardHeader h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.headerIcon {
+  color: var(--warning);
+}
+
+.collapseButton {
+  background: none;
+  border: none;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
+  transition: all var(--transition-fast);
+}
+
+.collapseButton:hover {
+  background-color: var(--bg-medium);
+  color: var(--text-primary);
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-4) var(--space-6);
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  right: var(--space-3);
+  color: var(--text-tertiary);
+  font-size: var(--font-size-base);
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--space-2) var(--space-6);
+  padding-right: var(--space-8);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background-color: var(--bg-light);
+  transition: all var(--transition-fast);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 0, 0, 0), 0.1);
+  background-color: var(--bg-white);
+}
+
+.leaderboardTable {
+  width: 100%;
+}
+
+.leaderboardHead {
+  display: flex;
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--bg-light);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.leaderboardBody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.leaderboardRow {
+  display: flex;
+  padding: var(--space-3) var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.leaderboardRow:last-child {
+  border-bottom: none;
+}
+
+.leaderboardRow:hover {
+  background-color: var(--bg-light);
+}
+
+.rankColumn {
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.nameColumn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  overflow: hidden;
+}
+
+.valueColumn {
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.valueText {
+  white-space: nowrap;
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.defaultAvatarContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-medium);
+  color: var(--text-secondary);
+}
+
+.defaultAvatar {
+  font-size: var(--font-size-base);
+}
+
+.userName {
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.rankNumber {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.crownIcon {
+  font-size: 1.25rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.rankBadge {
+  font-size: var(--font-size-xs);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  color: white;
+  white-space: nowrap;
+}
+
+.rank1 {
+  background-color: #ffd700;
+  color: #5f4c00;
+}
+
+.rank2 {
+  background-color: #c0c0c0;
+  color: #494949;
+}
+
+.rank3 {
+  background-color: #cd7f32;
+  color: #3a2309;
+}
+
+.userRankIcon {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: var(--font-size-xs);
+  color: var(--energy);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.youBadge {
+  display: inline-block;
+  padding: 1px 6px;
+  background-color: var(--primary-light);
+  border-radius: var(--radius-full);
+  color: var(--primary-dark);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.topThreeRow {
+  background-color: rgba(var(--warning-rgb, 255, 215, 0), 0.08);
+  font-weight: var(--font-weight-semibold);
+}
+
+.topThreeRow:hover {
+  background-color: rgba(var(--warning-rgb, 255, 215, 0), 0.12);
+}
+
+.currentUserRow {
+  background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.08);
+  position: relative;
+}
+
+.currentUserRow:hover {
+  background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.12);
+}
+
+.highlightedRow {
+  box-shadow: inset 0 0 0 2px var(--primary);
+  z-index: 1;
+}
+
+.newRankingAnimation {
+  animation: highlightNewRanking 2s var(--bezier-bounce);
+}
+
+@keyframes highlightNewRanking {
+  0%, 100% { background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.08); }
+  50% { background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.2); }
+}
+
+.currentUserSection {
+  position: relative;
+}
+
+.currentUserDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) 0;
+  color: var(--text-tertiary);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 2px;
+}
+
+.leaderboardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--bg-light);
+  border-top: 1px solid var(--border-color);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.participantsCount {
+  font-weight: var(--font-weight-medium);
+}
+
+.showMoreButton {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: color var(--transition-fast);
+}
+
+.showMoreButton:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.emptyLeaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  background-color: var(--bg-light);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  color: var(--text-lighter);
+  margin-bottom: var(--space-4);
+  opacity: 0.7;
+}
+
+.emptyLeaderboard p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  margin: 0;
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
+  .leaderboardHeader {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .leaderboardHead,
+  .leaderboardRow {
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .valueColumn {
+    width: 90px;
+    font-size: var(--font-size-sm);
+  }
+  
+  .searchContainer {
+    margin: var(--space-3) var(--space-4);
+  }
+  
+  .rankBadge {
+    display: none;
+  }
+  
+  .leaderboardFooter {
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .userName {
+    font-size: var(--font-size-sm);
+  }
+  
+  .userAvatar {
+    width: 28px;
+    height: 28px;
+  }
+}

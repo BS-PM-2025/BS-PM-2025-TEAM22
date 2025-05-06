@@ -1,0 +1,266 @@
+/* src/components/challenges/styles/UserProgressBar.module.css */
+
+.progressContainer {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+}
+
+.progressTitle {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progressValue {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.currentValue {
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary);
+}
+
+.targetValue {
+  color: var(--text-tertiary);
+}
+
+.expandToggleButton {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all var(--transition-fast);
+}
+
+.expandToggleButton:hover {
+  background-color: var(--bg-light);
+  color: var(--text-secondary);
+}
+
+.progressBarContainer {
+  position: relative;
+  height: 0.75rem;
+  background-color: var(--bg-light);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s var(--bezier-smooth), background-color 0.5s ease;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  width: 0;
+}
+
+.completeBar {
+  background-color: var(--success) !important;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+  animation: progressStripes 1s linear infinite;
+}
+
+@keyframes progressStripes {
+  0% { background-position: 1rem 0; }
+  100% { background-position: 0 0; }
+}
+
+.trophyIcon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 0.75rem;
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(-70%); }
+}
+
+.progressMarkers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.marker {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.markerDot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--bg-dark);
+  opacity: 0.4;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.markerLabel {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.progressContainer:hover .markerLabel {
+  opacity: 1;
+}
+
+.completeMessage {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: var(--success-light);
+  border-radius: var(--radius);
+  color: var(--success-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: var(--font-weight-medium);
+  animation: fadeIn 0.5s ease;
+}
+
+.messageTrophyIcon {
+  color: var(--warning);
+}
+
+.completeStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--success);
+  font-weight: var(--font-weight-bold);
+}
+
+.completeIcon {
+  animation: pulseComplete 1.5s infinite;
+}
+
+@keyframes pulseComplete {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* מצב מצומצם */
+.compactMode {
+  padding: 0.5rem;
+}
+
+.compactMode .progressHeader {
+  margin-bottom: 0.5rem;
+}
+
+.compactMode .progressTitle {
+  font-size: var(--font-size-sm);
+}
+
+.compactMode .progressBarContainer {
+  height: 0.5rem;
+}
+
+.compactInfo {
+  display: flex;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.compactDivider {
+  margin: 0 0.25rem;
+  color: var(--text-tertiary);
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 768px) {
+  .progressHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .progressValue {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .expandToggleButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .markerLabel {
+    display: none;
+  }
+}
+
+/* נגישות */
+@media (prefers-reduced-motion: reduce) {
+  .progressBar {
+    transition: none;
+  }
+  
+  .trophyIcon,
+  .completeIcon {
+    animation: none;
+  }
+  
+  .completeBar {
+    animation: none;
+  }
+}
