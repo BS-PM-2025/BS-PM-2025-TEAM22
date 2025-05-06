@@ -2,15 +2,13 @@ pipeline {
     agent any
 
     environment {
-        NODE_VERSION = '18'
+        NODE_IMAGE = 'node:18-alpine'   // image קיים ב-Docker Hub
     }
 
     stages {
         /* ---------- Source ---------- */
         stage('Checkout') {
-            steps {
-                checkout scm
-            }
+            steps { checkout scm }
         }
 
         /* ---------- Tooling ---------- */
@@ -24,9 +22,7 @@ pipeline {
         /* ---------- Dependencies ---------- */
         stage('Install Dependencies') {
             steps {
-                dir('fitmap') {
-                    bat 'npm ci'
-                }
+                dir('fitmap') { bat 'npm ci' }
             }
         }
 
@@ -34,20 +30,23 @@ pipeline {
         stage('Run Tests (Docker + JUnit)') {
             steps {
                 dir('fitmap') {
+                    /* מושך Image אם לא קיים */
+                    bat "docker pull %NODE_IMAGE%"
+
+                    /* מריץ את הבדיקות + jest-junit */
                     bat """
                     docker run --rm ^
                       -e CI=true ^
                       -v "%cd%":/app ^
                       -w /app ^
-                      node:%NODE_VERSION% ^
+                      %NODE_IMAGE% ^
                       npm run test:ci
                     """
                 }
             }
-            /* פרסום תוצאות הבדיקות כדי לקבל את אחוז ההצלחה */
             post {
                 always {
-                    // XML נוצר ע"י jest-junit → fitmap/junit.xml
+                    /* מפרסם junit.xml → Jenkins Test Results */
                     junit testResults: 'fitmap/junit.xml',
                           allowEmptyResults: true
                 }
@@ -78,19 +77,13 @@ pipeline {
     /* ---------- Cleanup & Notifications ---------- */
     post {
         always {
-            dir('fitmap') {
-                bat 'docker-compose -f ../docker-compose.yml down'
-            }
+            dir('fitmap') { bat 'docker-compose -f ../docker-compose.yml down' }
             cleanWs()
         }
-        success {
-            echo '✅  Pipeline completed successfully!'
-        }
+        success { echo '✅  Pipeline completed successfully!' }
         failure {
             echo '❌  Pipeline failed, dumping logs:'
-            dir('fitmap') {
-                bat 'docker-compose -f ../docker-compose.yml logs'
-            }
+            dir('fitmap') { bat 'docker-compose -f ../docker-compose.yml logs' }
         }
     }
 }
