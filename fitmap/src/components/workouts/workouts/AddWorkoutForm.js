@@ -1,6 +1,6 @@
 // src/components/workouts/AddWorkoutForm.js
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../utils/supabaseClient';
+import { supabase } from '../utils/supabaseClient';
 import { FaTimes, FaPlus, FaExclamationTriangle } from 'react-icons/fa';
 import styles from './styles/AddWorkoutForm.module.css';
 
