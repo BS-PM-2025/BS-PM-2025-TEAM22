@@ -1,0 +1,143 @@
+
+.profileTab {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 4px;
+    background-color: #1163dd;
+    border-radius: 12px;
+    padding: 0px;
+    margin-bottom: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    direction: rtl;
+  }
+  
+  .tabButton {
+    display: flexbox;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    background-color: unset;
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+  .tabButton svg {
+    font-size: 1.4rem;
+    transition: transform 0.2s ease;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+  }
+  
+  .tabButton:hover {
+    background-color: rgba(122, 19, 122, 0.08);
+    color: #696cff;
+  }
+  
+  .tabButton:hover svg {
+    transform: translateY(-2px);
+  }
+  
+  .activeTab {
+    background-color: #696cff;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(105, 108, 255, 0.4);
+  }
+  
+  .activeTab:hover {
+    background-color: #5f62e6;
+    color: white;
+  }
+  
+  .activeTab svg {
+    transform: translateY(-2px);
+  }
+  
+  .activeTab::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #696cff;
+  }
+  
+  /* אנימציה בבחירת כרטיסייה */
+  @keyframes tabActivate {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .activeTab {
+    animation: tabActivate 0.3s ease;
+  }
+  
+  /* התאמה למסכים קטנים */
+  @media (max-width: 768px) {
+    .profileTabs {
+      gap: 2px;
+      padding: 4px;
+    }
+    
+    .tabButton {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      min-width: 100px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .profileTabs {
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .tabButton {
+      max-width: none;
+      justify-content: flex-start;
+    }
+    
+    .activeTab::after {
+      display: none;
+    }
+  }
+  
+  /* צבעים ייחודים לכל כרטיסייה */
+  .tabButton:nth-child(1) svg {
+    color: #696cff; /* סגול - סקירה כללית */
+  }
+  
+  .tabButton:nth-child(2) svg {
+    color: #ff6b6b; /* אדום - אימונים */
+  }
+  
+  .tabButton:nth-child(3) svg {
+    color: #ffab00; /* כתום - אתגרים */
+  }
+  
+  .tabButton:nth-child(4) svg {
+    color: #39da8a; /* ירוק - אימונים קבוצתיים */
+  }
+  
+  .tabButton:nth-child(5) svg {
+    color: #00cfe8; /* כחול - צ'אטים */
+  }
+  
+  .activeTab svg {
+    color: white !important;
+  }
