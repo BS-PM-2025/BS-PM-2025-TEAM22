@@ -1,0 +1,522 @@
+
+/* ===== אנימציות ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* ===== מיכל ראשי ===== */
+.container {
+  width: 100%;
+  padding: var(--space-6);
+  animation: fadeIn var(--transition) forwards;
+  font-family: var(--font-family-primary);
+}
+
+/* ===== כותרת ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.header h2 {
+  font-size: var(--font-size-2xl);
+  margin: 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  font-weight: var(--font-weight-semibold);
+}
+
+.headerIcon {
+  color: var(--primary);
+  margin-left: var(--space-3);
+  font-size: var(--font-size-xl);
+}
+
+/* ===== חיפוש ===== */
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  width: 240px;
+  box-shadow: var(--shadow);
+  transition: all var(--transition-fast);
+  border: 1px solid var(--border-color);
+}
+
+.searchBar:focus-within {
+  box-shadow: 0 0 0 2px var(--primary-light);
+  width: 280px;
+  border-color: var(--primary);
+}
+
+.searchIcon {
+  color: var(--text-secondary);
+  margin-left: var(--space-2);
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.searchInput::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* ===== רשימת צ'אטים ===== */
+.chatsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.chatItem:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.chatItem.unread {
+  background: var(--overlay-primary);
+}
+
+.chatItem.unread::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--primary);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
+.chatInfo {
+  flex: 1;
+  overflow: hidden;
+}
+
+.chatTitle {
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-1);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chatMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.chatCreator, .chatDate {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.creatorIcon, .dateIcon {
+  margin-left: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+}
+
+/* ===== תגית הודעות שלא נקראו ===== */
+.unreadBadge {
+  background: var(--primary);
+  color: var(--text-light);
+  font-size: var(--font-size-xs);
+  min-width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-1);
+  margin-right: var(--space-3);
+  font-weight: var(--font-weight-medium);
+}
+
+.mutedBadge {
+  background: var(--text-tertiary);
+}
+
+.mutedIcon {
+  color: var(--text-tertiary);
+  margin-right: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+/* ===== אפשרויות צ'אט ===== */
+.chatActions {
+  position: relative;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+}
+
+.menuButton:hover {
+  background: var(--overlay-light);
+  color: var(--text-primary);
+}
+
+.actionsMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--z-dropdown);
+  width: 160px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: fadeIn var(--transition-fast) forwards;
+  border: 1px solid var(--border-color);
+}
+
+.actionsMenu button {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  text-align: right;
+  background: transparent;
+  border: none;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  transition: background var(--transition-fast);
+}
+
+.actionsMenu button:hover {
+  background: var(--overlay-light);
+}
+
+.actionsMenu button svg {
+  margin-left: var(--space-2);
+  color: var(--text-secondary);
+}
+
+/* ===== תצוגת צ'אט ===== */
+.chatViewContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  animation: fadeIn var(--transition) forwards;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  background: var(--overlay-primary);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  gap: var(--space-4);
+}
+
+.chatHeader h2 {
+  flex: 1;
+  margin: 0;
+  font-size: var(--font-size-xl);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--font-weight-medium);
+}
+
+.backButton, .workoutLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  background: none;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.backButton:hover, .workoutLink:hover {
+  background: var(--primary);
+  color: var(--text-light);
+}
+
+.chatContainer {
+  flex: 1;
+  min-height: 500px;
+  background: var(--bg-card);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* ===== מצב ריק ===== */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-5);
+  text-align: center;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.emptyIcon {
+  font-size: var(--font-size-5xl);
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
+  opacity: 0.7;
+}
+
+.emptyState h3 {
+  font-size: var(--font-size-xl);
+  margin: 0 0 var(--space-2);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.emptyState p {
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-6);
+  max-width: 400px;
+}
+
+.findWorkoutsButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--primary);
+  color: var(--text-light);
+  border-radius: var(--radius-full);
+  border: none;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-primary);
+}
+
+.findWorkoutsButton:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ===== מצב טעינה ושגיאה ===== */
+.loadingContainer, .errorContainer, .warningContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-5);
+  text-align: center;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.loadingSpinner {
+  font-size: var(--font-size-3xl);
+  color: var(--primary);
+  margin-bottom: var(--space-4);
+  animation: spin 1s infinite linear;
+}
+
+.errorIcon, .warningIcon {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-4);
+}
+
+.errorIcon {
+  color: var(--error);
+}
+
+.warningIcon {
+  color: var(--warning);
+}
+
+.errorContainer p, .warningContainer p, .loadingContainer p {
+  color: var(--text-primary);
+  margin: 0 0 var(--space-5);
+}
+
+.retryButton, .viewWorkoutButton {
+  padding: var(--space-2) var(--space-5);
+  background: var(--primary);
+  color: var(--text-light);
+  border-radius: var(--radius-full);
+  border: none;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.retryButton:hover, .viewWorkoutButton:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.warningContainer h3 {
+  margin-top: 0;
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+  font-size: var(--font-size-xl);
+}
+
+.activeWorkoutsSection {
+  margin-top: var(--space-6);
+  width: 100%;
+  max-width: 600px;
+}
+
+.activeWorkoutsSection h4 {
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  text-align: right;
+  padding-right: var(--space-2);
+  font-size: var(--font-size-lg);
+}
+
+.simpleWorkoutsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.simpleWorkoutItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-light);
+  border-radius: var(--radius);
+  transition: transform var(--transition-fast);
+}
+
+.simpleWorkoutItem:hover {
+  transform: translateX(5px);
+}
+
+.simpleWorkoutInfo {
+  flex: 1;
+  overflow: hidden;
+}
+
+.simpleWorkoutTitle {
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-1);
+  color: var(--text-primary);
+}
+
+.simpleWorkoutMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+/* ===== רספונסיביות ===== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .searchBar {
+    width: 100%;
+  }
+  
+  .searchBar:focus-within {
+    width: 100%;
+  }
+  
+  .chatMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+  
+  .chatHeader {
+    flex-wrap: wrap;
+  }
+}
+
+.profileTabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
