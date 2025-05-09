@@ -1,0 +1,1255 @@
+/* Profile.module.css - עיצוב מתקדם וחדשני לטאבים ופרופיל משתמש עם אנימציות ואפקטים משודרגים ותמיכה בתמונת פרופיל מגוגל */
+
+.container {
+  max-width: var(--container-lg);
+  margin: auto;
+  padding: var(--space-4);
+  direction: rtl;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.loadingData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  margin-top: var(--space-12);
+  animation: bounceIn 1s ease;
+}
+
+.loadingSpinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid var(--border-color);
+  border-top-color: var(--primary);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--space-3);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.sectionTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-dark);
+  margin-bottom: var(--space-1);
+  animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.sectionHeaderWithAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.primaryButton, .addButton, .viewAllButton {
+  padding: var(--space-2) var(--space-4);
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-primary);
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.primaryButton:hover, .addButton:hover, .viewAllButton:hover {
+  background: var(--gradient-energy);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-2xl);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--space-10);
+  background-color: var(--bg-light);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  animation: fadeIn 1.5s ease;
+}
+
+.achievementsGrid, .challengesList, .groupWorkoutsGrid, .workoutsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+.challengeItem, .groupWorkoutCard, .workoutsList > div {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.challengeItem:hover, .groupWorkoutCard:hover, .workoutsList > div:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.challengeIcon, .dateIcon, .rewardIcon {
+  color: var(--accent-dark);
+  margin-left: var(--space-1);
+  transition: color var(--transition), transform var(--transition);
+}
+
+.challengeIcon:hover, .dateIcon:hover, .rewardIcon:hover {
+  color: var(--accent);
+  transform: scale(1.2);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--overlay-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  animation: fadeIn 0.7s ease;
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+}
+
+.editProfileModal {
+  background-color: var(--bg-card);
+  width: 90%;
+  max-width: 600px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-xl);
+  animation: slideInModal 0.5s ease-out;
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--bg-light);
+}
+
+/* אפקט הילה מסביב למודל כשנפתח - בעדינות יותר כדי לא להפריע */
+.editProfileModal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(45deg, var(--primary), var(--accent));
+  opacity: 0.3;
+  animation: glowPulse 3s infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% { opacity: 0.2; transform: scale(0.99); }
+  100% { opacity: 0.4; transform: scale(1.01); }
+}
+
+@keyframes slideInModal {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===================
+   Profile Header + Buttons
+   =================== */
+   .sectionHeaderWithAction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+  
+  .primaryButton,
+  .addButton,
+  .viewAllButton {
+    padding: var(--space-2) var(--space-4);
+    background: var(--gradient-primary);
+    color: var(--text-light);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-primary);
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+  
+  .primaryButton:hover,
+  .addButton:hover,
+  .viewAllButton:hover {
+    background: var(--gradient-energy);
+    transform: scale(1.08);
+    box-shadow: var(--shadow-2xl);
+  }
+  
+  /* ===================
+     Empty States
+     =================== */
+  .emptyState {
+    text-align: center;
+    padding: var(--space-10);
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    animation: fadeIn 1.5s ease;
+  }
+  
+  /* ===================
+     Grid Layouts
+     =================== */
+  .achievementsGrid,
+  .challengesList,
+  .groupWorkoutsGrid,
+  .workoutsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+  
+  .challengeItem,
+  .groupWorkoutCard,
+  .workoutsList > div {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  
+  .challengeItem:hover,
+  .groupWorkoutCard:hover,
+  .workoutsList > div:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-2xl);
+  }
+  
+  .challengeIcon,
+  .dateIcon,
+  .rewardIcon {
+    color: var(--accent-dark);
+    margin-left: var(--space-1);
+    transition: color var(--transition), transform var(--transition);
+  }
+  
+  .challengeIcon:hover,
+  .dateIcon:hover,
+  .rewardIcon:hover {
+    color: var(--accent);
+    transform: scale(1.2);
+  }
+  
+  /* ===================
+     Profile Header
+     =================== */
+  .profileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-card);
+    border-radius: 2rem;
+    padding: var(--space-4);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: var(--space-6);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .profileHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #484981, #b81494);
+  }
+  
+  /* ===================
+     Profile Image
+     =================== */
+  .profileImageContainer {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(165deg, #0a1852 0%, #505266 100%);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .profileImageContainer:hover .profileImage {
+    transform: scale(1.1);
+  }
+  
+  .profileImagePlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    background-color: #8a437e;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* ===================
+     Profile Info
+     =================== */
+  .profileInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-inline-start: var(--space-4);
+  }
+  
+  .profileName {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: var(--space-1);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  
+  .fitnessLevelBadge {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .profileDetails {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 1rem;
+    color: var(--text-secondary);
+  }
+  
+  .profileCity svg,
+  .profileJoined svg {
+    color: #696cff;
+    margin-inline-end: 4px;
+  }
+  
+  /* ===================
+     Profile Actions
+     =================== */
+  .profileActions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  .editProfileButton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 10px 16px;
+    background-color: var(--bg-light);
+    color: var(--primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .editProfileButton:hover {
+    background-color: var(--bg-card);
+    border-color: var(--primary);
+    transform: scale(1.03);
+  }
+  
+  /* ===================
+     Refresh Button
+     =================== */
+  .refreshSection {
+    position: absolute;
+    top: var(--space-2);
+    left: var(--space-2);
+  }
+  
+  .refreshButton {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    border-radius: var(--radius);
+    background-color: var(--border-color);
+    color: #696cff;
+    border: 1px solid #800b0b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .refreshButton:hover:not(:disabled) {
+    background-color: #b92663;
+    border-color: #91160e;
+    color: #fff;
+  }
+  
+  .refreshButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* ===================
+     Responsive Fixes
+     =================== */
+  @media (max-width: 768px) {
+    .profileHeader {
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: var(--space-4);
+    }
+  
+    .profileImageContainer {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .profileDetails {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .refreshSection {
+      position: static;
+      display: flex;
+      justify-content: center;
+      margin-top: var(--space-4);
+    }
+  }
+
+/* אנימציות */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.profileHeader {
+  animation: fadeIn 0.5s ease;
+}
+
+.profileImageContainer:hover .profileImage {
+  transform: scale(1.2);
+}
+.closeModalButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  transition: color var(--transition), transform var(--transition);
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 10;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-light);
+}
+
+.closeModalButton:hover {
+  color: var(--primary);
+  transform: rotate(90deg);
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow);
+}
+
+.modalBody {
+  margin-top: var(--space-6);
+}
+
+.formGroup {
+  margin-bottom: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.formGroup label {
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-2);
+  color: var(--text-primary);
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.formGroup label::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  margin-right: var(--space-2);
+  opacity: 0;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.formGroup:focus-within label {
+  color: var(--primary);
+}
+
+.formGroup:focus-within label::after {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.formGroup input, .formGroup select, .formGroup textarea {
+  padding: var(--space-3);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+  background-color: var(--bg-input);
+  transition: all var(--transition);
+  font-size: var(--font-size-md);
+}
+
+.formGroup input:focus, .formGroup select:focus, .formGroup textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--overlay-primary);
+  outline: none;
+}
+
+/* אפקט הופעה של טקסט פלייסהולדר */
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: var(--text-tertiary);
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.formGroup input:focus::placeholder,
+.formGroup textarea:focus::placeholder {
+  transform: translateX(-10px);
+  opacity: 0.7;
+}
+
+/* הוספת אייקונים לשדות */
+.formGroupWithIcon {
+  position: relative;
+}
+
+.formIcon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  transition: color var(--transition), transform var(--transition);
+}
+
+.formGroupWithIcon input, 
+.formGroupWithIcon select {
+  padding-left: var(--space-8);
+}
+
+.formGroupWithIcon:focus-within .formIcon {
+  color: var(--primary);
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* שיפור כפתורי הפעולה במודל */
+.modalActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-8);
+  gap: var(--space-4);
+}
+
+.saveButton, .cancelButton {
+  flex: 1;
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+
+.saveButton {
+  background: var(--gradient-primary);
+  color: var(--text-light);
+}
+
+.cancelButton {
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.saveButton:hover, .cancelButton:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+@media (prefers-color-scheme: dark) {
+  .profileHeader,
+  .editProfileModal {
+    background-color: #1e1e2f;
+    color: #fff;
+  }
+  .tabButton {
+    color: #bbb;
+  }
+  .activeTab {
+    background-color: #4a4af0;
+  }
+}
+
+.saveButton::after, .cancelButton::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.saveButton:focus::after, .cancelButton:focus::after, 
+.saveButton:active::after, .cancelButton:active::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
+}
+
+/* שיפור ממשק העלאת תמונת פרופיל */
+.profileImageUpload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.profileImagePreview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow-lg);
+  border: 4px solid var(--bg-light);
+  transition: all var(--transition);
+}
+
+.profileImagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+
+.profileImagePreview:hover img {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.profileImagePreview:hover .imageOverlay {
+  opacity: 1;
+}
+
+.uploadButton {
+  cursor: pointer;
+  background: var(--bg-light);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  transition: all var(--transition);
+}
+
+.uploadButton:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--bg-card);
+}
+
+.uploadButton input[type="file"] {
+  display: none;
+}
+
+/* הוספת טאבים למודל עריכת פרופיל */
+.editProfileTabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: var(--space-6);
+}
+
+.editProfileTab {
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.editProfileTab:hover {
+  color: var(--primary);
+}
+
+.editProfileTab.active {
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* סקשן הגדרות מתקדמות */
+.advancedSettings {
+  background-color: var(--bg-light);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  margin-top: var(--space-6);
+}
+
+.settingsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.settingsContent {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-color);
+}
+
+/* מתגים ואפשרויות בהגדרות */
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-input);
+  transition: var(--transition);
+  border-radius: 24px;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: var(--transition);
+  border-radius: 50%;
+}
+
+input:checked + .toggleSlider {
+  background-color: var(--primary);
+}
+
+input:checked + .toggleSlider:before {
+  transform: translateX(26px);
+}
+
+/* אפשרויות עבור בחירת רמת פרטיות */
+.privacyOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.privacyOption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  transition: background-color var(--transition);
+}
+
+.privacyOption:hover {
+  background-color: var(--bg-card);
+}
+
+.radioContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-right: 25px;
+  cursor: pointer;
+}
+
+.radioContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radioCheckmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 18px;
+  width: 18px;
+  background-color: var(--bg-input);
+  border-radius: 50%;
+  transition: all var(--transition);
+}
+
+.radioContainer:hover input ~ .radioCheckmark {
+  background-color: var(--bg-card);
+}
+
+.radioContainer input:checked ~ .radioCheckmark {
+  background-color: var(--primary);
+}
+
+.radioCheckmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.radioContainer input:checked ~ .radioCheckmark:after {
+  display: block;
+}
+
+.radioContainer .radioCheckmark:after {
+  top: 6px;
+  left: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* מיכל התקדמות כללי */
+.progressContainer {
+  width: 100%;
+  margin: 12px 0;
+  direction: rtl;
+}
+
+/* מיכל לפס ההתקדמות */
+.progressBarWrapper {
+  width: 100%;
+  height: 12px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* פס ההתקדמות עצמו */
+.progressBar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s ease-in-out;
+}
+
+/* צבעים למצבי התקדמות */
+.complete {
+  background-color: #4caf50; /* ירוק - הושלם */
+}
+
+.almostComplete {
+  background-color: #2196f3; /* כחול - כמעט הושלם */
+}
+
+.halfway {
+  background-color: #ff9800; /* כתום - באמצע הדרך */
+}
+
+.justStarted {
+  background-color: #ff5722; /* אדום-כתום - רק התחיל */
+}
+
+/* טקסט התקדמות */
+.progressText {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* אחוז התקדמות */
+.progressPercentage {
+  font-weight: bold;
+}
+
+/* ערכי התקדמות */
+.progressValues {
+  color: #555;
+}
+
+/* טקסט מטריקה */
+.metricText {
+  color: #777;
+}
+
+/* התאמה לתצוגות מובייל - רספונסיביות */
+@media screen and (max-width: 768px) {
+  .editProfileModal {
+    width: 95%;
+    padding: var(--space-4);
+    max-height: 80vh;
+    padding-top: var(--space-8); /* מרווח לכפתור סגירה */
+  }
+  
+  .modalActions {
+    flex-direction: column;
+    padding-bottom: var(--space-4);
+  }
+  
+  .editProfileTabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+  }
+  
+  .profileImagePreview {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .formGroup label {
+    font-size: var(--font-size-sm);
+  }
+  
+  .closeModalButton {
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+}
+
+/* וליידציה והתראות */
+.inputError {
+  border-color: var(--error) !important;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.errorMessage {
+  color: var(--error);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.errorIcon {
+  color: var(--error);
+}
+
+/* הנפשות והתראות */
+.notification {
+  position: fixed;
+  top: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-notification);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from { transform: translate(-50%, -100%); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.notificationSuccess {
+  border-right: 4px solid var(--success);
+}
+
+.notificationError {
+  border-right: 4px solid var(--error);
+}
+
+.notificationInfo {
+  border-right: 4px solid var(--info);
+}
+
+.notificationIcon {
+  font-size: var(--font-size-xl);
+}
+
+/* חלק בחירת צבעים ותמות - עם ניגודיות גבוהה יותר */
+.colorThemePicker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-6); /* מרווח נוסף בתחתית */
+}
+
+.colorOption {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  position: relative;
+}
+
+.colorOption:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.colorOptionSelected::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+/* בחירת שפה והתאמות שפה */
+.languageSelector {
+  position: relative;
+}
+
+.selectedLanguage {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.languageOptions {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.languageOption {
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.languageOption:hover {
+  background-color: var(--bg-light);
+}
+
+/* חלק התאמה אישית נוספת */
+.customizationSection {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-color);
+}
+
+.fontSizeOptions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.fontSizeButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-light);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.fontSizeButton:hover {
+  background-color: var(--bg-card);
+  transform: translateY(-3px);
+}
+
+.activeSize {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+/* הוספות לקובץ Profile.module.css */
+
+/* סגנון שורת מידע הכוללת את שם המשתמש וסמל פרופיל פרטי */
+.profileNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* סמל פרופיל פרטי */
+.privateIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #64748b;
+  margin-right: 6px;
+}
+
+/* כפתור להחלפת מצב פרטיות */
+.privacyToggle {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.privacyToggle:hover {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+/* קונטיינר עוקבים/נעקבים */
+.followStats {
+  display: flex;
+  gap: 16px;
+  margin: 12px 0;
+}
+
+/* פריט ספירה של עוקב/נעקב */
+.followStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.followCount {
+  font-weight: 600;
+  font-size: 18px;
+  color: #115fdd;
+}
+
+.followLabel {
+  font-size: 14px;
+  color: #126ff0;
+}
+
+/* התאמות מובייל */
+@media (max-width: 576px) {
+  .followStats {
+    margin: 8px 0;
+    gap: 12px;
+  }
+  
+  .followCount {
+    font-size: 16px;
+  }
+  
+  .followLabel {
+    font-size: 12px;
+  }
+}
