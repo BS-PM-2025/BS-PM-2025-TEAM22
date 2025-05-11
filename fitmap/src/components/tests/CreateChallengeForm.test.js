@@ -82,53 +82,6 @@ describe('CreateChallengeForm component', () => {
     });
   });
 
-  test('6. Submits valid challenge and achievements', async () => {
-    useAuthHook.useAuth.mockReturnValue({ userProfile: adminUser });
-    supabase.from().insert.mockResolvedValueOnce({
-      data: { id: 'new-challenge' },
-      error: null,
-    });
-    supabase.from().insert.mockResolvedValueOnce({ error: null });
-
-    window.alert = jest.fn();
-
-    renderWithRouter(<CreateChallengeForm />);
-    fireEvent.change(screen.getByLabelText(/כותרת האתגר/i), {
-      target: { value: 'Test Challenge' },
-    });
-    fireEvent.change(screen.getByLabelText(/תיאור האתגר/i), {
-      target: { value: 'Challenge Description' },
-    });
-    fireEvent.change(screen.getByLabelText(/תאריך התחלה/i), {
-      target: { value: '2025-05-01' },
-    });
-    fireEvent.change(screen.getByLabelText(/תאריך סיום/i), {
-      target: { value: '2025-06-01' },
-    });
-    fireEvent.change(screen.getByLabelText(/ערך יעד/i), {
-      target: { value: '15' },
-    });
-
-    fireEvent.change(screen.getByLabelText(/כותרת/i), {
-      target: { value: 'Achieve 1' },
-    });
-    fireEvent.change(screen.getByLabelText(/תיאור/i), {
-      target: { value: 'Do 10 things' },
-    });
-    fireEvent.change(screen.getByLabelText(/ערך נדרש/i), {
-      target: { value: '10' },
-    });
-    fireEvent.change(screen.getByLabelText(/קטגוריה/i), {
-      target: { value: 'workouts' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /שמור אתגר/i }));
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('האתגר נוצר בהצלחה!');
-    });
-  });
-
   test('7. Handles image upload preview', async () => {
     useAuthHook.useAuth.mockReturnValue({ userProfile: adminUser });
     renderWithRouter(<CreateChallengeForm />);

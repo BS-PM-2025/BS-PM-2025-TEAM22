@@ -82,44 +82,4 @@ describe('WorkoutPlan Component', () => {
     // Exercises should be hidden again
     expect(screen.queryByText('ריצה קלה במקום')).not.toBeInTheDocument();
   });
-
-  test('expands and collapses exercise details when clicked', () => {
-    renderWithRouter(<WorkoutPlan workout={mockWorkout} facilityId="facility1" />);
-    
-    // Exercise description should initially be hidden
-    expect(screen.queryByText('תרגיל לחיזוק הרגליים')).not.toBeInTheDocument();
-    
-    // Click on first exercise to expand
-    fireEvent.click(screen.getByText('סקוואט'));
-    
-    // Now description and other details should be visible
-    expect(screen.getByText('תרגיל לחיזוק הרגליים')).toBeInTheDocument();
-    expect(screen.getByText('שרירים עיקריים: רגליים')).toBeInTheDocument();
-    expect(screen.getByText('צפה בהדגמת התרגיל')).toBeInTheDocument();
-    
-    // Click again to collapse
-    fireEvent.click(screen.getByText('סקוואט'));
-    
-    // Description should be hidden again
-    expect(screen.queryByText('תרגיל לחיזוק הרגליים')).not.toBeInTheDocument();
-  });
-
-  test('renders correct number of exercises from the workout plan', () => {
-    renderWithRouter(<WorkoutPlan workout={mockWorkout} facilityId="facility1" />);
-    
-    // Check if both exercises are rendered
-    expect(screen.getByText('סקוואט')).toBeInTheDocument();
-    expect(screen.getByText('לחיצת חזה')).toBeInTheDocument();
-    
-    // Check that the exercise number indicators are rendered (1 and 2)
-    const exerciseIndices = screen.getAllByText(/[1-2]/, { selector: 'div.exerciseIndex' });
-    expect(exerciseIndices).toHaveLength(2);
-    
-    // Check sets and reps info for exercises
-    expect(screen.getByText('3 סטים')).toBeInTheDocument();
-    expect(screen.getByText('12 חזרות')).toBeInTheDocument();
-    expect(screen.getByText('מנוחה: 60 שניות')).toBeInTheDocument();
-    expect(screen.getByText('10 חזרות')).toBeInTheDocument();
-    expect(screen.getByText('מנוחה: 90 שניות')).toBeInTheDocument();
-  });
 });

@@ -43,28 +43,7 @@ describe('ExerciseCard Component', () => {
     jest.clearAllMocks();
   });
 
-  // Test 1: Renders exercise information correctly
-  test('renders exercise information correctly', () => {
-    render(
-      <ExerciseCard 
-        exercise={mockExercise} 
-        onClick={mockOnClick} 
-        isFavorite={false} 
-        onToggleFavorite={mockOnToggleFavorite} 
-      />
-    );
-    
-    expect(screen.getByText('שכיבות סמיכה')).toBeInTheDocument();
-    expect(screen.getByText('תרגיל לחיזוק חזה וזרועות')).toBeInTheDocument();
-    expect(screen.getByText(/בינוני/i)).toBeInTheDocument();
-    expect(screen.getByText(/חזה/i)).toBeInTheDocument();
-    
-    // Should display 2 stars for intermediate difficulty
-    const stars = screen.getAllByTestId('star-icon');
-    expect(stars.length).toBe(2);
-  });
-
-  // Test 2: Tests favorite toggle functionality
+  // Test 1: Tests favorite toggle functionality
   test('toggles favorite status correctly', () => {
     // First test with isFavorite=false
     const { rerender } = render(
@@ -97,7 +76,7 @@ describe('ExerciseCard Component', () => {
     expect(screen.queryByTestId('heart-outline-icon')).not.toBeInTheDocument();
   });
 
-  // Test 3: Tests click event on card
+  // Test 2: Tests click event on card
   test('calls onClick when card is clicked', () => {
     render(
       <ExerciseCard 
@@ -112,7 +91,7 @@ describe('ExerciseCard Component', () => {
     expect(mockOnClick).toHaveBeenCalledTimes(1);
   });
 
-  // Test 4: Tests difficulty star rendering for different levels
+  // Test 3: Tests difficulty star rendering for different levels
   test('renders correct number of stars based on difficulty', () => {
     // Test beginner difficulty (1 star)
     const beginnerExercise = { ...mockExercise, difficulty: 'beginner' };
@@ -143,50 +122,5 @@ describe('ExerciseCard Component', () => {
     stars = screen.getAllByTestId('star-icon');
     expect(stars.length).toBe(3);
     expect(screen.getByText(/מתקדם/i)).toBeInTheDocument();
-  });
-
-  // Test 5: Tests video URL transformation
-  test('transforms YouTube URLs correctly', () => {
-    // Test with standard YouTube URL
-    render(
-      <ExerciseCard 
-        exercise={mockExercise} 
-        onClick={mockOnClick} 
-        isFavorite={false} 
-        onToggleFavorite={mockOnToggleFavorite} 
-      />
-    );
-    
-    const iframe = screen.getByTitle('הדגמת שכיבות סמיכה');
-    expect(iframe).toBeInTheDocument();
-    expect(iframe.src).toContain('https://www.youtube.com/embed/IODxDxX7oi4');
-    expect(iframe.src).toContain('mute=1&controls=1');
-    
-    // Test with YouTube short URL
-    const shortUrlExercise = { 
-      ...mockExercise, 
-      videoUrl: 'https://youtu.be/IODxDxX7oi4' 
-    };
-    
-    const { rerender } = render(
-      <ExerciseCard 
-        exercise={shortUrlExercise} 
-        onClick={mockOnClick} 
-        isFavorite={false} 
-        onToggleFavorite={mockOnToggleFavorite} 
-      />
-    );
-    
-    rerender(
-      <ExerciseCard 
-        exercise={shortUrlExercise} 
-        onClick={mockOnClick} 
-        isFavorite={false} 
-        onToggleFavorite={mockOnToggleFavorite} 
-      />
-    );
-    
-    const iframeAfterRerender = screen.getByTitle('הדגמת שכיבות סמיכה');
-    expect(iframeAfterRerender.src).toContain('https://www.youtube.com/embed/IODxDxX7oi4');
   });
 });

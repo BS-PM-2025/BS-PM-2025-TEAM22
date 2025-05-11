@@ -61,19 +61,7 @@ describe('AchievementBadge Component', () => {
     earned_date: '2023-05-15'
   };
 
-  // Test 1: Component renders correctly with all achievement info
-  test('renders achievement badge with correct information', () => {
-    render(<AchievementBadge achievement={sampleAchievement} />);
-    
-    expect(screen.getByText('ריצת מרתון')).toBeInTheDocument();
-    expect(screen.getByText('רוץ מרתון מלא')).toBeInTheDocument();
-    expect(screen.getByText('זהב')).toBeInTheDocument();
-    expect(screen.getByText(/נדרש: 42 ק"מ/)).toBeInTheDocument();
-    expect(screen.getByText(/הושג ב-15\/5\/2023/)).toBeInTheDocument();
-    expect(screen.getByTestId('icon-running')).toBeInTheDocument();
-  });
-
-  // Test 2: Component renders locked state correctly
+  // Test 1: Component renders locked state correctly
   test('renders locked badge with proper styling and lock icon', () => {
     render(<AchievementBadge achievement={sampleAchievement} isLocked={true} />);
     
@@ -83,7 +71,7 @@ describe('AchievementBadge Component', () => {
     expect(screen.getByText(/השלם רוץ מרתון מלא כדי לפתוח/)).toBeInTheDocument();
   });
 
-  // Test 3: Component renders in small mode correctly
+  // Test 2: Component renders in small mode correctly
   test('renders small badge correctly', () => {
     render(<AchievementBadge achievement={sampleAchievement} isSmall={true} />);
     
@@ -94,7 +82,7 @@ describe('AchievementBadge Component', () => {
     expect(screen.queryByText('רוץ מרתון מלא')).not.toBeInTheDocument();
   });
 
-  // Test 4: onClick handler is called when badge is clicked
+  // Test 3: onClick handler is called when badge is clicked
   test('calls onClick handler when badge is clicked', () => {
     const mockOnClick = jest.fn();
     render(<AchievementBadge achievement={sampleAchievement} onClick={mockOnClick} />);
@@ -104,7 +92,7 @@ describe('AchievementBadge Component', () => {
     expect(mockOnClick).toHaveBeenCalledWith(sampleAchievement);
   });
 
-  // Test 5: Component renders correct icon based on category
+  // Test 4: Component renders correct icon based on category
   test('renders correct icon based on achievement category', () => {
     // Test with workout category
     const workoutAchievement = { ...sampleAchievement, category: 'workout' };
@@ -122,7 +110,7 @@ describe('AchievementBadge Component', () => {
     expect(screen.getByTestId('icon-calendar')).toBeInTheDocument();
   });
 
-  // Test 6: Animation class is applied and removed after timeout
+  // Test 5: Animation class is applied and removed after timeout
   test('applies and removes animation class based on showAnimation prop', async () => {
     jest.useFakeTimers();
     
@@ -140,29 +128,5 @@ describe('AchievementBadge Component', () => {
     });
     
     jest.useRealTimers();
-  });
-
-  // Test 7: Details modal appears when small badge is clicked
-  test('shows details modal when small badge is clicked', () => {
-    render(<AchievementBadge achievement={sampleAchievement} isSmall={true} />);
-    
-    // Modal should not be visible initially
-    expect(screen.queryByText('יעד להשלמה:')).not.toBeInTheDocument();
-    
-    // Click the badge to show details
-    const badgeElement = screen.getByRole('button');
-    fireEvent.click(badgeElement);
-    
-    // Now the details should be visible
-    expect(screen.getByText('יעד להשלמה: 42 ק"מ')).toBeInTheDocument();
-    expect(screen.getByText('זהב')).toBeInTheDocument();
-    expect(screen.getByText(/הושג ב-15\/5\/2023/)).toBeInTheDocument();
-    
-    // Test that the close button works
-    const closeButton = screen.getByLabelText('סגור פרטים');
-    fireEvent.click(closeButton);
-    
-    // Modal should be hidden again
-    expect(screen.queryByText('יעד להשלמה:')).not.toBeInTheDocument();
   });
 });

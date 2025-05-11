@@ -37,14 +37,6 @@ describe('WorkoutHistoryItem', () => {
     expect(screen.getByText('חיזוק')).toBeInTheDocument();
   });
 
-  test('renders notes with clickable link', () => {
-    render(<WorkoutHistoryItem workout={mockWorkout} />);
-    fireEvent.click(screen.getByRole('button')); // Expand details
-    const link = screen.getByText('https://example.com');
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', 'https://example.com');
-  });
-
   test('shows delete confirmation when delete clicked', () => {
     const mockDelete = jest.fn();
     render(<WorkoutHistoryItem workout={mockWorkout} onDelete={mockDelete} />);

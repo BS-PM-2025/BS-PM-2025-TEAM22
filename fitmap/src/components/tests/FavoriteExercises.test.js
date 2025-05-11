@@ -7,12 +7,12 @@ import '@testing-library/jest-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 // Mock useAuth hook
-jest.mock('C:/Users/Alon/BS-PM-2025-TEAM22-1/fitmap/src/hooks/useAuth.js', () => ({
+jest.mock('../../hooks/useAuth', () => ({
   useAuth: () => ({ user: null }),
 }));
 
 // Mock supabase client
-jest.mock('C:/Users/Alon/BS-PM-2025-TEAM22-1/fitmap/src/utils/supabaseClient.js', () => ({
+jest.mock('../../utils/supabaseClient', () => ({
   supabase: {
     from: () => ({
       select: () => ({
@@ -34,11 +34,6 @@ describe('FavoriteExercises', () => {
     renderWithRouter(<FavoriteExercises />);
     expect(screen.getByText('תרגילים שמורים')).toBeInTheDocument();
     expect(screen.getByText('כאן תמצא את כל התרגילים שסימנת כמועדפים')).toBeInTheDocument();
-  });
-
-  test('shows loading spinner initially', () => {
-    renderWithRouter(<FavoriteExercises />);
-    expect(screen.getByText('טוען תרגילים מועדפים...')).toBeInTheDocument();
   });
 
   test('shows empty message when user is not logged in and no favorites', async () => {

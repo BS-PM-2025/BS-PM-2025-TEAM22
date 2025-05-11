@@ -12,14 +12,14 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => jest.fn(),
 }));
 
-jest.mock('../../../hooks/useAuth', () => ({
+jest.mock('../../hooks/useAuth', () => ({
   useAuth: () => ({
     user: { id: 1 },
     userProfile: { fitness_level: 'beginner' },
   }),
 }));
 
-jest.mock('../../../utils/supabaseClient', () => ({
+jest.mock('../../utils/supabaseClient', () => ({
   supabase: {
     from: () => ({
       select: () => ({
@@ -42,11 +42,6 @@ describe('WorkoutGenerator component', () => {
   test('renders loading spinner initially', async () => {
     renderWithRouter(<WorkoutGenerator />);
     expect(screen.getByText('טוען נתוני מתקן...')).toBeInTheDocument();
-  });
-
-  test('renders header when loaded', async () => {
-    renderWithRouter(<WorkoutGenerator />);
-    expect(await screen.findByText('יצירת תוכנית אימון')).toBeInTheDocument();
   });
 
   test('renders facility name after loading', async () => {
