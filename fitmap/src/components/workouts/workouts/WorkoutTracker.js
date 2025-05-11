@@ -1,8 +1,8 @@
 // src/components/workouts/WorkoutTracker.js
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from 'C:/Users/Alon/BS-PM-2025-TEAM22-2/fitmap/src/utils/supabaseClient.js';
-import { useAuth } from 'C:/Users/Alon/BS-PM-2025-TEAM22-2/fitmap/src/hooks/useAuth.js';
+import { supabase } from '../../utils/supabaseClient';
+import { useAuth } from '../../hooks/useAuth';
 import StatCard from './StatCard';
 import ProgressCharts from './ProgressCharts';
 import WorkoutHistoryItem from './WorkoutHistoryItem';
