@@ -79,4 +79,3 @@ jest.spyOn(console, 'error').mockImplementation(() => {});
     // Component might return null or fallback UI here
     expect(container).toBeDefined();
   });
-});
