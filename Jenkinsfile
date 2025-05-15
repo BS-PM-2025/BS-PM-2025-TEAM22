@@ -29,48 +29,46 @@ pipeline {
         }
 
         /* ---------- Tests & Quality Gate ---------- */
-        stage('Run Tests (Docker + JUnit)') {
-            steps {
-                dir('fitmap') {
-                    /* pull image if missing */
-                    bat "docker pull %NODE_IMAGE%"
+       stage('Run Tests (Docker + JUnit)') {
+    steps {
+        dir('fitmap') {
+            /* pull image if missing */
+            bat "docker pull %NODE_IMAGE%"
 
-                    /* run Jest tests + JUnit reporter */
-                    bat """
-                    docker run --rm ^
-                      -e CI=true ^
-                      -e JEST_JUNIT_OUTPUT=/app/junit.xml ^   /* where junit.xml will be written */
-                      -v "%cd%":/app ^
-                      -w /app ^
-                      %NODE_IMAGE% ^
-                      npm run test:ci
-                    """
-                }
-            }
-            post {
-                /* always publish all XML reports to Jenkins */
-                always {
-                    junit testResults: 'fitmap/*.xml', allowEmptyResults: true
-                }
+            /* run Jest tests inside the container */
+            bat """
+            docker run --rm ^
+              -e CI=true ^
+              -e JEST_JUNIT_OUTPUT=/app/junit.xml ^
+              -v "%cd%":/app ^
+              -w /app ^
+              %NODE_IMAGE% ^
+              sh -c "npm run test:ci"
+            """
+        }
+    }
+    post {
+        always {
+            junit testResults: 'fitmap/*.xml', allowEmptyResults: true
+        }
+        success {
+            script {
+                def tr = currentBuild.testResultAction
+                if (!tr) { error '❌  No test results found.' }
 
-                /* fail build if overall pass-rate < 90 % */
-                success {
-                    script {
-                        def tr = currentBuild.testResultAction      /* JUnit summary */
-                        if (!tr) { error '❌  No test results found.' }
+                def total  = tr.totalCount ?: 0
+                def passed = tr.passCount  ?: 0
+                def ratio  = total ? passed / total : 0
+                echo "🧪  Pass-rate = ${(ratio*100).round(2)} %"
 
-                        def total  = tr.totalCount ?: 0
-                        def passed = tr.passCount  ?: 0
-                        def ratio  = total ? passed / total : 0
-                        echo "🧪  Pass-rate = ${(ratio * 100).round(2)} %"
-
-                        if (ratio < 0.90) {
-                            error "❌  Pass-rate below 90 % – failing the build."
-                        }
-                    }
+                if (ratio < 0.90) {
+                    error "❌  Pass-rate below 90 % – failing the build."
                 }
             }
         }
+    }
+}
+
 
         /* ---------- Build ---------- */
         stage('Build Docker Image') {
