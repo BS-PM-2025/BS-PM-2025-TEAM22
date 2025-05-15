@@ -1,8 +1,10 @@
+/* Jenkinsfile – FitMap */
+
 pipeline {
     agent any
 
     environment {
-        NODE_IMAGE = 'node:18-alpine'   // image קיים ב-Docker Hub
+        NODE_IMAGE = 'node:18-alpine'   // official Docker Hub image
     }
 
     stages {
@@ -26,17 +28,18 @@ pipeline {
             }
         }
 
-        /* ---------- Tests & JUnit ---------- */
+        /* ---------- Tests & Quality Gate ---------- */
         stage('Run Tests (Docker + JUnit)') {
             steps {
                 dir('fitmap') {
-                    /* מושך Image אם לא קיים */
+                    /* pull image if missing */
                     bat "docker pull %NODE_IMAGE%"
 
-                    /* מריץ את הבדיקות + jest-junit */
+                    /* run Jest tests + JUnit reporter */
                     bat """
                     docker run --rm ^
                       -e CI=true ^
+                      -e JEST_JUNIT_OUTPUT=/app/junit.xml ^   /* where junit.xml will be written */
                       -v "%cd%":/app ^
                       -w /app ^
                       %NODE_IMAGE% ^
@@ -45,10 +48,26 @@ pipeline {
                 }
             }
             post {
+                /* always publish all XML reports to Jenkins */
                 always {
-                    /* מפרסם junit.xml → Jenkins Test Results */
-                    junit testResults: 'fitmap/junit.xml',
-                          allowEmptyResults: true
+                    junit testResults: 'fitmap/*.xml', allowEmptyResults: true
+                }
+
+                /* fail build if overall pass-rate < 90 % */
+                success {
+                    script {
+                        def tr = currentBuild.testResultAction      /* JUnit summary */
+                        if (!tr) { error '❌  No test results found.' }
+
+                        def total  = tr.totalCount ?: 0
+                        def passed = tr.passCount  ?: 0
+                        def ratio  = total ? passed / total : 0
+                        echo "🧪  Pass-rate = ${(ratio * 100).round(2)} %"
+
+                        if (ratio < 0.90) {
+                            error "❌  Pass-rate below 90 % – failing the build."
+                        }
+                    }
                 }
             }
         }
