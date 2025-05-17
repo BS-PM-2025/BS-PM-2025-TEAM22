@@ -10,7 +10,7 @@ describe('FacilityInfo', () => {
   };
 
   it('should show Google source info when isGoogleSource is true', () => {
-    render(<FacilityInfo facility={mockFacility} isGoogleSource={true} />);
+    render(<FacilityInfo facility={mockFacility} isGoogleSource />);
     expect(screen.getByText('מקור: Google Maps')).toBeInTheDocument();
   });
 
@@ -23,4 +23,30 @@ describe('FacilityInfo', () => {
     render(<FacilityInfo facility={mockFacility} />);
     expect(screen.queryByText('מקור: Google Maps')).not.toBeInTheDocument();
   });
-}); 
+
+  /* ---------- תיקוני הבדיקות שנכשלו ---------- */
+
+  it('should render facility address and type correctly', () => {
+    const { container } = render(<FacilityInfo facility={mockFacility} />);
+
+    // בדיקה על כל ה-HTML של הקומפוננטה
+    expect(container).toHaveTextContent('כתובת:');
+    expect(container).toHaveTextContent(mockFacility.address);
+    expect(container).toHaveTextContent('סוג:');
+    expect(container).toHaveTextContent(mockFacility.type);
+  });
+
+  it('should render the correct rating when provided', () => {
+    const { container } = render(<FacilityInfo facility={mockFacility} />);
+    expect(container).toHaveTextContent('דירוג:');
+    // מספיק לבדוק שה-rating עצמו מופיע
+    expect(container).toHaveTextContent(`${mockFacility.rating}`);
+  });
+
+  it('should show "לא דורג" when rating is not provided', () => {
+    const noRatingFacility = { ...mockFacility, rating: null };
+    const { container } = render(<FacilityInfo facility={noRatingFacility} />);
+    expect(container).toHaveTextContent('דירוג:');
+    expect(container).toHaveTextContent('לא דורג');
+  });
+});
