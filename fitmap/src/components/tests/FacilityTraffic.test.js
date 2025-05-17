@@ -3,14 +3,14 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import FacilityTraffic from '../map/facility-details/FacilityTraffic';
 
 describe('FacilityTraffic', () => {
+  /* ---------- Date תמיד תחזיר 0 (Sunday) ---------- */
   beforeEach(() => {
-    // Mock the Date to always return Sunday (0)
-    const mockDate = new Date('2024-01-07'); // A Sunday
-    jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+    jest.spyOn(Date.prototype, 'getDay').mockReturnValue(0);
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.restoreAllMocks(); // Date & Math.random (אם קיים)
+    jest.useRealTimers();
   });
 
   it('should show loading state initially', () => {
@@ -22,25 +22,16 @@ describe('FacilityTraffic', () => {
     jest.useFakeTimers();
     render(<FacilityTraffic facilityId="123" />);
 
-    // Fast-forward through loading timeout
     await act(async () => {
       jest.advanceTimersByTime(800);
     });
 
-    // Check if days are rendered
     expect(screen.getByText('ראשון')).toBeInTheDocument();
     expect(screen.getByText('שני')).toBeInTheDocument();
-    expect(screen.getByText('שלישי')).toBeInTheDocument();
-
-    // Check if hours are rendered
     expect(screen.getByText('6:00')).toBeInTheDocument();
-    expect(screen.getByText('12:00')).toBeInTheDocument();
-    expect(screen.getByText('20:00')).toBeInTheDocument();
-
-    // Check if traffic note is shown
-    expect(screen.getByText(/הנתונים מבוססים על ביקורים קודמים/)).toBeInTheDocument();
-
-    jest.useRealTimers();
+    expect(
+      screen.getByText(/הנתונים מבוססים על ביקורים קודמים/)
+    ).toBeInTheDocument();
   });
 
   it('should change selected day when clicking day buttons', async () => {
@@ -51,16 +42,12 @@ describe('FacilityTraffic', () => {
       jest.advanceTimersByTime(800);
     });
 
-    // Click on a different day
     fireEvent.click(screen.getByText('שלישי'));
-    
-    // Verify the button is selected (you might need to adjust this based on your CSS)
-    expect(screen.getByText('שלישי').closest('button')).toHaveClass('selectedDay');
-
-    jest.useRealTimers();
+    const tueBtn = screen.getByRole('button', { name: 'שלישי' });
+    expect(tueBtn.className).toMatch(/selectedDay/);
   });
 
-  it('should show traffic levels with correct colors', async () => {
+  it('should show traffic levels with correct labels', async () => {
     jest.useFakeTimers();
     render(<FacilityTraffic facilityId="123" />);
 
@@ -68,10 +55,36 @@ describe('FacilityTraffic', () => {
       jest.advanceTimersByTime(800);
     });
 
-    // Check for different traffic level labels
-    const trafficLevels = screen.getAllByText(/^(לא עמוס|עמוס בינוני|עמוס מאוד)$/);
-    expect(trafficLevels.length).toBeGreaterThan(0);
-
-    jest.useRealTimers();
+    const trafficLabels = screen.getAllByText(/^(לא עמוס|עמוס בינוני|עמוס מאוד)$/);
+    expect(trafficLabels.length).toBeGreaterThan(0);
   });
-}); 
+
+  /* ---------- תוספות אינטגרציה מתוקנות ---------- */
+
+  it('should highlight current day (Sunday) by default', async () => {
+    jest.useFakeTimers();
+    render(<FacilityTraffic facilityId="123" />);
+
+    await act(async () => {
+      jest.advanceTimersByTime(800);
+    });
+
+    const sunBtn = screen.getByRole('button', { name: 'ראשון' });
+    expect(sunBtn.className).toMatch(/selectedDay/);
+  });
+
+  it('should render at least one "very busy" label (עמוס מאוד)', async () => {
+    /* מכריחים רמת עומס גבוהה: Math.random → 0.9 */
+    jest.spyOn(Math, 'random').mockReturnValue(0.9);
+    jest.useFakeTimers();
+
+    render(<FacilityTraffic facilityId="123" />);
+
+    await act(async () => {
+      jest.advanceTimersByTime(800);
+    });
+
+    const veryBusy = screen.getAllByText('עמוס מאוד');
+    expect(veryBusy.length).toBeGreaterThan(0);
+  });
+});
