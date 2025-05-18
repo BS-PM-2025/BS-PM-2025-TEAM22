@@ -17,7 +17,7 @@ import RoleSelection from "./components/auth/RoleSelection";
 import Auth from "./components/auth/Auth";
 import PendingApproval from "./components/auth/PendingApproval"; // דף חדש למשתמשים ממתינים לאישור
 import About from "./components/shared/About";
-import Profile from "./components/user/Profile";
+import Profile from "./components/user/Profile/Profile";
 import Favorites from "./components/user/Favorites";
 import FitnessMap from "./components/map/FitnessMap";
 import AdminDashboard from "./components/admin/AdminDashboard";

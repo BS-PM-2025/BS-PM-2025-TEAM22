@@ -1,0 +1,432 @@
+/* 
+ * GroupWorkouts.module.css
+ * עיצוב לדף אימונים קבוצתיים
+ */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.headerIcon {
+  font-size: var(--font-size-4xl);
+  -webkit-text-fill-color: currentColor;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-primary);
+  text-decoration: none;
+  font-size: var(--font-size-base);
+}
+
+.addButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary), var(--shadow-lg);
+}
+
+.filtersContainer {
+  margin-bottom: var(--space-6);
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+}
+
+.searchContainer {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  position: relative;
+  align-items: center;
+}
+
+.searchInput {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  padding-right: var(--space-12);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  font-size: var(--font-size-lg);
+  pointer-events: none;
+}
+
+.filterToggle {
+  padding: var(--space-3) var(--space-4);
+  background: var(--primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.filterToggle:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.advancedFilters {
+  animation: fadeIn var(--transition-fast);
+}
+
+.filterRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.filterGroup label {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+}
+
+.filterGroup select {
+  padding: var(--space-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filterGroup select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.filterButtons {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-color);
+}
+
+.filterButtons button {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-medium);
+}
+
+.filterButtons button:hover {
+  background: var(--bg-light-darker);
+  color: var(--text-primary);
+  border-color: var(--primary-light);
+}
+
+.filterButtons button.active {
+  background: var(--primary);
+  color: var(--text-light);
+  border-color: var(--primary);
+}
+
+.filterButtons button.active:hover {
+  background: var(--primary-dark);
+}
+
+.resetButton {
+  background: var(--error-light) !important;
+  color: var(--error-dark) !important;
+  border-color: var(--error) !important;
+}
+
+.resetButton:hover {
+  background: var(--error) !important;
+  color: var(--text-light) !important;
+}
+
+.workoutsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-6);
+  animation: fadeIn var(--transition);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: var(--space-4);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--gray-300);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loadingContainer p {
+  color: var(--text-secondary);
+  font-size: var(--font-size-lg);
+}
+
+.errorContainer {
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--error-light);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--error);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.errorMessage {
+  color: var(--error-dark);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-4);
+}
+
+.retryButton {
+  padding: var(--space-3) var(--space-5);
+  background: var(--error);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: var(--font-weight-medium);
+}
+
+.retryButton:hover {
+  background: var(--error-dark);
+  transform: translateY(-1px);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--space-12);
+  background: var(--bg-light);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--border-color);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.emptyStateIcon {
+  font-size: var(--font-size-5xl);
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
+}
+
+.emptyState h3 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.emptyState p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: var(--line-height-relaxed);
+}
+
+.viewAllButton,
+.createButton {
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-2);
+}
+
+.viewAllButton {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.viewAllButton:hover {
+  background: var(--bg-light-darker);
+  transform: translateY(-1px);
+}
+
+.createButton {
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  box-shadow: var(--shadow-primary);
+}
+
+.createButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary), var(--shadow-lg);
+}
+
+/* מדיה קוואריס */
+@media (max-width: 1024px) {
+  .workoutsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-4) var(--space-3);
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .header h1 {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .addButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .filterRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .filterButtons {
+    flex-direction: column;
+  }
+  
+  .filterButtons button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .workoutsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* תמיכה במצב כהה */
+[data-theme='dark'] .filtersContainer {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .searchInput,
+[data-theme='dark'] .filterGroup select {
+  background: var(--bg-input);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .filterButtons button {
+  background: var(--bg-dark-lighter);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .filterButtons button:hover {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .emptyState {
+  background: var(--bg-dark-lighter);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .viewAllButton {
+  background: var(--bg-dark);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .viewAllButton:hover {
+  background: var(--bg-dark-lighter);
+}

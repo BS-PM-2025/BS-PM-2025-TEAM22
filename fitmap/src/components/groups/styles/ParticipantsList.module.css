@@ -1,0 +1,338 @@
+/* 
+ * ParticipantsList.module.css
+ * עיצוב לרשימת משתתפים באימון קבוצתי
+ */
+
+.participantsList {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+}
+
+.listTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.titleIcon {
+  color: var(--primary);
+  font-size: var(--font-size-2xl);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 400px;
+  overflow-y: auto;
+  padding-left: var(--space-2);
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: var(--bg-light);
+  border-radius: var(--radius);
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: var(--radius);
+}
+
+.list::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+.participant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3);
+  background: var(--bg-light);
+  border-radius: var(--radius);
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.participant:hover {
+  background: var(--bg-light-darker);
+  transform: translateX(-2px);
+}
+
+.creator {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-light) 100%);
+  border-color: var(--primary-light);
+}
+
+.currentUser {
+  border-color: var(--secondary);
+  box-shadow: inset 0 0 0 2px var(--secondary-light);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--border-color);
+}
+
+.avatarPlaceholder {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  border: 2px solid var(--border-color);
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.name {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  font-size: var(--font-size-base);
+}
+
+.joinedAt {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.creatorIcon {
+  color: var(--energy);
+  font-size: var(--font-size-lg);
+}
+
+.onlineDot {
+  color: var(--success);
+  font-size: var(--font-size-xs);
+}
+
+.offlineDot {
+  color: var(--gray-400);
+  font-size: var(--font-size-xs);
+}
+
+.actions {
+  position: relative;
+}
+
+.actionMenuButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionMenuButton:hover {
+  background: var(--bg-light-darker);
+  color: var(--text-primary);
+}
+
+.actionMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--space-1);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  z-index: var(--z-dropdown);
+  min-width: 150px;
+  animation: fadeIn var(--transition-fast);
+}
+
+.actionMenuItem {
+  padding: var(--space-3);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.actionMenuItem:hover {
+  background: var(--bg-light);
+  color: var(--primary);
+}
+
+/* מצבי טעינה ושגיאה */
+.loadingContainer,
+.errorContainer,
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.loadingSpinner {
+  font-size: var(--font-size-3xl);
+  color: var(--primary);
+  animation: spin 1s linear infinite;
+}
+
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.errorIcon,
+.emptyIcon {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-3);
+}
+
+.errorIcon {
+  color: var(--error);
+}
+
+.emptyIcon {
+  color: var(--text-tertiary);
+}
+
+.errorMessage {
+  color: var(--error-dark);
+  margin-bottom: var(--space-4);
+  font-weight: var(--font-weight-medium);
+}
+
+.retryButton {
+  padding: var(--space-3) var(--space-5);
+  background: var(--primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-weight: var(--font-weight-medium);
+}
+
+.retryButton:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* מדיה קוואריס */
+@media (max-width: 640px) {
+  .participantsList {
+    padding: var(--space-4);
+  }
+  
+  .listTitle {
+    font-size: var(--font-size-lg);
+  }
+  
+  .list {
+    max-height: 300px;
+  }
+  
+  .participant {
+    padding: var(--space-2);
+  }
+  
+  .avatar,
+  .avatarPlaceholder {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .userDetails {
+    gap: 0;
+  }
+  
+  .name {
+    font-size: var(--font-size-sm);
+  }
+  
+  .joinedAt {
+    font-size: var(--font-size-xs);
+  }
+}
+
+/* תמיכה במצב כהה */
+[data-theme='dark'] .participantsList {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .participant {
+  background: var(--bg-dark-lighter);
+}
+
+[data-theme='dark'] .participant:hover {
+  background: var(--bg-dark);
+}
+
+[data-theme='dark'] .creator {
+  background: linear-gradient(135deg, rgba(230, 57, 70, 0.2) 0%, var(--bg-dark-lighter) 100%);
+  border-color: var(--primary);
+}
+
+[data-theme='dark'] .currentUser {
+  border-color: var(--secondary);
+  box-shadow: inset 0 0 0 2px var(--secondary);
+}
+
+[data-theme='dark'] .actionMenu {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .actionMenuItem:hover {
+  background: var(--bg-dark-lighter);
+}
+
+[data-theme='dark'] .actionMenuButton:hover {
+  background: var(--bg-dark);
+}
