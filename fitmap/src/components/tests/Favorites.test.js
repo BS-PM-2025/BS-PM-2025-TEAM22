@@ -68,8 +68,8 @@ describe('Favorites Component', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('אין לך מתקנים מועדפים')).toBeInTheDocument();
-      expect(screen.getByText('הוסף מתקנים למועדפים דרך דף המפה')).toBeInTheDocument();
+      expect(screen.getByText('אין מתקנים שמורים')).toBeInTheDocument();
+      expect(screen.getByText('הוסף מתקנים דרך דף המפה')).toBeInTheDocument();
     });
   });
 
@@ -102,7 +102,7 @@ describe('Favorites Component', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('אירעה שגיאה בטעינת המועדפים')).toBeInTheDocument();
+      expect(screen.getByText('שגיאה בטעינת מתקנים מועדפים')).toBeInTheDocument();
     });
   });
 }); 

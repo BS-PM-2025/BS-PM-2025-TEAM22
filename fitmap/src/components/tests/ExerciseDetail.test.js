@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import ExerciseDetail from '../workouts/workouts/ExerciseDetail';
+import ExerciseDetail from '../workouts/ExerciseDetail';
 import * as supabaseClient from '../../utils/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 

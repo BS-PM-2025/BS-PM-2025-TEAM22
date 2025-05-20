@@ -1,7 +1,7 @@
 // src/components/workouts/__tests__/WorkoutHistoryItem.test.js
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import WorkoutHistoryItem from '../workouts/workouts/WorkoutHistoryItem';
+import WorkoutHistoryItem from '../workouts/WorkoutHistoryItem';
 import '@testing-library/jest-dom';
 
 const mockWorkout = {

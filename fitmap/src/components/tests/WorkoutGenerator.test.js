@@ -1,7 +1,7 @@
 // src/components/workouts/__tests__/WorkoutGenerator.test.js
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import WorkoutGenerator from '../workouts/workouts/WorkoutGenerator';
+import WorkoutGenerator from '../workouts/WorkoutGenerator';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '@testing-library/jest-dom';
 
