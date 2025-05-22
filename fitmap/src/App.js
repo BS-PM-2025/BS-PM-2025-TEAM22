@@ -29,6 +29,11 @@ import PrivacyPolicy from "./components/legal/PrivacyPolicy";
 import TermsOfService from "./components/legal/TermsOfService";
 import CookieConsent from "./components/Cookie/CookieConsent";
 import ContactPage from "./components/Contact/ContactPage";
+
+import PersonalTrainer from "./components/personaltrainer/PersonalTrainer";
+import ConversationHistory from "./components/personaltrainer/ConversationHistory";
+import ConversationDetail from "./components/personaltrainer/ConversationDetail";
+
 // סגנונות
 import "./App.css";
 
@@ -125,6 +130,31 @@ function App() {
                 </PrivateRoute>
               }
             />
+                  {/* מאמן אישי */}
+              <Route
+                path="/personal-trainer"
+                element={
+                  <PrivateRoute>
+                    <PersonalTrainer />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/conversation-history"
+                element={
+                  <PrivateRoute>
+                    <ConversationHistory />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/conversation/:conversationId"
+                element={
+                  <PrivateRoute>
+                    <ConversationDetail />
+                  </PrivateRoute>
+                }
+              />
             {/* דף אדמין מוגן */}
             <Route
               path="/admin/dashboard"

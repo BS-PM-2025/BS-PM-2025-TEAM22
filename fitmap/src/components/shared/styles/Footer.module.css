@@ -1,0 +1,382 @@
+.footer {
+  background: linear-gradient(to bottom, var(--bg-light), var(--bg-dark-lighter));
+  color: var(--color-text);
+  padding: 3rem 1rem 2rem;
+  font-family: var(--font-base);
+  position: relative;
+  transition: background var(--transition-medium), color var(--transition-medium);
+}
+
+.dark .footer {
+  background: linear-gradient(to bottom, var(--bg-dark-lighter), var(--bg-dark));
+  color: var(--text-light);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-fitness);
+}
+
+.container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-6);
+}
+
+.footerSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.footerSection h3 {
+  font-size: var(--font-size-lg);
+  position: relative;
+  color: var(--primary-dark);
+  margin-bottom: var(--space-3);
+}
+
+.dark .footerSection h3 {
+  color: var(--primary-light);
+}
+
+.footerSection h3::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 0;
+  width: 36px;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+}
+
+.footerSection p,
+.footerSection address {
+  font-size: var(--font-size-sm);
+  color: var(--gray-500);
+}
+
+.dark .footerSection p,
+.dark .footerSection address {
+  color: var(--gray-300);
+}
+/* פריט צור קשר עם אייקון */
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+/* אייקון כתובת */
+.addressIcon {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+/* טקסט עם אפקט גרדיאנט רץ */
+.contactGradient {
+  background: linear-gradient(90deg, #ff5c8d, #ffc107, #00bcd4, #ff5c8d);
+  background-size: 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: moveGradient 6s linear infinite, fadeIn 0.5s ease-in-out;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.contactGradient:hover {
+  transform: translateX(2px);
+  filter: drop-shadow(0 0 4px rgba(255, 255, 200, 0.6));
+}
+.linksGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.linksGrid a {
+  color: var(--gray-400);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  padding-right: var(--space-3);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.linksGrid a::before {
+  content: '›';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: var(--font-size-lg);
+}
+
+.linksGrid a:hover {
+  color: var(--primary-dark);
+}
+
+.dark .linksGrid a:hover {
+  color: var(--primary-light);
+}
+
+.socialLinks {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.socialIcon {
+  background: var(--gradient-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--text-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.socialIcon:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 15px rgba(255, 92, 141, 0.3);
+}
+
+address p {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.addressIcon {
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+/* תחתית */
+.footerBottom {
+  margin-top: var(--space-6);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.dark .footerBottom {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* זכויות יוצרים עם צבעים רצים */
+@keyframes moveGradient {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 100% center;
+  }
+}
+
+.copyright {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  background: linear-gradient(90deg, #ff5c8d, #ffc107, #00bcd4, #ff5c8d);
+  background-size: 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: moveGradient 6s linear infinite;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* אייקון לב */
+.heartIcon {
+  color: #ff5c8d;
+  animation: pulse 1.8s infinite;
+  font-size: 1rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+/* כוכבים מסתובבים עם ברק */
+.nameWithIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--text-light);
+  animation: fadeIn 0.6s ease-in;
+}
+
+.starIcon {
+  color: var(--accent);
+  font-size: 0.85rem;
+  animation: spinStar 4s linear infinite, glowStar 2.5s ease-in-out infinite alternate;
+  transition: color 0.3s ease;
+}
+
+.nameWithIcon:hover .starIcon {
+  color: var(--primary);
+}
+
+@keyframes spinStar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glowStar {
+  0% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  100% {
+    filter: drop-shadow(0 0 6px rgba(255, 255, 150, 0.7));
+  }
+}
+
+/* קישורים משפטיים */
+.legalLinks {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.legalLinks a {
+  color: var(--gray-400);
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.legalLinks a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--gradient-accent);
+  transition: width 0.3s ease;
+}
+
+.legalLinks a:hover::after {
+  width: 100%;
+  left: 0;
+  right: auto;
+}
+
+.legalLinks a:hover {
+  color: var(--primary-light);
+}
+
+/* כפתור וואטסאפ */
+.whatsappButton {
+  position: fixed;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  z-index: 9999;
+  background: var(--gradient-accent);
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.9rem 1rem;
+  border-radius: 50%;
+  box-shadow: var(--shadow-strong);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: swirlIn 0.5s ease-out;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.whatsappButton:hover {
+  transform: scale(1.1);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+@keyframes swirlIn {
+  0% {
+    transform: scale(0) rotate(-720deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes jumpOut {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.6) translateY(100px);
+    opacity: 0;
+  }
+}
+
+.whatsappExit {
+  animation: jumpOut 0.4s ease forwards;
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-3);
+  }
+
+  .legalLinks {
+    justify-content: center;
+  }
+}

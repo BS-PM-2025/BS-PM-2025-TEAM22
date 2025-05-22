@@ -1,0 +1,716 @@
+/* PersonalTrainer.module.css */
+/* מאמן אישי - רכיב המספק הדרכה וייעוץ מותאם אישית באמצעות תשובות מובנות או AI */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  position: relative;
+  font-family: var(--font-family-primary);
+}
+
+/* === אזור כותרת === */
+.header {
+  background: var(--gradient-fitness);
+  color: var(--text-light);
+  padding: var(--space-6);
+  position: relative;
+  z-index: var(--z-10);
+  box-shadow: var(--shadow);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
+}
+
+.headerIcon {
+  font-size: var(--font-size-2xl);
+  color: var(--energy);
+}
+
+.header p {
+  margin: var(--space-2) 0 0;
+  opacity: 0.9;
+  font-size: var(--font-size-base);
+}
+
+.headerActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-4);
+  align-items: center;
+}
+
+/* === סגנון מאמן === */
+.coachStyleButton {
+  background-color: var(--overlay-light);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  max-width: fit-content;
+  margin-top: var(--space-3);
+  transition: all var(--transition-fast);
+  font-weight: var(--font-weight-medium);
+}
+
+.coachStyleButton:hover {
+  background-color: var(--overlay-light);
+  transform: translateY(-2px);
+}
+
+.coachStyleIcon {
+  font-size: var(--font-size-xl);
+  margin-left: var(--space-2);
+}
+
+.coachStyleSelector {
+  position: absolute;
+  top: 140px;
+  right: var(--space-5);
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-4);
+  z-index: var(--z-dropdown);
+  width: 300px;
+  animation: slideDown 0.3s var(--bezier-smooth);
+  border: 1px solid var(--border-color);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.coachStyleSelector h3 {
+  margin-top: 0;
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.styleOptions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.styleOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  cursor: pointer;
+  width: 30%;
+  transition: all var(--transition-fast);
+}
+
+.styleOption:hover {
+  background-color: var(--bg-light);
+}
+
+.selectedStyle {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary);
+}
+
+.styleIcon {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.styleName {
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* === כפתור היסטוריה === */
+.historyBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--overlay-light);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.historyBtn:hover {
+  background-color: var(--overlay-light);
+  transform: translateY(-2px);
+}
+
+.historyIcon {
+  font-size: var(--font-size-sm);
+}
+
+/* === טוגל API === */
+.apiStatusContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.apiToggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toggleIcon {
+  font-size: var(--font-size-xl);
+  color: var(--text-light);
+}
+
+.apiStatus {
+  font-size: var(--font-size-sm);
+}
+
+.apiActive {
+  color: var(--energy-light);
+}
+
+.apiInactive {
+  color: var(--gray-300);
+}
+
+/* === אזור צ'אט === */
+.chatContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-5);
+  scroll-behavior: smooth;
+  background-color: var(--bg-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* === הודעות === */
+.message {
+  position: relative;
+  max-width: 85%;
+  animation: fadeIn 0.3s ease-in-out;
+  margin-bottom: var(--space-4);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.userMessage {
+  margin-left: auto;
+  background: var(--gradient-power);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 var(--radius-xl);
+  box-shadow: var(--shadow-power);
+  color: var(--text-light);
+}
+
+.trainerMessage {
+  margin-right: auto;
+  background-color: var(--bg-card);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) 0;
+  box-shadow: var(--shadow);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.systemMessage {
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--energy-light);
+  color: var(--energy-dark);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  margin: var(--space-2) 0;
+  border: 1px solid var(--energy);
+}
+
+.errorMessage {
+  background-color: var(--error-light);
+  border-right: 3px solid var(--error);
+  color: var(--error-dark);
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-xs);
+  align-items: center;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-semibold);
+}
+
+.avatarIcon {
+  font-size: var(--font-size-base);
+}
+
+.timestamp {
+  color: var(--gray-500);
+  font-size: var(--font-size-xs);
+}
+
+.messageContent {
+  line-height: var(--line-height-relaxed);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.userMessage .messageContent {
+  color: var(--text-light);
+}
+
+/* === סמלי תגובה === */
+.responseBadge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--overlay-primary);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  margin-top: var(--space-2);
+  color: var(--primary-dark);
+}
+
+.responseBadgeIcon {
+  margin-left: var(--space-1);
+}
+
+/* === אפשרויות הודעה === */
+.messageOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.messageOptionButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.messageOptionButton:hover {
+  background-color: var(--bg-light);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* === פעולות על הודעה === */
+.messageActions {
+  position: absolute;
+  bottom: -24px;
+  left: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.trainerMessage:hover .messageActions {
+  opacity: 1;
+}
+
+.messageActionButton {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-light);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  color: var(--gray-600);
+  transition: all var(--transition-fast);
+}
+
+.messageActionButton:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+/* === אינדיקטורים === */
+.typingIndicator {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  background-color: var(--bg-card);
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-4);
+  animation: fadeIn 0.3s ease-in-out;
+  border: 1px solid var(--border-color);
+}
+
+.typingDot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: typingAnimation 1.5s infinite ease-in-out;
+}
+
+.typingDot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typingDot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.typingDot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes typingAnimation {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+.thinkingIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-light);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  margin: var(--space-3) auto;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.spinnerIcon {
+  animation: rotate 1s linear infinite;
+  color: var(--primary);
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* === הצעות צ'יפים === */
+.suggestionChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+}
+
+.suggestionChip {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.suggestionChip:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.suggestionIcon {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-base);
+  color: var(--primary);
+}
+
+/* === טופס קלט === */
+.inputForm {
+  display: flex;
+  padding: var(--space-3) var(--space-4);
+  gap: var(--space-2);
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+}
+
+.messageInput {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-base);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+}
+
+.messageInput:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.messageInput:disabled {
+  background-color: var(--bg-light);
+  cursor: not-allowed;
+}
+
+.voiceButton, .attachButton, .sendButton {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.voiceButton {
+  background-color: var(--bg-light);
+  color: var(--text-secondary);
+}
+
+.attachButton {
+  background-color: var(--bg-light);
+  color: var(--text-secondary);
+}
+
+.sendButton {
+  background: var(--gradient-primary);
+  color: var(--text-light);
+}
+
+.sendButton:disabled {
+  background: var(--gray-400);
+  cursor: not-allowed;
+}
+
+.voiceButton:hover, .attachButton:hover {
+  background-color: var(--bg-light-darker);
+  transform: translateY(-2px);
+}
+
+.sendButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary);
+}
+
+/* === מצבי טעינה ושגיאה === */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: var(--space-3);
+}
+
+.loadingContainer .spinnerIcon {
+  font-size: var(--font-size-3xl);
+  color: var(--primary);
+}
+
+.notLoggedIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10) var(--space-5);
+  text-align: center;
+  gap: var(--space-4);
+}
+
+.warningIcon {
+  font-size: var(--font-size-3xl);
+  color: var(--warning);
+  margin-bottom: var(--space-3);
+}
+
+.notLoggedIn h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+}
+
+.notLoggedIn p {
+  margin: 0;
+  color: var(--text-secondary);
+  max-width: 500px;
+}
+
+.loginButton {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.loginButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary);
+}
+
+.errorAlert {
+  position: fixed;
+  bottom: var(--space-5);
+  right: var(--space-5);
+  background-color: var(--error-light);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--error-dark);
+  box-shadow: var(--shadow);
+  max-width: 400px;
+  z-index: var(--z-tooltip);
+  animation: slideIn 0.3s var(--bezier-smooth);
+  border-right: 3px solid var(--error);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.errorIcon {
+  color: var(--error);
+  font-size: var(--font-size-base);
+}
+
+.dismissErrorButton {
+  background: none;
+  border: none;
+  color: var(--gray-600);
+  cursor: pointer;
+  padding: var(--space-1);
+  margin-right: calc(-1 * var(--space-1));
+}
+
+.dismissErrorButton:hover {
+  color: var(--gray-800);
+}
+
+/* === רספונסיביות === */
+@media (max-width: 768px) {
+  .messagesContainer {
+    padding: var(--space-3);
+  }
+  
+  .message {
+    max-width: 90%;
+  }
+  
+  .suggestionChips {
+    padding: var(--space-2) var(--space-3);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .suggestionChip {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .coachStyleSelector {
+    width: 80%;
+    right: 10%;
+    left: 10%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: var(--space-4);
+  }
+  
+  .header h1 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .message {
+    max-width: 95%;
+  }
+  
+  .voiceButton, .attachButton {
+    display: none;
+  }
+  
+  .inputForm {
+    padding: var(--space-2);
+  }
+  
+  .messageInput {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+  
+  .sendButton {
+    width: 36px;
+    height: 36px;
+  }
+}
