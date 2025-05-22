@@ -1,6 +1,5 @@
 // src/components/shared/LoadingSpinner.js
-import React from 'react';
-import styles from '../../styles/LoadingSpinner.module.css';
+import styles from './styles/LoadingSpinner.module.css';
 
 function LoadingSpinner({ size = 'medium', text = 'טוען...', fullScreen = false }) {
   const sizeClass = {
