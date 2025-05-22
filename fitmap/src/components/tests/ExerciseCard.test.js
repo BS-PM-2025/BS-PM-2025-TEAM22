@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ExerciseCard from '../workouts/workouts/ExerciseCard';
+import ExerciseCard from '../workouts/ExerciseCard';
 
 // Mock the styles to avoid CSS module issues in tests
 jest.mock('../styles/ExerciseLibrary.module.css', () => ({

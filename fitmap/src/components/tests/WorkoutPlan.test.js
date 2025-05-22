@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import WorkoutPlan from '../workouts/workouts/WorkoutPlan';
+import WorkoutPlan from '../workouts/WorkoutPlan';
 
 // Mock workout data for testing
 const mockWorkout = {

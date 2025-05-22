@@ -1,7 +1,7 @@
 // src/components/workouts/StatCard.test.js
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import StatCard from '../workouts/workouts/StatCard';
+import StatCard from '../workouts/StatCard';
 import { FaDumbbell } from 'react-icons/fa';
 
 describe('StatCard', () => {

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import FavoriteExercises from '../workouts/workouts/FavoriteExercises';
+import FavoriteExercises from '../workouts/FavoriteExercises';
 import '@testing-library/jest-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 

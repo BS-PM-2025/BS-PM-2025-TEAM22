@@ -1,7 +1,7 @@
 // src/components/workouts/WorkoutStatistics.test.js
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import WorkoutStatistics from '../workouts/workouts/WorkoutStatistics';
+import WorkoutStatistics from '../workouts/WorkoutStatistics';
 
 // Mock the ResponsiveContainer because it doesn't render well in tests
 jest.mock('recharts', () => {

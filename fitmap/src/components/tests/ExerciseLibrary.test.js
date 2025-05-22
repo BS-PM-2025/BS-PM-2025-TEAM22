@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ExerciseLibrary from '../workouts/workouts/ExerciseLibrary';
+import ExerciseLibrary from '../workouts/ExerciseLibrary';
 import '@testing-library/jest-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 

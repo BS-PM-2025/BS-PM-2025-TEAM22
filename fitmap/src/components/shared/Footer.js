@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaFacebookF,
@@ -7,110 +7,146 @@ import {
   FaMapMarkerAlt,
   FaPhone,
   FaEnvelope,
+  FaWhatsapp,
+  FaTimes,
+  FaStar,
 } from "react-icons/fa";
-import styles from "../../styles/Footer.module.css";
+import styles from "./styles/Footer.module.css";
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+  const [showWhatsapp, setShowWhatsapp] = useState(true);
+
   return (
-    <footer className={styles.footer}>
-      <div className={styles.container}>
-        <div className={styles.footerSection}>
-          <h3>מתקני כושר עירוניים</h3>
-          <p>
-            אפליקציה למציאת מתקני כושר ציבוריים בקרבתך. חפש, התאמן והצטרף
-            לקהילה.
-          </p>
-          <div className={styles.socialLinks}>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-            >
-              <FaFacebookF className={styles.socialIcon} />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <FaInstagram className={styles.socialIcon} />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter"
-            >
-              <FaTwitter className={styles.socialIcon} />
-            </a>
+    <>
+      <footer className={styles.footer}>
+        {/* תוכן הפוטר */}
+        <div className={styles.container}>
+          {/* מידע כללי */}
+          <div className={styles.footerSection}>
+            <h3>FitMap</h3>
+            <p>
+              מציאת מתקני ספורט ציבוריים ובניית שגרת אימונים בקרבת מקום מגוריך.
+            </p>
+            <div className={styles.socialLinks}>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <FaFacebookF className={styles.socialIcon} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <FaInstagram className={styles.socialIcon} />
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+              >
+                <FaTwitter className={styles.socialIcon} />
+              </a>
+            </div>
+          </div>
+
+          {/* קישורים */}
+          <div className={styles.footerSection}>
+            <h3>ניווט מהיר</h3>
+            <div className={styles.linksGrid}>
+              <Link to="/fitness-map">מפת מתקנים</Link>
+              <Link to="/community">קהילה</Link>
+              <Link to="/personal-trainer">מאמן אישי</Link>
+              <Link to="/challenges">אתגרים</Link>
+              <Link to="/about">אודות</Link>
+              <Link to="/contact">צור קשר</Link>
+            </div>
+          </div>
+
+          {/* צור קשר */}
+          <div className={styles.footerSection}>
+            <h3>צור קשר</h3>
+            <address>
+              <p className={styles.contactItem}>
+                <FaMapMarkerAlt className={styles.addressIcon} />
+                <span className={styles.contactGradient}>
+                  מכללת סמי שמעון, באר שבע
+                </span>
+              </p>
+              <p className={styles.contactItem}>
+                <FaPhone className={styles.addressIcon} />
+                <a href="tel:+972528985233" className={styles.contactGradient}>
+                  052-8985233
+                </a>
+              </p>
+              <p className={styles.contactItem}>
+                <FaEnvelope className={styles.addressIcon} />
+                <a
+                  href="mailto:fitmapinfo@gmail.com"
+                  className={styles.contactGradient}
+                >
+                  fitmapinfo@gmail.com
+                </a>
+              </p>
+            </address>
           </div>
         </div>
+        {/* תחתית */}
+        <div className={styles.footerBottom}>
+          <div className={styles.copyright}>
+            <span>&copy; {currentYear}</span>
+            <span>Dray.Apps</span>
+            <span>| FitMap Group 22:</span>
 
-        <div className={styles.footerSection}>
-          <h3>קישורים מהירים</h3>
-          <ul className={styles.footerLinks}>
-            <li>
-              <Link to="/fitness-map">מפת מתקנים</Link>
-            </li>
-            <li>
-              <Link to="/community">קהילה</Link>
-            </li>
-            <li>
-              <Link to="/about">אודות</Link>
-            </li>
-            <li>
-              <Link to="/contact">צור קשר</Link>
-            </li>
-            <li>
-              <Link to="/terms">תנאי שימוש</Link>
-            </li>
-            <li>
-              <Link to="/privacy">מדיניות פרטיות</Link>
-            </li>
-            <li>
-              <Link to="/cookies">מדיניות עוגיות</Link>
-            </li>
-          </ul>
-        </div>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Yakir
+            </span>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Matan
+            </span>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Tomer
+            </span>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Alon
+            </span>
+          </div>
 
-        <div className={styles.footerSection}>
-          <h3>צור קשר</h3>
-          <address>
-            <p>
-              <span className={styles.addressIcon}>
-                <FaMapMarkerAlt />
-              </span>
-              מכללת סמי שמעון{" "}
-            </p>
-            <p>
-              <span className={styles.addressIcon}>
-                <FaPhone />
-              </span>
-              <a href="tel:+972-3-1234567">0528985233</a>
-            </p>
-            <p>
-              <span className={styles.addressIcon}>
-                <FaEnvelope />
-              </span>
-              <a href="mailto:Fitmapinfo@gmail.com">Fitmapinfo@gmail.com </a>
-            </p>
-          </address>
+          <div className={styles.legalLinks}>
+            <Link to="/privacy">מדיניות פרטיות</Link>
+            <Link to="/terms">תנאי שימוש</Link>
+          </div>
         </div>
-      </div>
+      </footer>
 
-      <div className={styles.footerBottom}>
-        <p className={styles.copyright}>
-          &copy; {new Date().getFullYear()} Dray.apps. כל הזכויות שמורות.
-        </p>
-        <div className={styles.legalLinks}>
-          <Link to="/privacy">מדיניות פרטיות</Link>
-          <Link to="/terms">תנאי שימוש</Link>
-          <Link to="/cookies">מדיניות עוגיות</Link>
-        </div>
-      </div>
-    </footer>
+      {/* כפתור וואטסאפ עם טוגל */}
+      {showWhatsapp && (
+        <a
+          href="https://wa.me/972528985233"
+          className={`${styles.whatsappButton} ${styles.whatsappEnter}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaWhatsapp />
+          <button
+            className={styles.closeButton}
+            onClick={(e) => {
+              e.preventDefault();
+              setShowWhatsapp(false);
+            }}
+            aria-label="סגור וואטסאפ"
+          >
+            <FaTimes />
+          </button>
+        </a>
+      )}
+    </>
   );
 }
 

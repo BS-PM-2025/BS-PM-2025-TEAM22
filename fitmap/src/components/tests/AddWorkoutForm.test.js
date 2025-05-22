@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import AddWorkoutForm from '../workouts/workouts/AddWorkoutForm';
+import AddWorkoutForm from '../workouts/AddWorkoutForm';
 
 // Mock supabase client
 jest.mock('../../utils/supabaseClient', () => ({
