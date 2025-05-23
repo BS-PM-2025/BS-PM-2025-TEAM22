@@ -1,0 +1,1049 @@
+/* Modern Favorites Styles - Matching Design System */
+
+/* ================= אנימציות מוגדרות ================= */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes spin {
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
+}
+
+@keyframes pulse {
+  0% { 
+    transform: scale(1); 
+  }
+  50% { 
+    transform: scale(1.05); 
+  }
+  100% { 
+    transform: scale(1); 
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    background-position: -200% 0; 
+  }
+  100% { 
+    background-position: 200% 0; 
+  }
+}
+
+@keyframes gradientFlow {
+  0%, 100% { 
+    background-position: 0% 50%; 
+  }
+  25% { 
+    background-position: 25% 50%; 
+  }
+  50% { 
+    background-position: 50% 50%; 
+  }
+  75% { 
+    background-position: 75% 50%; 
+  }
+}
+
+@keyframes ripple {
+  0% { 
+    transform: scale(0.8); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(2); 
+    opacity: 0; 
+  }
+}
+
+@keyframes bounceIn {
+  0% { 
+    transform: scale(0.8); 
+    opacity: 0; 
+  }
+  70% { 
+    transform: scale(1.1); 
+    opacity: 0.9; 
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+}
+
+@keyframes borderSpin {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ================= מיכל ראשי ================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* אפקט רקע גרדיאנט */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+  background-size: 300% 100%;
+  animation: gradientFlow 8s ease infinite;
+  z-index: 1;
+}
+
+.title {
+  color: #1e293b;
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
+}
+
+.title:after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+  margin: 1rem auto 0;
+  border-radius: 12px;
+  animation: gradientFlow 3s infinite linear;
+  background-size: 300% 100%;
+}
+
+/* ================= מצב טעינה ================= */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-size: 1.125rem;
+  color: #64748b;
+  position: relative;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.loading:before {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading:after {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.1);
+  animation: ripple 1.5s infinite ease-out;
+}
+
+/* ================= רשימת מועדפים ================= */
+.favoritesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.favoritesList > * {
+  animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+/* הוספת עיכוב אנימציה לפריטים ברשימה */
+.favoritesList > *:nth-child(1) { animation-delay: 0.1s; }
+.favoritesList > *:nth-child(2) { animation-delay: 0.2s; }
+.favoritesList > *:nth-child(3) { animation-delay: 0.3s; }
+.favoritesList > *:nth-child(4) { animation-delay: 0.4s; }
+.favoritesList > *:nth-child(5) { animation-delay: 0.5s; }
+.favoritesList > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* ================= כרטיס מתקן ================= */
+.favoriteCard, .exerciseCard, .workoutCard, .programCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  will-change: transform, box-shadow;
+}
+
+/* אפקט המסגרת הרצה */
+.favoriteCard::before, .exerciseCard::before, .workoutCard::before, .programCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 2px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+  background-size: 400% 400%;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  z-index: 1;
+  animation: borderSpin 3s infinite linear, gradientFlow 6s infinite linear;
+  transition: opacity 0.3s ease;
+}
+
+/* אפקט hover משותף */
+.favoriteCard:hover, .exerciseCard:hover, .workoutCard:hover, .programCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+}
+
+.favoriteCard:hover::before, .exerciseCard:hover::before, .workoutCard:hover::before, .programCard:hover::before {
+  opacity: 1;
+}
+
+.cardContent {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+/* אפקט זוהר בכרטיס */
+.cardContent::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.favoriteCard:hover .cardContent::after {
+  opacity: 1;
+}
+
+.facilityName {
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.favoriteCard:hover .facilityName {
+  color: #3b82f6;
+  transform: translateX(4px);
+}
+
+.googleTag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-right: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.favoriteCard:hover .googleTag {
+  background: rgba(16, 185, 129, 0.2);
+  color: #047857;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+.facilityAddress {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+  transition: all 0.3s ease;
+  border-right: 0 solid #3b82f6;
+  padding-right: 0.5rem;
+}
+
+.favoriteCard:hover .facilityAddress {
+  color: #374151;
+  border-right-width: 3px;
+  padding-right: 0.75rem;
+}
+
+.facilityType {
+  background: rgba(139, 92, 246, 0.1);
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: #7c3aed;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+}
+
+.facilityType::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.favoriteCard:hover .facilityType {
+  background: rgba(139, 92, 246, 0.2);
+  color: #6d28d9;
+  border-color: rgba(139, 92, 246, 0.3);
+  transform: translateX(4px);
+}
+
+.favoriteCard:hover .facilityType::before {
+  transform: translateX(100%);
+}
+
+.ratingContainer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.favoriteCard:hover .ratingContainer {
+  transform: translateY(-2px);
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.filledStar {
+  color: #f59e0b;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.emptyStar {
+  color: #d1d5db;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.favoriteCard:hover .filledStar {
+  transform: scale(1.2);
+  color: #f97316;
+}
+
+.favoriteCard:hover .emptyStar {
+  color: #9ca3af;
+}
+
+/* אנימציה לכוכבים ברחיפה */
+.favoriteCard:hover .stars .filledStar:nth-child(1) { transform: scale(1.2); transition-delay: 0.05s; }
+.favoriteCard:hover .stars .filledStar:nth-child(2) { transform: scale(1.2); transition-delay: 0.1s; }
+.favoriteCard:hover .stars .filledStar:nth-child(3) { transform: scale(1.2); transition-delay: 0.15s; }
+.favoriteCard:hover .stars .filledStar:nth-child(4) { transform: scale(1.2); transition-delay: 0.2s; }
+.favoriteCard:hover .stars .filledStar:nth-child(5) { transform: scale(1.2); transition-delay: 0.25s; }
+
+/* ================= כפתורי פעולה ================= */
+.cardActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(148, 163, 184, 0.2);
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.actionButton {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: none;
+  padding: 0.875rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #374151;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.actionButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.actionButton:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.actionButton:hover::before {
+  transform: translateX(100%);
+}
+
+.actionButton svg {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.actionButton:hover svg {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.removeButton {
+  color: #ef4444;
+}
+
+.removeButton:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.removeButton:hover svg {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+/* ================= מצב ריק ================= */
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.6s ease-out;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.emptyState::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+}
+
+.emptyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  color: white;
+  animation: float 3s ease-in-out infinite;
+  position: relative;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+  font-size: 2rem;
+}
+
+.emptyIcon::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  opacity: 0.7;
+  animation: ripple 2s infinite ease-out;
+}
+
+.emptyState h3 {
+  margin: 0 0 0.5rem;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 700;
+  position: relative;
+}
+
+.emptyState p {
+  color: #64748b;
+  margin: 0 0 1.5rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.exploreButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  text-decoration: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  cursor: pointer;
+}
+
+.exploreButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.exploreButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+}
+
+.exploreButton:hover::before {
+  transform: translateX(100%);
+}
+
+.exploreButton:active {
+  transform: translateY(0);
+}
+
+/* ================= הודעת שגיאה ================= */
+.errorMessage {
+  background: rgba(254, 226, 226, 0.9);
+  backdrop-filter: blur(10px);
+  color: #dc2626;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border-right: 4px solid #ef4444;
+  position: relative;
+  animation: slideRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.errorMessage::before {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: #ef4444;
+  animation: pulse 2s infinite;
+  border-radius: 2px;
+}
+
+/* ================= כותרת סקשן ================= */
+section > h2 {
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  padding-bottom: 0.75rem;
+  position: relative;
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+section > h2:after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, #10b981);
+  border-radius: 12px;
+  animation: gradientFlow 3s infinite linear;
+  background-size: 300% 100%;
+}
+
+/* ================= אפקט רחיפת עכבר מיוחד ================= */
+.favoriteCard {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.favoriteCard::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 3;
+  border-radius: 18px;
+}
+
+.favoriteCard:hover::after {
+  opacity: 1;
+}
+
+/* ================= מצב כהה ================= */
+.darkMode .container {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .title {
+  color: #f8fafc;
+}
+
+.darkMode .loading {
+  color: #94a3b8;
+}
+
+.darkMode .favoriteCard, 
+.darkMode .exerciseCard, 
+.darkMode .workoutCard, 
+.darkMode .programCard {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .facilityName {
+  color: #f8fafc;
+}
+
+.darkMode .favoriteCard:hover .facilityName {
+  color: #60a5fa;
+}
+
+.darkMode .facilityAddress {
+  color: #94a3b8;
+  border-right-color: #60a5fa;
+}
+
+.darkMode .favoriteCard:hover .facilityAddress {
+  color: #cbd5e1;
+}
+
+.darkMode .facilityType {
+  background: rgba(167, 139, 250, 0.2);
+  color: #a855f7;
+  border-color: rgba(167, 139, 250, 0.3);
+}
+
+.darkMode .favoriteCard:hover .facilityType {
+  background: rgba(167, 139, 250, 0.3);
+  color: #9333ea;
+}
+
+.darkMode .actionButton {
+  background: rgba(30, 41, 59, 0.8);
+  color: #cbd5e1;
+}
+
+.darkMode .actionButton:hover {
+  background: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+}
+
+.darkMode .removeButton {
+  color: #f87171;
+}
+
+.darkMode .removeButton:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.darkMode .emptyState {
+  background: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .emptyState h3 {
+  color: #f8fafc;
+}
+
+.darkMode .emptyState p {
+  color: #94a3b8;
+}
+
+.darkMode .errorMessage {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.darkMode section > h2 {
+  color: #f8fafc;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ================= רספונסיביות ================= */
+@media (max-width: 768px) {
+  .favoritesList {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .cardActions {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .cardContent {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardActions {
+    grid-template-columns: 1fr;
+  }
+  
+  .actionButton {
+    padding: 1rem;
+  }
+  
+  .favoriteCard:hover {
+    transform: translateY(-3px);
+  }
+
+  .container {
+    padding: 1rem 0.75rem;
+    border-radius: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .emptyState {
+    padding: 2rem 1rem;
+  }
+
+  .emptyIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}
+
+/* ================= High Contrast Mode ================= */
+@media (prefers-contrast: high) {
+  .favoriteCard, 
+  .exerciseCard, 
+  .workoutCard, 
+  .programCard,
+  .emptyState,
+  .container {
+    border: 2px solid #000;
+  }
+
+  .darkMode .favoriteCard, 
+  .darkMode .exerciseCard, 
+  .darkMode .workoutCard, 
+  .darkMode .programCard,
+  .darkMode .emptyState,
+  .darkMode .container {
+    border-color: #fff;
+  }
+}
+
+/* ================= Reduced Motion ================= */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .container::before,
+  .title:after,
+  section > h2:after {
+    animation: none;
+  }
+
+  .loading:before,
+  .loading:after,
+  .emptyIcon,
+  .emptyIcon::after {
+    animation: none;
+  }
+}
+
+/* ================= Focus Styles ================= */
+.actionButton:focus-visible,
+.exploreButton:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.favoriteCard:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 4px;
+}
+
+.darkMode .actionButton:focus-visible,
+.darkMode .exploreButton:focus-visible,
+.darkMode .favoriteCard:focus-visible {
+  outline-color: #60a5fa;
+}
+
+/* ================= תמיכה בדפדפנים ישנים ================= */
+@supports not (backdrop-filter: blur(10px)) {
+  .container,
+  .favoriteCard,
+  .exerciseCard,
+  .workoutCard,
+  .programCard,
+  .emptyState,
+  .actionButton {
+    background: #ffffff;
+  }
+
+  .darkMode .container,
+  .darkMode .favoriteCard,
+  .darkMode .exerciseCard,
+  .darkMode .workoutCard,
+  .darkMode .programCard,
+  .darkMode .emptyState {
+    background: #1e293b;
+  }
+
+  .darkMode .actionButton {
+    background: #374151;
+  }
+}
+
+/* ================= אנימציות לטעינה הדרגתית ================= */
+.loaded-enter {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+}
+
+.loaded-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================= אפקטים נוספים לשיפור החוויה ================= */
+
+/* סקרולבר מעוצב */
+.container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
+}
+
+/* אפקט הדגשה לכרטיסים בעת פוקוס מקלדת */
+.favoriteCard:focus-within {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+/* אנימציה מיוחדת לכוכבי הדירוג */
+.ratingContainer:hover .filledStar {
+  animation: starTwinkle 0.6s ease-in-out;
+}
+
+@keyframes starTwinkle {
+  0%, 100% { 
+    transform: scale(1); 
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.2); 
+    filter: brightness(1.3);
+  }
+}
+
+/* אפקט למעבר בין כרטיסים */
+.favoriteCard {
+  transition-property: transform, box-shadow, filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.favoriteCard:hover {
+  filter: brightness(1.02);
+}
+
+.darkMode .favoriteCard:hover {
+  filter: brightness(1.1);
+}
+
+/* אפקט קליקה על כפתורים */
+.actionButton:active,
+.exploreButton:active {
+  transform: scale(0.95);
+  transition-duration: 0.1s;
+}
+
+/* אפקט טקסט בכרטיס בעת hover */
+.favoriteCard:hover .facilityName,
+.favoriteCard:hover .facilityAddress,
+.favoriteCard:hover .facilityType {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.darkMode .favoriteCard:hover .facilityName,
+.darkMode .favoriteCard:hover .facilityAddress,
+.darkMode .favoriteCard:hover .facilityType {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}

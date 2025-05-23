@@ -1,0 +1,1201 @@
+/* FitnessMap.module.css - עיצוב מחודש בהתאם למערכת הצבעים */
+
+/* מיכל ראשי */
+.mapContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  font-family: var(--font-family-primary);
+  background: var(--gradient-ocean);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 768px) {
+  .mapContainer {
+    padding-top: 0px;
+  }
+}
+
+.mapWrapper {
+  flex: 1;
+  width: 90%;
+  background: var(--gradient-calm);
+  position: relative;
+  animation: fadeIn 0.6s var(--bezier-smooth);
+  border-radius: var(--radius-2xl);
+  margin-bottom: 60px;
+  box-shadow: var(--shadow-2xl);
+  border: 2px solid var(--primary-light);
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+  }
+}
+
+/* מצב טעינה */
+.loading, .locatingOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-modal);
+  color: var(--text-light);
+  font-weight: var(--font-weight-semibold);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  background: var(--overlay-dark);
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+}
+
+.loadingSpinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--overlay-light);
+  border-top: 4px solid var(--primary);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--space-4);
+  box-shadow: var(--shadow-primary);
+}
+
+@keyframes spin { 
+  to { transform: rotate(360deg); } 
+}
+
+/* src/components/map/styles/FitnessMap.module.css - עיצוב רשימת המתקנים */
+
+/* ===== משתנים גלובליים נוספים לרשימה ===== */
+:root {
+  /* צבעים ספציפיים לרשימה */
+  --list-bg-primary: rgba(255, 255, 255, 0.98);
+  --list-bg-secondary: #f8fafc;
+  --list-bg-hover: #f1f5f9;
+  --list-bg-selected: #eff6ff;
+  --list-bg-google: #fef3c7;
+  --list-border: #e2e8f0;
+  --list-text-primary: #1e293b;
+  --list-text-secondary: #64748b;
+  --list-text-muted: #94a3b8;
+  --list-accent: #3b82f6;
+  --list-accent-secondary: #f59e0b;
+  --list-success: #22c55e;
+  
+  /* גרדיאנטים לרשימה */
+  --list-gradient-primary: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  --list-gradient-secondary: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+  --list-gradient-google: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --list-gradient-selected: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  
+  /* צללים לרשימה */
+  --list-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --list-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --list-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --list-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --list-shadow-primary: 0 10px 25px -5px rgb(59 130 246 / 0.25);
+  
+  /* מעברים */
+  --list-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --list-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --list-transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ===== כונטיינר הרשימה הראשי ===== */
+.facilitySidebar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--list-bg-primary);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  box-shadow: var(--list-shadow-xl);
+  border: 2px solid var(--list-accent);
+  border-bottom: none;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--z-fixed);
+  transition: var(--list-transition);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  animation: sidebarSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 85vh;
+}
+
+@keyframes sidebarSlideUp {
+  0% {
+    transform: translateY(100%) rotateX(15deg);
+    opacity: 0;
+    filter: blur(10px);
+  }
+  60% {
+    transform: translateY(-20px) rotateX(-3deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* מצב ממוזער */
+.facilitySidebar.minimized {
+  box-shadow: var(--list-shadow-lg);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+/* ===== ידית גרירה מתקדמת ===== */
+.dragHandle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  cursor: ns-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.05) 25%, 
+    rgba(59, 130, 246, 0.1) 50%, 
+    rgba(59, 130, 246, 0.05) 75%, 
+    transparent 100%);
+  transition: var(--list-transition);
+  z-index: var(--z-elevated);
+}
+
+.dragHandle::before {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background: var(--list-gradient-primary);
+  border-radius: var(--radius-full);
+  opacity: 0.8;
+  transition: var(--list-transition);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.dragHandle:hover {
+  background: linear-gradient(135deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.1) 25%, 
+    rgba(59, 130, 246, 0.15) 50%, 
+    rgba(59, 130, 246, 0.1) 75%, 
+    transparent 100%);
+}
+
+.dragHandle:hover::before {
+  opacity: 1;
+  width: 80px;
+  height: 5px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+  animation: dragHandlePulse 2s ease-in-out infinite;
+}
+
+@keyframes dragHandlePulse {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(1.1); }
+}
+
+/* ===== כותרת הרשימה ===== */
+.sidebarTitle {
+  margin: 0;
+  padding: var(--space-5) var(--space-6);
+  padding-top: calc(var(--space-5) + 28px); /* מקום לידית הגרירה */
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-light);
+  background: var(--list-gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Rubik', system-ui, sans-serif;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+}
+
+/* אפקט שיממר לכותרת */
+.sidebarTitle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent);
+  animation: titleShimmer 4s ease-in-out infinite;
+}
+
+@keyframes titleShimmer {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: -100%; }
+}
+
+/* ===== כפתור מיזעור משודרג ===== */
+.minimizeButton {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--list-transition-bounce);
+  color: var(--text-light);
+  font-size: var(--font-size-lg);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.minimizeButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-full);
+  transition: var(--list-transition);
+  transform: translate(-50%, -50%);
+}
+
+.minimizeButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1) rotate(180deg);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.minimizeButton:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.minimizeButton:active {
+  transform: scale(0.95) rotate(180deg);
+}
+
+/* ===== אינדיקטור חיפוש מתקדם ===== */
+.searchingIndicator {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  font-weight: var(--font-weight-semibold);
+  background: rgba(255, 255, 255, 0.2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: searchingPulse 1.5s ease-in-out infinite;
+}
+
+.searchingIndicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent);
+  animation: searchingShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes searchingPulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.05);
+  }
+}
+
+@keyframes searchingShimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ===== רשימת המתקנים ===== */
+.facilityList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--list-accent) transparent;
+  scroll-behavior: smooth;
+  background: var(--list-bg-primary);
+}
+
+.facilityList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.facilityList::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-sm);
+}
+
+.facilityList::-webkit-scrollbar-thumb {
+  background: var(--list-gradient-primary);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.facilityList::-webkit-scrollbar-thumb:hover {
+  background: var(--list-gradient-google);
+}
+
+/* ===== פריט ברשימה ===== */
+.facilityItem {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--list-border);
+  cursor: pointer;
+  transition: var(--list-transition);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  position: relative;
+  background: var(--list-bg-primary);
+  backdrop-filter: blur(10px);
+  animation: itemSlideIn 0.5s ease-out backwards;
+  overflow: hidden;
+}
+
+.facilityItem:nth-child(1) { animation-delay: 0.1s; }
+.facilityItem:nth-child(2) { animation-delay: 0.2s; }
+.facilityItem:nth-child(3) { animation-delay: 0.3s; }
+.facilityItem:nth-child(4) { animation-delay: 0.4s; }
+.facilityItem:nth-child(5) { animation-delay: 0.5s; }
+.facilityItem:nth-child(n+6) { animation-delay: 0.6s; }
+
+@keyframes itemSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) rotateY(-10deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg);
+    filter: blur(0px);
+  }
+}
+
+/* קו צדדי אנימטי */
+.facilityItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: var(--list-transition);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* אפקט הובר */
+.facilityItem:hover {
+  background: var(--list-bg-hover);
+  transform: translateX(8px) scale(1.01);
+  box-shadow: var(--list-shadow-md);
+  border-left-color: var(--list-accent);
+}
+
+.facilityItem:hover::before {
+  background: var(--list-gradient-primary);
+  width: 6px;
+  box-shadow: var(--list-shadow-primary);
+}
+
+.facilityItem:last-child {
+  border-bottom: none;
+}
+
+/* ===== מתקן נבחר ===== */
+.facilityItem.selectedFacility {
+  background: var(--list-gradient-selected) !important;
+  border-left: 6px solid var(--list-accent);
+  box-shadow: var(--list-shadow-primary), 
+              inset 0 1px 0 rgba(59, 130, 246, 0.1);
+  transform: translateX(8px) scale(1.02);
+  animation: selectedGlow 2s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes selectedGlow {
+  0%, 100% { 
+    box-shadow: var(--list-shadow-primary), 
+                inset 0 1px 0 rgba(59, 130, 246, 0.1);
+  }
+  50% { 
+    box-shadow: var(--list-shadow-primary), 
+                0 0 20px rgba(59, 130, 246, 0.3),
+                inset 0 1px 0 rgba(59, 130, 246, 0.2);
+  }
+}
+
+.facilityItem.selectedFacility::before {
+  background: var(--list-gradient-primary) !important;
+  width: 6px;
+  animation: selectedPulse 2s ease-in-out infinite;
+}
+
+@keyframes selectedPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(1.1); opacity: 0.8; }
+}
+
+/* ===== מתקן מגוגל ===== */
+.facilityItem.googleFacility {
+  background: var(--list-bg-google);
+  border-left: 4px solid var(--list-accent-secondary);
+  position: relative;
+}
+
+.facilityItem.googleFacility::after {
+  content: 'G';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 24px;
+  height: 24px;
+  background: var(--list-gradient-google);
+  color: var(--text-light);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--list-shadow-md);
+  animation: googleBadge 3s ease-in-out infinite;
+  border: 2px solid white;
+}
+
+@keyframes googleBadge {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    box-shadow: var(--list-shadow-md);
+  }
+  50% { 
+    transform: scale(1.1) rotate(5deg); 
+    box-shadow: var(--list-shadow-lg);
+  }
+}
+
+/* ===== תוכן הפריט ===== */
+
+/* שם המתקן */
+.facilityName {
+  font-weight: var(--font-weight-bold);
+  color: var(--list-text-primary);
+  font-size: var(--font-size-lg);
+  margin: 0;
+  font-family: 'Rubik', system-ui, sans-serif;
+  line-height: var(--line-height-tight);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  position: relative;
+  padding-right: var(--space-8); /* מקום לאייקון גוגל */
+}
+
+/* כתובת */
+.facilityAddress {
+  color: var(--list-text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+  direction: rtl;
+  opacity: 0.9;
+  transition: var(--list-transition);
+}
+
+.facilityItem:hover .facilityAddress {
+  opacity: 1;
+  color: var(--list-text-primary);
+}
+
+/* סוג מתקן */
+.facilityType {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  background: var(--list-gradient-secondary);
+  color: var(--text-light);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: var(--list-transition);
+  box-shadow: var(--list-shadow-sm);
+}
+
+.facilityItem:hover .facilityType {
+  transform: scale(1.05);
+  box-shadow: var(--list-shadow-md);
+}
+
+/* מרחק */
+.facilityDistance {
+  color: var(--list-accent);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  background: rgba(59, 130, 246, 0.1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--list-shadow-sm);
+  transition: var(--list-transition);
+  align-self: flex-start;
+}
+
+.facilityDistance::before {
+  content: '📍';
+  font-size: var(--font-size-sm);
+  animation: locationPing 2s ease-in-out infinite;
+}
+
+@keyframes locationPing {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.facilityItem:hover .facilityDistance {
+  background: var(--list-accent);
+  color: var(--text-light);
+  transform: scale(1.05);
+  box-shadow: var(--list-shadow-md);
+}
+
+/* מקור נתונים */
+.facilitySource {
+  background: var(--list-gradient-google);
+  color: var(--text-light);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== מצבי טעינה ושגיאות ===== */
+.loading {
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  color: var(--list-text-secondary);
+  font-size: var(--font-size-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-weight: var(--font-weight-medium);
+}
+
+.loading::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--list-border);
+  border-top: 3px solid var(--list-accent);
+  border-radius: var(--radius-full);
+  animation: loadingSpinner 1s linear infinite;
+}
+
+@keyframes loadingSpinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.noResults {
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  color: var(--list-text-secondary);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  animation: noResultsBounce 0.6s ease-out;
+}
+
+.noResults::before {
+  content: '🔍';
+  display: block;
+  font-size: 3rem;
+  margin-bottom: var(--space-4);
+  opacity: 0.6;
+  animation: searchBounce 2s ease-in-out infinite;
+}
+
+@keyframes noResultsBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes searchBounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(10deg); }
+}
+
+/* ===== רספונסיביות - טאבלט ===== */
+@media (max-width: 1024px) {
+  .facilitySidebar {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+  
+  .sidebarTitle {
+    font-size: var(--font-size-lg);
+    padding: var(--space-4) var(--space-5);
+    padding-top: calc(var(--space-4) + 28px);
+  }
+  
+  .facilityItem {
+    padding: var(--space-4) var(--space-5);
+  }
+  
+  .facilityName {
+    font-size: var(--font-size-base);
+  }
+  
+  .minimizeButton {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ===== רספונסיביות - מובייל ===== */
+@media (max-width: 768px) {
+  .facilitySidebar {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    max-height: 80vh;
+  }
+  
+  .dragHandle {
+    height: 24px;
+  }
+  
+  .dragHandle::before {
+    width: 50px;
+    height: 3px;
+  }
+  
+  .sidebarTitle {
+    font-size: var(--font-size-base);
+    padding: var(--space-3) var(--space-4);
+    padding-top: calc(var(--space-3) + 24px);
+    min-height: 50px;
+  }
+  
+  .facilityItem {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-1);
+  }
+  
+  .facilityItem:hover {
+    transform: translateX(4px) scale(1.005);
+  }
+  
+  .facilityName {
+    font-size: var(--font-size-sm);
+    padding-right: var(--space-6);
+  }
+  
+  .facilityAddress {
+    font-size: var(--font-size-xs);
+  }
+  
+  .facilityType {
+    font-size: 10px;
+    padding: 2px var(--space-2);
+  }
+  
+  .facilityDistance {
+    font-size: var(--font-size-xs);
+    padding: 2px var(--space-2);
+  }
+  
+  .minimizeButton {
+    width: 32px;
+    height: 32px;
+    font-size: var(--font-size-base);
+  }
+  
+  .searchingIndicator {
+    font-size: var(--font-size-xs);
+    padding: 2px var(--space-2);
+  }
+  
+  .googleFacility::after {
+    width: 20px;
+    height: 20px;
+    font-size: var(--font-size-xs);
+    top: var(--space-2);
+    right: var(--space-3);
+  }
+}.sidebarControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ===== מסכים קטנים מאוד ===== */
+@media (max-width: 480px) {
+  .facilitySidebar {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    max-height: 75vh;
+  }
+  
+  .dragHandle {
+    height: 20px;
+  }
+  
+  .dragHandle::before {
+    width: 40px;
+    height: 2px;
+  }
+  
+  .sidebarTitle {
+    font-size: var(--font-size-sm);
+    padding: var(--space-2) var(--space-3);
+    padding-top: calc(var(--space-2) + 20px);
+    min-height: 45px;
+    flex-direction: column;
+    gap: var(--space-1);
+    align-items: flex-start;
+  }
+  
+  .facilityItem {
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .facilityItem:hover {
+    transform: translateX(2px) scale(1.002);
+  }
+  
+  .facilityName {
+    font-size: var(--font-size-xs);
+    padding-right: var(--space-5);
+  }
+  
+  .facilityAddress {
+    font-size: 11px;
+  }
+  
+  .facilityType,
+  .facilityDistance {
+    font-size: 10px;
+    padding: 1px var(--space-1);
+  }
+  
+  .minimizeButton {
+    width: 28px;
+    height: 28px;
+    font-size: var(--font-size-sm);
+    align-self: flex-end;
+    margin-top: var(--space-1);
+  }
+  
+  .loading,
+  .noResults {
+    padding: var(--space-6) var(--space-4);
+    font-size: var(--font-size-sm);
+  }
+  
+  .googleFacility::after {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    top: var(--space-1);
+    right: var(--space-2);
+  }
+}
+
+/* ===== מצב כהה ===== */
+[data-theme="dark"] {
+  --list-bg-primary: rgba(15, 23, 42, 0.98);
+  --list-bg-secondary: #1e293b;
+  --list-bg-hover: #334155;
+  --list-bg-selected: rgba(59, 130, 246, 0.15);
+  --list-bg-google: rgba(245, 158, 11, 0.15);
+  --list-border: #334155;
+  --list-text-primary: #f1f5f9;
+  --list-text-secondary: #94a3b8;
+  --list-text-muted: #64748b;
+}
+
+[data-theme="dark"] .facilitySidebar {
+  background: var(--list-bg-primary);
+  border-color: var(--list-border);
+  box-shadow: 0 -25px 50px -12px rgb(0 0 0 / 0.6);
+}
+
+[data-theme="dark"] .facilityItem {
+  background: var(--list-bg-primary);
+  border-bottom-color: var(--list-border);
+}
+
+[data-theme="dark"] .facilityItem:hover {
+  background: var(--list-bg-hover);
+}
+
+[data-theme="dark"] .facilityName {
+  color: var(--list-text-primary);
+}
+
+[data-theme="dark"] .facilityAddress {
+  color: var(--list-text-secondary);
+}
+
+/* ===== אנימציות גל
+/* כפתור מיקום */
+.userLocationButton {
+  position: absolute;
+  top: 150px;
+  right: var(--space-2);
+  background: var(--bg-card);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-full);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: var(--z-fixed);
+  backdrop-filter: blur(8px);
+}
+
+.userLocationButton:hover {
+  background: var(--primary);
+  color: var(--text-light);
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: var(--shadow-xl);
+}
+
+/* כפתור פילטרים */
+.filterButton {
+  position: absolute;
+  top: 90px;
+  right: var(--space-3);
+  background: var(--bg-card);
+  border: 2px solid var(--secondary);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: var(--z-fixed);
+  backdrop-filter: blur(8px);
+  color: var(--text-primary);
+}
+
+.filterButton:hover {
+  background: var(--gradient-secondary);
+  color: var(--text-light);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ניקוד משתמש */
+.scoreDisplay {
+  position: absolute;
+  top: var(--space-5);
+  left: var(--space-5);
+  background: var(--bg-card);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-xl);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  z-index: var(--z-fixed);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--accent);
+  animation: scoreGlow 3s ease-in-out infinite;
+}
+
+@keyframes scoreGlow {
+  0%, 100% { box-shadow: var(--shadow-xl); }
+  50% { box-shadow: var(--shadow-accent); }
+}
+
+.scoreIcon {
+  color: var(--accent);
+  font-size: var(--font-size-lg);
+  filter: drop-shadow(0 0 5px var(--accent));
+}
+
+/* כפתור התחל הליכה */
+.startWalkingButton {
+  position: absolute;
+  bottom: 320px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gradient-energy);
+  color: var(--text-light);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  box-shadow: var(--shadow-energy);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: var(--transition);
+  z-index: var(--z-fixed);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-secondary);
+  backdrop-filter: blur(8px);
+  animation: walkingPulse 2s ease-in-out infinite;
+}
+
+@keyframes walkingPulse {
+  0%, 100% { 
+    transform: translateX(-50%) scale(1); 
+    box-shadow: var(--shadow-energy);
+  }
+  50% { 
+    transform: translateX(-50%) scale(1.05); 
+    box-shadow: var(--shadow-xl), var(--shadow-energy);
+  }
+}
+
+.startWalkingButton:hover {
+  background: var(--gradient-power);
+  transform: translateX(-50%) translateY(-5px) scale(1.1);
+  box-shadow: var(--shadow-2xl);
+}
+
+/* פאנל פרטים */
+.detailsPanel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-2xl);
+  animation: slideUpDetails 0.5s var(--bezier-smooth);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  z-index: var(--z-modal);
+  backdrop-filter: blur(12px);
+  border: 2px solid var(--primary);
+}
+
+@keyframes slideUpDetails {
+  from { 
+    transform: translateY(100%); 
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1;
+  }
+}
+
+/* פאנל פילטרים מונפש */
+.filterPanelAnimated {
+  position: absolute;
+  top: 140px;
+  right: var(--space-3);
+  width: 320px;
+  z-index: var(--z-popover);
+  animation: filterSlideIn 0.4s var(--bezier-smooth);
+}
+
+@keyframes filterSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* הודעות שגיאה */
+.errorMessage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--gradient-energy);
+  color: var(--text-light);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-modal);
+  animation: errorBounce 0.5s var(--bezier-bounce);
+}
+
+@keyframes errorBounce {
+  0% { transform: translate(-50%, -50%) scale(0.5); }
+  80% { transform: translate(-50%, -50%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .facilitySidebar { 
+    height: 250px; 
+  }
+  
+  .facilitySidebar.minimized { 
+    height: 60px; 
+  }
+  
+  .startWalkingButton { 
+    bottom: 270px; 
+    font-size: var(--font-size-sm); 
+    padding: var(--space-2) var(--space-4);
+  }
+  
+  .filterPanelAnimated {
+    width: 280px;
+    right: var(--space-2);
+  }
+  
+  .scoreDisplay {
+    top: var(--space-3);
+    left: var(--space-3);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-sm);
+  }
+  
+  .userLocationButton {
+    width: 45px;
+    height: 45px;
+    top: 130px;
+  }
+  
+  .filterButton {
+    top: 80px;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+  }
+}
+
+@media (max-width: 480px) {
+  .facilitySidebar { 
+    height: 200px; 
+  }
+  
+  .startWalkingButton { 
+    bottom: 220px; 
+    font-size: var(--font-size-xs); 
+    padding: var(--space-2) var(--space-3);
+  }
+  
+  .sidebarTitle { 
+    font-size: var(--font-size-sm); 
+    padding: var(--space-2) var(--space-3); 
+  }
+  
+  .facilityItem { 
+    padding: var(--space-2) var(--space-3); 
+  }
+  
+  .filterPanelAnimated {
+    width: calc(100vw - var(--space-4));
+    right: var(--space-2);
+    left: var(--space-2);
+  }
+  
+  .scoreDisplay {
+    font-size: var(--font-size-xs);
+    padding: var(--space-1) var(--space-2);
+  }
+  
+  .userLocationButton {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* מצב כהה */
+[data-theme="dark"] .facilitySidebar {
+  background: var(--bg-dark);
+  border-top-color: var(--primary-light);
+}
+
+[data-theme="dark"] .sidebarTitle {
+  background: var(--gradient-primary);
+}
+
+[data-theme="dark"] .facilityItem {
+  background: var(--bg-dark);
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .facilityItem:hover {
+  background: var(--overlay-primary);
+}
+
+[data-theme="dark"] .userLocationButton,
+[data-theme="dark"] .filterButton,
+[data-theme="dark"] .scoreDisplay {
+  background: var(--bg-dark-lighter);
+  border-color: var(--border-color);
+}
+
+[data-theme="dark"] .detailsPanel {
+  background: var(--bg-dark);
+  border-color: var(--primary-light);
+}
