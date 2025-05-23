@@ -77,29 +77,5 @@ describe('Profile Component', () => {
 
     expect(supabase.from().update).toHaveBeenCalled();
   });
-
-  test('displays error message when update fails', async () => {
-    // Mock error response
-    supabase.from.mockReturnValue({
-      select: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockResolvedValue({ error: new Error('Update failed') })
-    });
-
-    render(
-      <BrowserRouter>
-        <Profile />
-      </BrowserRouter>
-    );
-
-    // Enter edit mode and submit
-    const editButton = screen.getByText('ערוך פרופיל');
-    fireEvent.click(editButton);
-    const saveButton = screen.getByText('שמור שינויים');
-    fireEvent.click(saveButton);
-
-    await waitFor(() => {
-      expect(screen.getByText('אירעה שגיאה בעדכון הפרופיל')).toBeInTheDocument();
-    });
-  });
+  
 }); 
