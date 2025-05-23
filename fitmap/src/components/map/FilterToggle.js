@@ -1,7 +1,7 @@
 // src/components/map/FilterToggle.js
 import React from "react";
 import { FaFilter } from "react-icons/fa";
-import styles from "../../styles/FitnessMap.module.css";
+import styles from "./styles/FitnessMap.module.css";
 
 function FilterToggle({ showFilters, setShowFilters }) {
   return (

@@ -1,7 +1,7 @@
 // src/components/map/UserLocationControl.js
 import React from "react";
 import { FaLocationArrow } from "react-icons/fa";
-import styles from "../../styles/FitnessMap.module.css";
+import styles from "./styles/FitnessMap.module.css";
 
 function UserLocationControl({ onCenterOnUser }) {
   return (
