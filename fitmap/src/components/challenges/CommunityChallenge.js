@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
 import ChallengeCard from './ChallengeCard';
-import { FaTrophy, FaFilter, FaSearch, FaExclamationTriangle, FaPlus } from 'react-icons/fa';
+import { FaTrophy, FaFilter, FaSearch, FaExclamationTriangle, FaPlus, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import styles from './styles/CommunityChallenge.module.css';
 
 function CommunityChallenge() {
@@ -19,6 +19,7 @@ function CommunityChallenge() {
   const [filter, setFilter] = useState('active');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredChallenges, setFilteredChallenges] = useState([]);
+  const [showUserChallenges, setShowUserChallenges] = useState(true);
 
   useEffect(() => {
     fetchChallenges();
@@ -118,6 +119,10 @@ function CommunityChallenge() {
     }
   };
 
+  const toggleUserChallenges = () => {
+    setShowUserChallenges(!showUserChallenges);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -166,8 +171,24 @@ function CommunityChallenge() {
 
       {userChallenges.length > 0 && (
         <div className={styles.userChallengesSection}>
-          <h2>האתגרים שלך</h2>
-          <div className={styles.challengesGrid}>
+          <div className={styles.sectionHeader}>
+            <button 
+              className={styles.toggleButton} 
+              onClick={toggleUserChallenges}
+              aria-expanded={showUserChallenges}
+              aria-label={showUserChallenges ? "הסתר את האתגרים שלי" : "הצג את האתגרים שלי"}
+            >
+              <h2>האתגרים שלי</h2>
+              <span className={styles.toggleIcon}>
+                {showUserChallenges ? <FaChevronUp /> : <FaChevronDown />}
+              </span>
+            </button>
+            <div className={styles.challengeCount}>
+              {userChallenges.length} אתגרים
+            </div>
+          </div>
+          
+          <div className={`${styles.challengesGrid} ${showUserChallenges ? styles.expanded : styles.collapsed}`}>
             {userChallenges.map(challenge => (
               <ChallengeCard
                 key={challenge.id}

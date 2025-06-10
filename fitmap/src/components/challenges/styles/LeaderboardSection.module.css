@@ -1,12 +1,19 @@
-/* src/components/challenges/styles/LeaderboardSection.module.css */
+/* 
+ * LeaderboardSection.module.css
+ * עיצוב ללוח מובילים
+ */
 
 .leaderboardContainer {
-  background-color: var(--bg-card);
+  background: var(--bg-card);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border-color);
   overflow: hidden;
-  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow);
+  animation: fadeIn var(--transition) ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .leaderboardHeader {
@@ -14,152 +21,235 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--space-4) var(--space-6);
-  background-color: var(--bg-light);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--gradient-primary);
+  color: var(--text-light);
   cursor: pointer;
-  transition: background-color var(--transition-fast);
-}
-
-.leaderboardHeader:hover {
-  background-color: var(--bg-medium);
+  user-select: none;
 }
 
 .leaderboardHeader h3 {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin: 0;
-  font-size: var(--font-size-lg);
+  gap: var(--space-3);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
-  color: var(--text-primary);
+  margin: 0;
 }
 
 .headerIcon {
-  color: var(--warning);
+  font-size: var(--font-size-2xl);
+  color: var(--energy);
 }
 
 .collapseButton {
   background: none;
   border: none;
-  font-size: var(--font-size-base);
-  color: var(--text-secondary);
+  color: var(--text-light);
+  font-size: var(--font-size-xl);
   cursor: pointer;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius);
   transition: all var(--transition-fast);
 }
 
 .collapseButton:hover {
-  background-color: var(--bg-medium);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .searchContainer {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin: var(--space-4) var(--space-6);
   position: relative;
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .searchIcon {
   position: absolute;
-  right: var(--space-3);
+  top: 50%;
+  right: var(--space-8);
+  transform: translateY(-50%);
   color: var(--text-tertiary);
-  font-size: var(--font-size-base);
+  pointer-events: none;
+  font-size: var(--font-size-lg);
 }
 
 .searchInput {
   width: 100%;
-  padding: var(--space-2) var(--space-6);
-  padding-right: var(--space-8);
+  padding: var(--space-3) var(--space-4);
+  padding-right: var(--space-12);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
+  border-radius: var(--radius);
+  background: var(--bg-input);
   color: var(--text-primary);
-  background-color: var(--bg-light);
+  font-size: var(--font-size-base);
   transition: all var(--transition-fast);
 }
 
 .searchInput:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 0, 0, 0), 0.1);
-  background-color: var(--bg-white);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.searchInput::placeholder {
+  color: var(--text-tertiary);
 }
 
 .leaderboardTable {
   width: 100%;
+  overflow-x: auto;
 }
 
 .leaderboardHead {
-  display: flex;
+  display: grid;
+  grid-template-columns: 80px 1fr 120px;
   padding: var(--space-3) var(--space-6);
-  background-color: var(--bg-light);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-light);
+  border-bottom: 2px solid var(--border-color);
   font-weight: var(--font-weight-semibold);
   color: var(--text-secondary);
   font-size: var(--font-size-sm);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-10);
 }
 
 .leaderboardBody {
   max-height: 400px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-400) var(--bg-light);
+}
+
+.leaderboardBody::-webkit-scrollbar {
+  width: 8px;
+}
+
+.leaderboardBody::-webkit-scrollbar-track {
+  background: var(--bg-light);
+}
+
+.leaderboardBody::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: var(--radius);
+}
+
+.leaderboardBody::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
 }
 
 .leaderboardRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 80px 1fr 120px;
   padding: var(--space-3) var(--space-6);
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
   transition: all var(--transition-fast);
   position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.leaderboardRow:hover {
+  background: var(--bg-light);
 }
 
 .leaderboardRow:last-child {
   border-bottom: none;
 }
 
-.leaderboardRow:hover {
-  background-color: var(--bg-light);
+.currentUserRow {
+  background: var(--primary-light);
+  border-right: 4px solid var(--primary);
+}
+
+.currentUserRow:hover {
+  background: var(--primary-light);
+}
+
+.topThreeRow {
+  background: var(--bg-light);
+}
+
+.highlightedRow {
+  box-shadow: inset 0 0 0 2px var(--primary-light);
+}
+
+.newRankingAnimation {
+  animation: pulseHighlight 2s ease-in-out;
+}
+
+@keyframes pulseHighlight {
+  0%, 100% { background: var(--primary-light); }
+  50% { background: rgba(230, 57, 70, 0.2); }
 }
 
 .rankColumn {
-  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-lg);
-  color: var(--text-secondary);
+  gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
   position: relative;
 }
 
+.rankNumber {
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+}
+
+.crownIcon {
+  font-size: var(--font-size-xl);
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.userRankIcon {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  color: var(--energy);
+  font-size: var(--font-size-sm);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
 .nameColumn {
-  flex: 1;
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  overflow: hidden;
-}
-
-.valueColumn {
-  width: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-2);
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
 }
 
-.valueText {
-  white-space: nowrap;
-}
-
 .userAvatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
   overflow: hidden;
+  position: relative;
+  background: var(--gradient-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,133 +268,81 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-medium);
-  color: var(--text-secondary);
+  background: var(--gradient-primary);
 }
 
 .defaultAvatar {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-xl);
+  color: var(--text-light);
 }
 
 .userName {
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: var(--space-2);
 }
 
-.rankNumber {
-  font-size: var(--font-size-base);
+.youBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  background: var(--primary);
+  color: var(--text-light);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
 }
 
-.crownIcon {
-  font-size: 1.25rem;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+.valueColumn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.valueText {
+  font-size: var(--font-size-base);
 }
 
 .rankBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
   font-size: var(--font-size-xs);
-  padding: 2px 6px;
-  border-radius: var(--radius-full);
-  color: white;
-  white-space: nowrap;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-light);
+  box-shadow: var(--shadow-sm);
 }
 
-.rank1 {
-  background-color: #ffd700;
-  color: #5f4c00;
-}
-
-.rank2 {
-  background-color: #c0c0c0;
-  color: #494949;
-}
-
-.rank3 {
-  background-color: #cd7f32;
-  color: #3a2309;
-}
-
-.userRankIcon {
-  position: absolute;
-  bottom: -4px;
-  right: -4px;
-  font-size: var(--font-size-xs);
-  color: var(--energy);
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-}
-
-.youBadge {
-  display: inline-block;
-  padding: 1px 6px;
-  background-color: var(--primary-light);
-  border-radius: var(--radius-full);
-  color: var(--primary-dark);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
-}
-
-.topThreeRow {
-  background-color: rgba(var(--warning-rgb, 255, 215, 0), 0.08);
-  font-weight: var(--font-weight-semibold);
-}
-
-.topThreeRow:hover {
-  background-color: rgba(var(--warning-rgb, 255, 215, 0), 0.12);
-}
-
-.currentUserRow {
-  background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.08);
-  position: relative;
-}
-
-.currentUserRow:hover {
-  background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.12);
-}
-
-.highlightedRow {
-  box-shadow: inset 0 0 0 2px var(--primary);
-  z-index: 1;
-}
-
-.newRankingAnimation {
-  animation: highlightNewRanking 2s var(--bezier-bounce);
-}
-
-@keyframes highlightNewRanking {
-  0%, 100% { background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.08); }
-  50% { background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.2); }
-}
+.rank1 { background: #ffd700; }
+.rank2 { background: #c0c0c0; }
+.rank3 { background: #cd7f32; }
 
 .currentUserSection {
-  position: relative;
+  background: var(--bg-light);
+  border-top: 2px solid var(--border-color);
+  padding: var(--space-4) var(--space-6);
 }
 
 .currentUserDivider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-2) 0;
+  text-align: center;
   color: var(--text-tertiary);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 2px;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-4);
 }
 
 .leaderboardFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-3) var(--space-6);
-  background-color: var(--bg-light);
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-light);
   border-top: 1px solid var(--border-color);
-  font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .participantsCount {
@@ -312,83 +350,127 @@
 }
 
 .showMoreButton {
-  background: none;
-  border: none;
-  color: var(--primary);
-  cursor: pointer;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  transition: color var(--transition-fast);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .showMoreButton:hover {
-  color: var(--primary-dark);
-  text-decoration: underline;
+  background: var(--bg-light-darker);
+  color: var(--text-primary);
+  border-color: var(--primary-light);
 }
 
 .emptyLeaderboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-8) var(--space-4);
-  background-color: var(--bg-light);
-  border-radius: var(--radius-lg);
   text-align: center;
+  padding: var(--space-12) var(--space-4);
+  color: var(--text-secondary);
 }
 
 .emptyIcon {
-  font-size: 3rem;
-  color: var(--text-lighter);
+  font-size: var(--font-size-5xl);
+  color: var(--text-tertiary);
   margin-bottom: var(--space-4);
-  opacity: 0.7;
 }
 
-.emptyLeaderboard p {
-  color: var(--text-secondary);
-  font-size: var(--font-size-base);
-  margin: 0;
-}
-
-/* התאמה למסכים קטנים */
+/* Media Queries */
 @media (max-width: 768px) {
+  .leaderboardHead,
+  .leaderboardRow {
+    grid-template-columns: 60px 1fr 100px;
+  }
+  
   .leaderboardHeader {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .leaderboardHeader h3 {
+    font-size: var(--font-size-lg);
+  }
+  
+  .searchContainer {
     padding: var(--space-3) var(--space-4);
   }
   
   .leaderboardHead,
   .leaderboardRow {
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
   }
   
-  .valueColumn {
-    width: 90px;
+  .userAvatar {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .valueText {
     font-size: var(--font-size-sm);
   }
-  
-  .searchContainer {
-    margin: var(--space-3) var(--space-4);
-  }
-  
-  .rankBadge {
-    display: none;
-  }
-  
-  .leaderboardFooter {
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .leaderboardHead,
+  .leaderboardRow {
+    grid-template-columns: 50px 1fr 80px;
   }
   
   .userName {
     font-size: var(--font-size-sm);
   }
   
-  .userAvatar {
-    width: 28px;
-    height: 28px;
+  .youBadge {
+    display: none;
   }
+  
+  .rankBadge {
+    display: none;
+  }
+  
+  .userAvatar {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Dark Theme Support */
+[data-theme='dark'] .leaderboardContainer {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .leaderboardHead,
+[data-theme='dark'] .leaderboardFooter,
+[data-theme='dark'] .searchContainer {
+  background: var(--bg-dark-lighter);
+}
+
+[data-theme='dark'] .leaderboardRow:hover,
+[data-theme='dark'] .topThreeRow {
+  background: var(--bg-dark-lighter);
+}
+
+[data-theme='dark'] .currentUserRow,
+[data-theme='dark'] .currentUserRow:hover {
+  background: rgba(230, 57, 70, 0.15);
+}
+
+[data-theme='dark'] .searchInput {
+  background: var(--bg-input);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .showMoreButton {
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .showMoreButton:hover {
+  background: var(--bg-dark);
 }
