@@ -19,9 +19,37 @@ export const usePrivateChat = (chatId, currentUser) => {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
 
   // מעקב אחר ערוצי ההאזנה בזמן אמת
   const subscriptionRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
+
+  // פונקציית debounce לאירועי הקלדה
+  const sendTypingEvent = useCallback(() => {
+    if (!chatId || !currentUser?.id) return;
+    
+    const sendTypingMessage = () => {
+      const channel = supabase.channel(`typing:${chatId}`);
+      channel.send({
+        type: 'broadcast',
+        event: 'typing',
+        payload: { 
+          user_id: currentUser.id,
+          is_typing: true 
+        }
+      });
+    };
+    
+    // יישום הדיבאונס באופן ידני
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    typingTimeoutRef.current = setTimeout(() => {
+      sendTypingMessage();
+    }, 500);
+  }, [chatId, currentUser]);
 
   // בדיקה אם המשתמש רשאי לצפות בצ'אט זה
   const validateAccess = useCallback(async () => {
@@ -152,6 +180,37 @@ export const usePrivateChat = (chatId, currentUser) => {
     }
   }, [chatId, currentUser]);
 
+  // האזנה לאירועי הקלדה
+  useEffect(() => {
+    if (!chatId || !currentUser?.id) return;
+    
+    const typingChannel = supabase
+      .channel(`typing:${chatId}`)
+      .on('broadcast', { event: 'typing' }, (payload) => {
+        // וודא שזה לא המשתמש הנוכחי
+        if (payload.payload.user_id !== currentUser.id) {
+          setIsTyping(true);
+          
+          // איפוס סטטוס ההקלדה אחרי 3 שניות
+          if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+          }
+          
+          typingTimeoutRef.current = setTimeout(() => {
+            setIsTyping(false);
+          }, 3000);
+        }
+      })
+      .subscribe();
+    
+    return () => {
+      supabase.removeChannel(typingChannel);
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, [chatId, currentUser]);
+
   // הגדרת הערוץ להאזנה בזמן אמת להודעות חדשות
   const setupRealtimeSubscription = useCallback(() => {
     if (!chatId || !currentUser?.id || subscriptionRef.current) return;
@@ -261,7 +320,9 @@ export const usePrivateChat = (chatId, currentUser) => {
     otherUser,
     chatInfo,
     hasMore,
+    isTyping,
     sendMessage,
+    sendTypingEvent,
     loadMoreMessages,
     refreshMessages: () => fetchMessages(0, false)
   };

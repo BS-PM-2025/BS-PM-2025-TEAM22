@@ -4,12 +4,14 @@ export const useUserLocation = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState(null);
+  const [locationUpdateCallback, setLocationUpdateCallback] = useState(null);
 
   // שמירה ב-localStorage
   const saveLocationToStorage = useCallback((location) => {
     if (location) {
       try {
         localStorage.setItem('userLocation', JSON.stringify(location));
+        localStorage.setItem('locationTimestamp', Date.now().toString());
       } catch (err) {
         console.warn('שגיאה בשמירת מיקום:', err);
       }
@@ -20,99 +22,152 @@ export const useUserLocation = () => {
   const loadLocationFromStorage = useCallback(() => {
     try {
       const saved = localStorage.getItem('userLocation');
-      return saved ? JSON.parse(saved) : null;
+      const timestamp = localStorage.getItem('locationTimestamp');
+      
+      if (saved && timestamp) {
+        const age = Date.now() - parseInt(timestamp);
+        // אם המיקום ישן מ-30 דקות, נתעלם ממנו
+        if (age < 30 * 60 * 1000) {
+          return JSON.parse(saved);
+        }
+      }
+      return null;
     } catch (err) {
       console.warn('שגיאה בקריאה מהמיקום השמור:', err);
       return null;
     }
   }, []);
 
+  // עדכון מיקום והפעלת callback
+  const updateLocation = useCallback((location) => {
+    setUserLocation(location);
+    saveLocationToStorage(location);
+    
+    // הפעלת callback אם קיים (לחיפוש מתקנים)
+    if (locationUpdateCallback) {
+      locationUpdateCallback(location);
+    }
+  }, [saveLocationToStorage, locationUpdateCallback]);
+
   // קריאה ל-Geolocation API
-  const getUserPosition = useCallback(() => {
+  const getUserPosition = useCallback((options = {}) => {
     if (!navigator.geolocation) {
       setLocationError('Geolocation לא נתמך בדפדפן זה');
-      return;
+      return Promise.reject(new Error('Geolocation not supported'));
     }
 
     setIsLocating(true);
     setLocationError(null);
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const location = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        setUserLocation(location);
-        saveLocationToStorage(location);
-        setIsLocating(false);
-      },
-      (error) => {
-        console.warn('שגיאה באיתור מיקום:', error);
-        let message;
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            message = 'הגישה למיקום נדחתה';
-            break;
-          case error.POSITION_UNAVAILABLE:
-            message = 'אין מידע מיקום זמין';
-            break;
-          case error.TIMEOUT:
-            message = 'פג זמן המתנה למיקום';
-            break;
-          default:
-            message = 'שגיאה לא ידועה במיקום';
-        }
-        setLocationError(message);
-        setIsLocating(false);
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            accuracy: position.coords.accuracy
+          };
+          updateLocation(location);
+          setIsLocating(false);
+          resolve(location);
+        },
+        (error) => {
+          console.warn('שגיאה באיתור מיקום:', error);
+          let message;
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              message = 'הגישה למיקום נדחתה';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              message = 'אין מידע מיקום זמין';
+              break;
+            case error.TIMEOUT:
+              message = 'פג זמן המתנה למיקום';
+              break;
+            default:
+              message = 'שגיאה לא ידועה במיקום';
+          }
+          setLocationError(message);
+          setIsLocating(false);
 
-        const saved = loadLocationFromStorage();
-        if (saved) {
-          setUserLocation(saved);
+          const saved = loadLocationFromStorage();
+          if (saved) {
+            updateLocation(saved);
+            resolve(saved);
+          } else {
+            reject(error);
+          }
+        },
+        {
+          enableHighAccuracy: options.enableHighAccuracy !== false,
+          timeout: options.timeout || 10000,
+          maximumAge: options.maximumAge || 300000
         }
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 300000
-      }
-    );
-  }, [saveLocationToStorage, loadLocationFromStorage]);
+      );
+    });
+  }, [updateLocation, loadLocationFromStorage]);
 
   // פונקציה למרכז מפה לפי מיקום המשתמש
   const centerOnUser = useCallback((mapInstance) => {
     if (!mapInstance) {
       console.warn("אין מופע מפה תקף");
-      return;
+      return Promise.reject(new Error("No map instance"));
     }
 
     if (userLocation) {
       mapInstance.setCenter(userLocation);
       mapInstance.setZoom(14);
+      return Promise.resolve(userLocation);
     } else {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          setUserLocation(location);
-          saveLocationToStorage(location);
+      return getUserPosition({ enableHighAccuracy: true })
+        .then(location => {
           mapInstance.setCenter(location);
-          mapInstance.setZoom(14);
-        },
-        (error) => {
+          mapInstance.setZoom(16);
+          return location;
+        })
+        .catch(error => {
           console.warn("שגיאה באחזור מיקום:", error);
-          alert("לא הצלחנו לקבל את מיקומך");
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 300000
-        }
-      );
+          throw error;
+        });
     }
-  }, [userLocation, setUserLocation, saveLocationToStorage]);
+  }, [userLocation, getUserPosition]);
+
+  // פונקציה לרישום callback שיופעל בעדכון מיקום
+  const onLocationUpdate = useCallback((callback) => {
+    setLocationUpdateCallback(() => callback);
+  }, []);
+
+  // מעקב מתמשך אחר מיקום
+  const watchPosition = useCallback(() => {
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation לא נתמך בדפדפן זה');
+      return null;
+    }
+
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        const location = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          accuracy: position.coords.accuracy
+        };
+        updateLocation(location);
+      },
+      (error) => {
+        console.warn('שגיאה במעקב מיקום:', error);
+        setLocationError('שגיאה במעקב אחר מיקום');
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 5000
+      }
+    );
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
+  }, [updateLocation]);
 
   // טעינה ראשונית
   useEffect(() => {
@@ -120,16 +175,27 @@ export const useUserLocation = () => {
     if (saved) {
       setUserLocation(saved);
     }
-    getUserPosition();
-  }, [loadLocationFromStorage, getUserPosition]);
+    
+    // איתור מיקום ראשוני
+    getUserPosition({ enableHighAccuracy: false })
+      .then(location => {
+        // לאחר מיקום ראשוני מהיר, נבקש מיקום מדויק יותר
+        getUserPosition({ enableHighAccuracy: true });
+      })
+      .catch(err => {
+        console.warn('לא הצלחנו לקבל מיקום ראשוני');
+      });
+  }, [getUserPosition, loadLocationFromStorage]);
 
   return {
     userLocation,
-    setUserLocation,
+    setUserLocation: updateLocation,
     isLocating,
     locationError,
     getUserPosition,
-    centerOnUser
+    centerOnUser,
+    watchPosition,
+    onLocationUpdate
   };
 };
 

@@ -1,4 +1,3 @@
-// src/hooks/useGoogleMaps.js
 import { useState, useEffect, useCallback } from 'react';
 
 /**
@@ -41,16 +40,16 @@ export const useGoogleMaps = () => {
 
       const mapOptions = { ...defaultOptions, ...options };
       const googleMap = new window.google.maps.Map(container, mapOptions);
-      
+
       // שמירת המפה בסטייט
       setMap(googleMap);
-      
+
       // יצירת שירות Places
       const service = new window.google.maps.places.PlacesService(googleMap);
       setPlacesService(service);
-      
+
       console.log("✅ מפה נוצרה בהצלחה, כולל שירות Places");
-      
+
       return googleMap;
     } catch (err) {
       console.error("שגיאה ביצירת מפה:", err);
@@ -72,7 +71,7 @@ export const useGoogleMaps = () => {
     const existingScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
     if (existingScript) {
       console.log("⚠️ סקריפט Google Maps כבר קיים בדף, ממתין לטעינה");
-      
+
       // האזנה לסיום טעינה של הסקריפט הקיים
       const checkLoaded = () => {
         if (isGoogleMapsLoaded()) {
@@ -81,17 +80,17 @@ export const useGoogleMaps = () => {
           clearInterval(checkInterval);
         }
       };
-      
+
       const checkInterval = setInterval(checkLoaded, 100);
-      
+
       return () => {
         clearInterval(checkInterval);
       };
     }
-    
+
     // טעינת הסקריפט
     console.log("⌛ מתחיל טעינת Google Maps API...");
-    
+
     const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
     if (!apiKey) {
       const error = new Error('Google Maps API key לא נמצא. יש לבדוק את קובץ ה-.env');
@@ -119,7 +118,7 @@ export const useGoogleMaps = () => {
 
     script.addEventListener('load', handleScriptLoad);
     script.addEventListener('error', handleScriptError);
-    
+
     document.head.appendChild(script);
 
     return () => {
