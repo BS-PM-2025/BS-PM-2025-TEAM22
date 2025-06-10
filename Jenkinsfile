@@ -1,31 +1,47 @@
-/* Jenkinsfile – FitMap */
+/* Jenkinsfile – FitMap - Updated Version */
 
 pipeline {
     agent any
 
     environment {
         NODE_IMAGE = 'node:18-alpine'
+        COMPOSE_FILE = '../docker-compose.yml'
+        DOCKERFILE_PATH = '../Dockerfile'
     }
 
     stages {
-
         /* ---------- Source ---------- */
         stage('Checkout') {
-            steps { checkout scm }
+            steps { 
+                checkout scm 
+                script {
+                    echo "🔍 Workspace contents:"
+                    bat 'dir'
+                    echo "🔍 FitMap directory contents:"
+                    dir('fitmap') { bat 'dir' }
+                }
+            }
         }
 
         /* ---------- Tooling ---------- */
         stage('Setup Node.js (host)') {
             steps {
-                bat 'node --version'
-                bat 'npm --version'
+                script {
+                    echo "🔧 Checking Node.js and npm versions..."
+                    bat 'node --version'
+                    bat 'npm --version'
+                }
             }
         }
 
         /* ---------- Dependencies ---------- */
         stage('Install Dependencies') {
             steps {
-                dir('fitmap') { bat 'npm ci' }
+                dir('fitmap') { 
+                    echo "📦 Installing dependencies..."
+                    bat 'npm ci'
+                    bat 'npm list --depth=0'
+                }
             }
         }
 
@@ -33,60 +49,175 @@ pipeline {
         stage('Run Tests (Docker + JUnit)') {
             steps {
                 dir('fitmap') {
-                    /* pull image if missing */
-                    bat "docker pull %NODE_IMAGE%"
+                    script {
+                        echo "🧪 Running tests in Docker container..."
+                        
+                        // Pull image if missing
+                        bat "docker pull %NODE_IMAGE%"
 
-                    /* run Jest; mark build UNSTABLE if any test fails */
-                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                        // Ensure jest-junit is available
+                        bat "npm list jest-junit || npm install --save-dev jest-junit"
+
+                        // Run Jest tests inside the container with proper JUnit output
                         bat """
                         docker run --rm ^
                           -e CI=true ^
-                          -e JEST_JUNIT_OUTPUT=/app/fitmap/junit.xml ^  /* write report into fitmap dir */
+                          -e JEST_JUNIT_OUTPUT_DIR=/app ^
+                          -e JEST_JUNIT_OUTPUT_NAME=test-results.xml ^
                           -v "%cd%":/app ^
                           -w /app ^
                           %NODE_IMAGE% ^
-                          sh -c "npm run test:ci"
+                          sh -c "npm run test -- --ci --coverage --watchAll=false --reporters=default --reporters=jest-junit --testResultsProcessor=jest-junit"
                         """
                     }
                 }
             }
             post {
-                /* always try to archive the XML that Jest-JUnit produced */
-                always { junit testResults: 'fitmap/junit.xml', allowEmptyResults: true }
-
-                /* simple quality‐gate: mark build UNSTABLE if pass-rate < 90 % */
                 always {
-                    script {
-                        def tr = currentBuild.testResultAction
-                        if (tr) {
-                            def ratio = tr.totalCount ? tr.passCount / tr.totalCount : 1
-                            echo "🧪  Pass-rate = ${(ratio*100).round(2)} %"
-                            if (ratio < 0.90) {
-                                currentBuild.result = 'UNSTABLE'
-                                echo "⚠️  Pass-rate below 90 % – build is UNSTABLE."
+                    dir('fitmap') {
+                        script {
+                            // Try multiple possible locations for test results
+                            def testFiles = [
+                                'test-results.xml',
+                                'junit.xml', 
+                                'test-report.xml',
+                                'coverage/junit.xml'
+                            ]
+                            
+                            def foundTestFile = false
+                            testFiles.each { file ->
+                                if (fileExists(file)) {
+                                    echo "📊 Found test results at: ${file}"
+                                    junit testResults: file, allowEmptyResults: true
+                                    foundTestFile = true
+                                    return true // break from closure
+                                }
+                            }
+                            
+                            if (!foundTestFile) {
+                                echo "⚠️  No test result XML files found. Available files:"
+                                bat 'dir *.xml 2>nul || echo "No XML files found"'
                             }
                         }
                     }
+                }
+                success {
+                    script {
+                        echo "✅ Tests completed successfully"
+                        def tr = currentBuild.testResultAction
+                        if (tr) {
+                            def total  = tr.totalCount ?: 0
+                            def passed = tr.passCount  ?: 0
+                            def failed = tr.failCount ?: 0
+                            def skipped = tr.skipCount ?: 0
+                            def ratio  = total ? passed / total : 0
+                            
+                            echo "🧪 Test Results:"
+                            echo "   Total: ${total}"
+                            echo "   Passed: ${passed}"
+                            echo "   Failed: ${failed}"
+                            echo "   Skipped: ${skipped}"
+                            echo "   Pass Rate: ${(ratio*100).round(2)}%"
+
+                            if (ratio < 0.90) {
+                                error "❌ Pass rate ${(ratio*100).round(2)}% is below required 90% threshold"
+                            }
+                        } else {
+                            echo "⚠️  No test results available for quality gate check"
+                        }
+                    }
+                }
+                failure {
+                    echo "❌ Tests failed - check the test output above"
                 }
             }
         }
 
         /* ---------- Build ---------- */
         stage('Build Docker Image') {
+            when {
+                expression { 
+                    // Only run if tests passed
+                    return currentBuild.currentResult == 'SUCCESS'
+                }
+            }
             steps {
                 dir('fitmap') {
-                    bat 'docker build -t fitmap-app --no-cache -f ../Dockerfile .'
+                    script {
+                        echo "🐳 Building Docker image..."
+                        
+                        // Check if Dockerfile exists
+                        if (!fileExists(env.DOCKERFILE_PATH)) {
+                            error "❌ Dockerfile not found at ${env.DOCKERFILE_PATH}"
+                        }
+                        
+                        bat "docker build -t fitmap-app:${env.BUILD_NUMBER} --no-cache -f ${env.DOCKERFILE_PATH} ."
+                        bat "docker tag fitmap-app:${env.BUILD_NUMBER} fitmap-app:latest"
+                        
+                        echo "✅ Docker image built successfully"
+                    }
                 }
             }
         }
 
         /* ---------- Run ---------- */
         stage('Run Docker Container') {
+            when {
+                expression { 
+                    return currentBuild.currentResult == 'SUCCESS'
+                }
+            }
             steps {
                 dir('fitmap') {
-                    bat 'docker-compose -f ../docker-compose.yml up -d'
-                    bat 'powershell -Command "Start-Sleep -Seconds 10"'
-                    bat 'docker-compose -f ../docker-compose.yml ps'
+                    script {
+                        echo "🚀 Starting Docker container..."
+                        
+                        // Check if docker-compose.yml exists
+                        if (!fileExists(env.COMPOSE_FILE)) {
+                            error "❌ docker-compose.yml not found at ${env.COMPOSE_FILE}"
+                        }
+
+                        // Stop any existing containers
+                        bat "docker-compose -f ${env.COMPOSE_FILE} down --remove-orphans || echo 'No existing containers to stop'"
+                        
+                        // Start new containers
+                        bat "docker-compose -f ${env.COMPOSE_FILE} up -d"
+                        
+                        // Wait for containers to be ready
+                        bat 'powershell -Command "Start-Sleep -Seconds 15"'
+                        
+                        // Check container status
+                        bat "docker-compose -f ${env.COMPOSE_FILE} ps"
+                        
+                        // Optional: Health check
+                        bat "docker-compose -f ${env.COMPOSE_FILE} logs --tail=20"
+                        
+                        echo "✅ Container started successfully"
+                    }
+                }
+            }
+        }
+
+        /* ---------- Basic Health Check ---------- */
+        stage('Health Check') {
+            when {
+                expression { 
+                    return currentBuild.currentResult == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    echo "🏥 Performing basic health check..."
+                    
+                    // Wait a bit more for app to fully start
+                    bat 'powershell -Command "Start-Sleep -Seconds 5"'
+                    
+                    // Check if containers are still running
+                    dir('fitmap') {
+                        bat "docker-compose -f ${env.COMPOSE_FILE} ps"
+                    }
+                    
+                    echo "✅ Health check completed"
                 }
             }
         }
@@ -94,18 +225,61 @@ pipeline {
 
     /* ---------- Cleanup & Notifications ---------- */
     post {
-        /* Stop containers first, **then** wipe workspace */
         always {
+            script {
+                echo "🧹 Starting cleanup..."
+                
+                dir('fitmap') {
+                    // Always try to clean up containers
+                    if (fileExists(env.COMPOSE_FILE)) {
+                        bat "docker-compose -f ${env.COMPOSE_FILE} down --remove-orphans || echo 'Cleanup completed with warnings'"
+                    } else {
+                        echo "⚠️  docker-compose.yml not found, skipping container cleanup"
+                    }
+                }
+                
+                // Clean workspace
+                cleanWs()
+                echo "✅ Cleanup completed"
+            }
+        }
+        
+        success { 
+            echo '🎉 Pipeline completed successfully!'
+            echo "✅ FitMap application is ready!"
+        }
+        
+        failure {
+            script {
+                echo '❌ Pipeline failed!'
+                
+                // Try to dump logs for debugging
+                dir('fitmap') {
+                    if (fileExists(env.COMPOSE_FILE)) {
+                        echo "📋 Dumping container logs for debugging:"
+                        bat "docker-compose -f ${env.COMPOSE_FILE} logs --tail=50 || echo 'Could not retrieve logs'"
+                    }
+                }
+                
+                // Show some debugging info
+                echo "💡 Debugging information:"
+                bat 'docker ps -a || echo "Could not list containers"'
+                bat 'docker images fitmap-app || echo "No fitmap images found"'
+            }
+        }
+        
+        unstable {
+            echo '⚠️  Pipeline completed with warnings'
+        }
+        
+        aborted {
+            echo '🛑 Pipeline was aborted'
+            // Still try to cleanup
             dir('fitmap') {
-                catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                    bat 'docker-compose -f ../docker-compose.yml down'
-                    bat 'docker-compose -f ../docker-compose.yml logs || exit 0'
+                if (fileExists(env.COMPOSE_FILE)) {
+                    bat "docker-compose -f ${env.COMPOSE_FILE} down --remove-orphans || echo 'Cleanup after abort completed'"
                 }
             }
-            cleanWs()
         }
-        success  { echo '✅  Pipeline completed successfully!' }
-        unstable { echo '🟡  Pipeline finished UNSTABLE (test failures).' }
-        failure  { echo '❌  Pipeline failed (infrastructure error).' }
     }
 }
