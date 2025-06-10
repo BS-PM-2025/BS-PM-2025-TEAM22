@@ -1,30 +1,30 @@
 // src/components/map/PlaceSearch.js
 import React, { useEffect, useRef, useState } from 'react';
-import styles from '../../styles/PlaceSearch.module.css';
+import styles from './styles/PlaceSearch.module.css';
+import { FaSearchLocation, FaSpinner } from 'react-icons/fa';
 
 /**
- * רכיב חיפוש מקום המשתמש ב-Google Places Autocomplete
- * משתמש בשירות Autocomplete היציב.
+ * PlaceSearch - רכיב חיפוש מקום עם Google Places Autocomplete
  */
 function PlaceSearch({ onPlaceSelected }) {
   const inputRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const autocompleteRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (!window.google?.maps?.places || !inputRef.current || autocompleteRef.current) {
-      return;
-    }
+    if (!window.google?.maps?.places || !inputRef.current || autocompleteRef.current) return;
 
-    // אתחול Autocomplete
     const autocomplete = new window.google.maps.places.Autocomplete(
       inputRef.current,
-      { fields: ['name', 'geometry'], types: ['geocode', 'establishment'] }
+      {
+        fields: ['name', 'geometry'],
+        types: ['geocode', 'establishment'],
+      }
     );
 
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
-      if (place.geometry?.location) {
+      if (place?.geometry?.location) {
         onPlaceSelected(place);
       }
     });
@@ -33,7 +33,6 @@ function PlaceSearch({ onPlaceSelected }) {
     setIsLoaded(true);
 
     return () => {
-      // ניקוי מאזינים
       if (autocompleteRef.current) {
         window.google.maps.event.clearInstanceListeners(autocompleteRef.current);
         autocompleteRef.current = null;
@@ -42,18 +41,28 @@ function PlaceSearch({ onPlaceSelected }) {
   }, [onPlaceSelected]);
 
   return (
-    <div className={styles.wrapper}>
-      {!isLoaded && <div className={styles.loader}>טוען...</div>}
-      <input
-        ref={inputRef}
-        className={styles.searchInput}
-        type="text"
-        placeholder="חפש מתקן לפי שם או כתובת"
-        aria-label="חיפוש מתקן"
-      />
+    <div className={styles.wrapper} role="search">
+      {!isLoaded && (
+        <div className={styles.loadingOverlay}>
+          <FaSpinner className={styles.spinner} />
+          <span>טוען חיפוש...</span>
+        </div>
+      )}
+
+      <div className={styles.inputContainer}>
+        <FaSearchLocation className={styles.icon} />
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="חפש"
+          aria-label="חיפוש מתקן"
+          className={styles.searchInput}
+          autoComplete="off"
+          dir="rtl"
+        />
+      </div>
     </div>
   );
 }
 
 export default PlaceSearch;
-

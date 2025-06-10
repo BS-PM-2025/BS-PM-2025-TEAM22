@@ -1,99 +1,38 @@
-.section {
-    padding: 1.25rem 1.5rem;
-    background-color: var(--bg-card);
-    border-radius: var(--radius);
-    margin-bottom: 1rem;
-  }
-  
-  .loadingIndicator {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-secondary);
-  }
-  
-  .trafficSection {
-    padding: 1.25rem 1.5rem;
-    background-color: var(--bg-card);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-  }
-  
-  .daysSelector {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .dayButton {
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius);
-    cursor: pointer;
-    font-weight: 500;
-    color: var(--text-primary);
-    transition: all 0.3s ease;
-  }
-  
-  .dayButton:hover {
-    background-color: var(--bg-light-darker);
-  }
-  
-  .selectedDay {
-    background-color: var(--primary);
-    color: var(--text-light);
-    border-color: var(--primary-dark);
-  }
-  
-  .trafficContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .trafficHour {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .hourLabel {
-    width: 50px;
-    text-align: end;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-  }
-  
-  .trafficBarContainer {
-    flex: 1;
-    height: 10px;
-    background-color: var(--bg-input);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  
-  .trafficBar {
-    height: 100%;
-    border-radius: var(--radius);
-    transition: width 0.3s ease;
-  }
-  
-  .trafficLevel {
-    width: 80px;
-    font-size: 0.85rem;
-    text-align: start;
-    color: var(--text-tertiary);
-  }
-  
-  .trafficNote {
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
+/* FacilityTraffic.module.css - שדרוג כולל אנימציות, גרדיאנטים, מעבר חלק ו־Dark Mode */
+
+.trafficSection { padding: 1.5rem; background: linear-gradient(135deg, var(--bg-card), var(--bg-light)); border-radius: var(--radius); box-shadow: var(--shadow); animation: fadeIn 0.5s ease-in-out; color: var(--text); }
+
+.darkMode .trafficSection { background: linear-gradient(135deg, var(--bg-dark), var(--bg-card-dark)); color: var(--text-light); }
+
+.daysSelector { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem; }
+
+.dayButton { flex: 1; min-width: 80px; padding: 0.5rem 1rem; background-color: var(--bg-input); border: 1px solid var(--border-color); border-radius: var(--radius); font-size: 0.9rem; cursor: pointer; transition: background-color 0.2s ease, transform 0.2s; }
+
+.dayButton:hover { background-color: var(--primary-light); transform: translateY(-1px); }
+
+.selectedDay { background-color: var(--primary); color: white; font-weight: bold; border-color: var(--primary-dark); }
+
+.trafficContainer { display: flex; flex-direction: column; gap: 0.75rem; animation: slideUp 0.5s ease-in-out; }
+
+.trafficHour { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+.hourLabel { width: 60px; text-align: start; font-weight: 600; }
+
+.trafficBarContainer { flex-grow: 1; height: 10px; background-color: var(--border-color); border-radius: 999px; overflow: hidden; }
+
+.trafficBar { height: 100%; border-radius: 999px; transition: width 0.4s ease-in-out, background-color 0.3s; }
+
+.trafficLevel { min-width: 80px; font-size: 0.85rem; text-align: end; font-weight: 500; }
+
+.trafficNote { margin-top: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); animation: fadeIn 1s ease-in-out; }
+
+.loadingIndicator { padding: 1rem; text-align: center; font-size: 1rem; color: var(--text-secondary); animation: pulseFade 1s ease-in-out infinite; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@keyframes pulseFade { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+/* התאמה למסכים קטנים */ @media (max-width: 480px) { .trafficSection { padding: 1rem; } .hourLabel { width: 48px; font-size: 0.8rem; } .trafficLevel { font-size: 0.75rem; } }
+

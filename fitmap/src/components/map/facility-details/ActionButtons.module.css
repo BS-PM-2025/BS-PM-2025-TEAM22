@@ -1,43 +1,41 @@
+
+/* ActionButtons.module.css */
 .buttonContainer {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    justify-content: center;
-  }
-  
-  .primaryButton {
-    background: linear-gradient(to left, var(--accent), var(--primary));
-    color: var(--text-light);
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-  }
-  
-  .primaryButton:hover {
-    background: linear-gradient(to left, var(--accent-dark), var(--primary-dark));
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-  }
-  
-  .secondaryButton {
-    background-color: var(--bg-input);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .secondaryButton:hover {
-    background-color: var(--bg-light-darker);
-    color: var(--primary-dark);
-    box-shadow: var(--shadow);
-    transform: translateY(-2px);
-  }
-  
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.primaryButton {
+  background: #3b82f6;
+  color: white;
+}
+
+.primaryButton:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.secondaryButton {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.secondaryButton:hover {
+  background: #d1d5db;
+  transform: translateY(-1px);
+}

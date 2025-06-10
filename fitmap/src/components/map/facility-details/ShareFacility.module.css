@@ -1,90 +1,139 @@
 
+/* ShareFacility.module.css */
 .shareContainer {
-    position: relative;
+  position: relative;
+}
+
+.shareButton {
+  padding: 0.75rem 1.5rem;
+  background: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.shareButton:hover {
+  background: #d1d5db;
+  transform: translateY(-1px);
+}
+
+.sharePopup {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  width: 300px;
+  z-index: 20;
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .shareButton {
-    background-color: var(--bg-input);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .shareButton:hover {
-    background-color: var(--bg-light-darker);
-    color: var(--primary-dark);
-    box-shadow: var(--shadow);
-    transform: translateY(-2px);
-  }
-  
-  .sharePopup {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 1rem;
-    box-shadow: var(--shadow-md);
-    width: 100%;
-    z-index: 10;
-  }
-  
-  .shareHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-  }
-  
-  .closeShareButton {
-    background: none;
-    border: none;
-    font-size: 1.25rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-  }
-  
-  .shareUrl {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .shareUrl input {
-    flex: 1;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    background-color: var(--bg-input);
-    color: var(--text-primary);
-  }
-  
-  .sharePlatforms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  
-  .shareOption {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    color: white;
-    font-weight: 500;
-    border-radius: var(--radius);
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  .shareOption:hover {
-    opacity: 0.85;
-  }
-  
+}
+
+.shareHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.shareHeader h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.closeShareButton {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #6b7280;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.closeShareButton:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.shareUrl {
+  display: flex;
+  margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.shareUrl input {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  font-size: 0.875rem;
+  color: #374151;
+  background: #f9fafb;
+}
+
+.shareUrl button {
+  padding: 0.5rem 0.75rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.shareUrl button:hover {
+  background: #2563eb;
+}
+
+.sharePlatforms {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.shareOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.shareOption:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.shareOption i {
+  font-size: 1rem;
+}

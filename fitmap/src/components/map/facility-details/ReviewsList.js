@@ -10,6 +10,12 @@ function ReviewsList({ facilityId, shouldRefresh, onRefreshComplete }) {
 
   // טעינת ביקורות
   const fetchReviews = async () => {
+    if (!facilityId) {
+      console.warn('Facility ID is missing, skipping reviews fetch.');
+      setLoading(false);
+      return;
+    }
+  
     try {
       setLoading(true);
       
@@ -35,7 +41,7 @@ function ReviewsList({ facilityId, shouldRefresh, onRefreshComplete }) {
       }
     }
   };
-
+  
   // טעינה ראשונית של ביקורות
   useEffect(() => {
     fetchReviews();

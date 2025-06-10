@@ -1,0 +1,124 @@
+/* src/styles/EditProfileForm.module.css */
+
+.editProfileForm {
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color, #4CAF50);
+    padding-bottom: 0.5rem;
+  }
+  
+  .formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .formGroup label {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  select {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  input[disabled],
+  input[readonly] {
+    background-color: #e0e0e0;
+    color: #777;
+  }
+  
+  .workoutOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  
+  .checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    background: #f1f1f1;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .checkboxItem input[type="checkbox"] {
+    cursor: pointer;
+  }
+  
+  .buttonsRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    flex: 1;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .cancelButton {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+  
+  .cancelButton:hover {
+    background-color: #d5d5d5;
+  }
+  
+  .submitButton {
+    background-color: var(--primary-color, #4CAF50);
+    color: white;
+  }
+  
+  .submitButton:hover {
+    background-color: #43a047;
+  }
+  

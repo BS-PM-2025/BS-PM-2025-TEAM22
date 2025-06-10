@@ -1,7 +1,7 @@
 // src/components/map/FacilityListItem.js
 import React from "react";
 import { calculateDistance } from "../../utils/geoUtils"; // נדרש ליצור קובץ utils עם פונקציות שירות
-import styles from "../../styles/FitnessMap.module.css";
+import styles from "./styles/FitnessMap.module.css";
 
 function FacilityListItem({ facility, userLocation, isSelected, onClick }) {
   return (

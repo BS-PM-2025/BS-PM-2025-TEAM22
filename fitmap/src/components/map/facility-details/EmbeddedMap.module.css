@@ -1,29 +1,105 @@
+
+/* EmbeddedMap.module.css */
+.embeddedMapContainer {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.embeddedMapContainer iframe {
+  border: none;
+}
+
 .mapPlaceholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background-color: var(--bg-light-darker);
-    border: 1px dashed var(--border-color);
-    border-radius: var(--radius-lg);
-    color: var(--text-secondary);
-    text-align: center;
-    font-size: 0.95rem;
-    gap: 0.5rem;
-  }
-  
-  .mapPlaceholder i {
-    font-size: 2rem;
-    color: var(--accent);
-  }
-  
-  .embeddedMapContainer {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 300px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: #f3f4f6;
+  color: #6b7280;
+  gap: 1rem;
+}
+
+.mapPlaceholder i {
+  font-size: 3rem;
+  color: #9ca3af;
+}
+
+.mapButtons {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.mapButtons button {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.mapButtons button:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.mapButtons button i {
+  color: #3b82f6;
+  font-size: 16px;
+}
+
+/* EquipmentList.module.css */
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.equipmentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.equipmentItem {
+  background: #f9fafb;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.equipmentItem:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+}
+
+.equipmentItem i {
+  color: #3b82f6;
+  width: 20px;
+  text-align: center;
+}
+
+.equipmentCount {
+  color: #6b7280;
+  font-size: 0.75rem;
+  margin-right: auto;
+}
