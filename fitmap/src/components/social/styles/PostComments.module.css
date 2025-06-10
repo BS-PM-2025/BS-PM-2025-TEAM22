@@ -1,0 +1,235 @@
+/* src/components/social/styles/PostComments.module.css */
+
+.commentsContainer {
+    padding: 16px;
+    border-top: 1px solid #f1f5f9;
+  }
+  
+  .commentForm {
+    margin-bottom: 16px;
+  }
+  
+  .replyingBanner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #eef2ff;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #6d28d9;
+  }
+  
+  .cancelReplyButton {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .inputContainer {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .commentInput {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+  }
+  
+  .submitButton {
+    background-color: #6d28d9;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  
+  .submitButton:hover:not(:disabled) {
+    background-color: #5b21b6;
+  }
+  
+  .submitButton:disabled {
+    background-color: #a78bfa;
+    cursor: not-allowed;
+  }
+  
+  .commentsList {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .comment {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #f8fafc;
+    padding-bottom: 16px;
+  }
+  
+  .comment:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .commentHeader {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .commentAvatar {
+    margin-left: 12px;
+    flex-shrink: 0;
+  }
+  
+  .avatarImage {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .defaultAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 14px;
+  }
+  
+  .commentContent {
+    flex: 1;
+  }
+  
+  .commentInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  
+  .commenterName {
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    color: #1e293b;
+    margin-left: 8px;
+  }
+  
+  .commenterName:hover {
+    text-decoration: underline;
+  }
+  
+  .commentTime {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  
+  .commentText {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .commentActions {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+  
+  .likeAction, .replyAction {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 2px 0;
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+  }
+  
+  .liked {
+    color: #ef4444;
+  }
+  
+  .likesCount {
+    font-size: 12px;
+  }
+  
+  .repliesContainer {
+    margin-right: 44px;
+    margin-top: 12px;
+  }
+  
+  .replyComment {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  
+  .loading, .noComments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    color: #64748b;
+    font-size: 14px;
+  }
+  
+  .loading {
+    gap: 8px;
+  }
+  
+  /* RTL support */
+  [dir="rtl"] .commentAvatar {
+    margin-left: 0;
+    margin-right: 12px;
+  }
+  
+  [dir="rtl"] .commenterName {
+    margin-left: 0;
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  
+  [dir="rtl"] .repliesContainer {
+    margin-right: 0;
+    margin-left: 0;
+    margin-right: 44px;
+  }

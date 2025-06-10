@@ -1,0 +1,138 @@
+/* UserFollowButton.css - עיצוב משודרג לכפתור עקיבה */
+
+.follow-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 0.4rem;
+    background-color: #f0f5ff;
+    color: #1877f2;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* מצבי hover */
+  .follow-button:hover {
+    background-color: #e0eaff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  .follow-button:active {
+    transform: translateY(0);
+  }
+  
+  /* מצב מנוטרל */
+  .follow-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* גדלים שונים */
+  .follow-button-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    height: 24px;
+  }
+  
+  .follow-button-medium {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    height: 32px;
+  }
+  
+  .follow-button-large {
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    height: 40px;
+  }
+  
+  /* כפתור במצב "עוקב" */
+  .follow-button.following {
+    background-color: #e0f2f1;
+    color: #009688;
+  }
+  
+  .follow-button.following:hover {
+    background-color: #ffebee;
+    color: #f44336;
+  }
+  
+  /* כפתור במצב טעינה */
+  .follow-button[aria-busy="true"] {
+    pointer-events: none;
+  }
+  
+  /* אייקונים */
+  .follow-icon {
+    font-size: 1em;
+  }
+  
+  .follow-button-small .follow-icon {
+    font-size: 0.9em;
+  }
+  
+  .follow-button-large .follow-icon {
+    font-size: 1.1em;
+  }
+  
+  /* אנימציית לוודר */
+  .loading-spinner {
+    animation: spin 1.2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* טקסט הטקסט לסוגי כפתורים */
+  .follow-text {
+    display: inline-block;
+  }
+  
+  /* טקסט hover מיוחד למצב עוקב */
+  .follow-button.following .hover-text {
+    display: none;
+    position: absolute;
+  }
+  
+  .follow-button.following:hover .follow-text {
+    display: none;
+  }
+  
+  .follow-button.following:hover .hover-text {
+    display: inline-block;
+  }
+  
+  /* עדכון אופטימי - אנימציה קלה */
+  .follow-button.optimistic-update {
+    animation: pulse 0.5s ease;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* במסכים קטנים מסתירים את הטקסט ומציגים רק אייקון */
+  @media screen and (max-width: 480px) {
+    .follow-button-small .follow-text,
+    .follow-button-small .hover-text {
+      display: none;
+    }
+    
+    .follow-button-small {
+      padding: 0.25rem;
+      width: 24px;
+      height: 24px;
+    }
+  }

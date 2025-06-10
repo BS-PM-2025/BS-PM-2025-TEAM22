@@ -1,0 +1,299 @@
+/* PostActions.module.css - Enhanced version */
+:root {
+  --action-primary: #3b82f6;
+  --action-primary-light: #5dade2;
+  --action-primary-dark: #2980b9;
+  --action-accent: #e74c3c;
+  --action-accent-light: #f1948a;
+  --action-accent-dark: #c0392b;
+  --action-background: #ffffff;
+  --action-text: #2c3e50;
+  --action-text-secondary: #7f8c8d;
+  --action-border: #ecf0f1;
+  --action-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --action-transition: all 0.3s ease;
+  --action-border-radius: 8px;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --action-background: #2c3e50;
+  --action-text: #ecf0f1;
+  --action-text-secondary: #bdc3c7;
+  --action-border: #34495e;
+  --action-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Action buttons container */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--action-border);
+  margin-top: 0.5rem;
+  direction: rtl;
+}
+
+/* Individual action button */
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--action-text-secondary);
+  padding: 0.6rem 1rem;
+  border-radius: var(--action-border-radius);
+  cursor: pointer;
+  transition: var(--action-transition);
+  font-size: 0.95rem;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover and focus states */
+.actionButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--action-text);
+  transform: translateY(-1px);
+}
+
+.actionButton:focus-visible {
+  outline: 2px solid var(--action-primary);
+  outline-offset: 2px;
+}
+
+.actionButton:active {
+  transform: translateY(1px);
+}
+
+/* Ripple animation on click */
+.actionButton::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+.actionButton:active::after {
+  animation: ripple 0.5s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+/* Dark mode hover */
+[data-theme="dark"] .actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .actionButton::after {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Like button specific styles */
+.liked {
+  color: var(--action-accent) !important;
+}
+
+.liked:hover {
+  background-color: rgba(231, 76, 60, 0.1) !important;
+}
+
+/* Heart icon animation */
+.animate {
+  animation: heartBeat 0.4s ease-out;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Count badge */
+.count {
+  position: relative;
+  font-size: 0.8rem;
+  background-color: rgba(52, 152, 219, 0.15);
+  padding: 0.1rem 0.4rem;
+  border-radius: 20px;
+  margin-right: 0.3rem;
+  color: var(--action-primary-dark);
+  font-weight: 500;
+  transition: var(--action-transition);
+}
+
+.liked .count {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: var(--action-accent-dark);
+}
+
+/* Hover effects on icons */
+.actionButton:hover svg {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Gradient hover effect */
+.actionButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, rgba(52, 152, 219, 0.05), rgba(52, 152, 219, 0.02));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.actionButton:hover::before {
+  opacity: 1;
+}
+
+.liked::before {
+  background: linear-gradient(to right, rgba(231, 76, 60, 0.05), rgba(231, 76, 60, 0.02));
+}
+
+/* Action buttons tooltip */
+.actionButton span {
+  position: relative;
+}
+
+/* Interactive highlight on active button */
+.actionButton.active {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--action-primary);
+}
+
+/* Button press animation */
+@keyframes buttonPress {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.actionButton:active {
+  animation: buttonPress 0.2s ease-out;
+}
+
+/* Accessibility helpers */
+.actionButton[aria-pressed="true"] {
+  color: var(--action-primary);
+  font-weight: 500;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .actions {
+    padding: 0.4rem 0;
+  }
+  
+  .actionButton {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .count {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .actionButton {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .actionButton span:not(.count) {
+    font-size: 0.8rem;
+  }
+  
+  .count {
+    margin-right: 0.2rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .actionButton:hover {
+    background-color: transparent;
+    transform: none;
+  }
+  
+  .actionButton:active {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  [data-theme="dark"] .actionButton:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Enhanced visual feedback */
+.actionButton svg {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.liked svg {
+  filter: drop-shadow(0 0 2px rgba(231, 76, 60, 0.3));
+}
+
+/* Glowing effect for liked items */
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(231, 76, 60, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(231, 76, 60, 0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 2px rgba(231, 76, 60, 0.3));
+  }
+}
+
+.liked:hover svg {
+  animation: glow 1.5s infinite ease-in-out;
+}

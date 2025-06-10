@@ -1,0 +1,200 @@
+/* UserProfileMini.css - עיצוב משודרג לרכיב פרופיל מיני */
+
+.user-profile-mini {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .user-profile-mini:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  /* גדלי רכיב */
+  .user-profile-mini.small {
+    gap: 0.5rem;
+    min-height: 2rem;
+  }
+  
+  .user-profile-mini.medium {
+    gap: 0.75rem;
+    min-height: 2.5rem;
+  }
+  
+  .user-profile-mini.large {
+    gap: 1rem;
+    min-height: 3rem;
+  }
+  
+  /* אזור האווטאר */
+  .user-avatar-container {
+    position: relative;
+    flex-shrink: 0;
+  }
+  
+  .user-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .user-profile-mini.small .user-avatar {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .user-profile-mini.medium .user-avatar {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .user-profile-mini.large .user-avatar {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .user-avatar-container:hover .user-avatar {
+    transform: scale(1.05);
+  }
+  
+  .user-avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* אינדיקטור למצב מקוון */
+  .status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  
+  .user-profile-mini.medium .status-indicator {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .user-profile-mini.large .status-indicator {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .status-indicator.online {
+    background-color: #4CAF50;
+  }
+  
+  .status-indicator.offline {
+    background-color: #9e9e9e;
+  }
+  
+  .status-indicator svg {
+    display: none;
+  }
+  
+  /* אינפורמציית משתמש */
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-width: 0; /* מאפשר גלישת טקסט */
+  }
+  
+  .user-name {
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .user-profile-mini.small .user-name {
+    font-size: 0.8rem;
+  }
+  
+  .user-profile-mini.medium .user-name {
+    font-size: 0.9rem;
+  }
+  
+  .user-profile-mini.large .user-name {
+    font-size: 1rem;
+  }
+  
+  .user-timestamp {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.1rem;
+  }
+  
+  .user-profile-mini.small .user-timestamp {
+    font-size: 0.7rem;
+  }
+  
+  .edited-indicator {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+    color: #666;
+  }
+  
+  .edited-indicator svg {
+    font-size: 0.8rem;
+    margin-left: 0.2rem;
+  }
+  
+  /* כפתור מעקב (אופציונלי) */
+  .user-follow-container {
+    margin-right: auto;
+  }
+  
+  /* אלמנט קריאה בלבד עבור קוראי מסך */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* קישור לפרופיל המשתמש */
+  .user-name-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .user-name-link:hover .user-name {
+    color: #2196F3;
+    text-decoration: underline;
+  }
+  
+  /* אנימציה לתמונות חדשות */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .user-avatar {
+    animation: fadeIn 0.3s ease-in;
+  }

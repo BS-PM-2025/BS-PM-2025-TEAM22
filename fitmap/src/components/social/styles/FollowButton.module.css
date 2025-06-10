@@ -1,0 +1,141 @@
+/* FollowButton.module.css */
+/* כפתור עקיבה משודרג עם אפקטים, גרדיאנטים, צבעים ודינמיקה */
+
+.followButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  direction: rtl;
+  white-space: nowrap;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* === מצבים === */
+.notFollowing {
+  background: linear-gradient(135deg, var(--primary) 30%, var(--primary-light));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 92, 141, 0.4);
+}
+
+.notFollowing:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  box-shadow: 0 6px 14px rgba(255, 92, 141, 0.6);
+  transform: translateY(-2px);
+}
+
+.following {
+  background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
+}
+
+.following:hover {
+  background: linear-gradient(135deg, var(--secondary-dark), var(--secondary));
+  box-shadow: 0 6px 14px rgba(0, 188, 212, 0.6);
+  transform: translateY(-2px);
+}
+
+.pending {
+  background: linear-gradient(135deg, var(--accent), #ffd45c);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+}
+
+.pending:hover {
+  background: linear-gradient(135deg, #e0a800, var(--accent));
+  box-shadow: 0 6px 14px rgba(255, 193, 7, 0.6);
+  transform: translateY(-2px);
+}
+
+.followButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* === גדלים === */
+.small {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+.medium {
+  padding: 0.4rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+.large {
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+}
+
+/* === אייקונים === */
+.icon {
+  font-size: 1rem;
+}
+
+.loadingIcon {
+  font-size: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+/* === הודעת שגיאה === */
+.errorTooltip {
+  position: absolute;
+  bottom: -1.9rem;
+  right: 50%;
+  transform: translateX(50%);
+  background-color: var(--accent);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 10;
+}
+
+/* === אפקטים ואנימציות === */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === מצב כהה === */
+.darkMode .notFollowing {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+.darkMode .following {
+  background: linear-gradient(135deg, var(--secondary-dark), var(--secondary));
+}
+
+.darkMode .pending {
+  background: linear-gradient(135deg, #a67400, var(--accent));
+}
