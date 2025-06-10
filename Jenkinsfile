@@ -55,19 +55,14 @@ pipeline {
                         // Pull image if missing
                         bat "docker pull %NODE_IMAGE%"
 
-                        // Ensure jest-junit is available
-                        bat "npm list jest-junit || npm install --save-dev jest-junit"
-
-                        // Run Jest tests inside the container with proper JUnit output
+                        // Run Jest tests inside the container using your existing test:ci script
                         bat """
                         docker run --rm ^
                           -e CI=true ^
-                          -e JEST_JUNIT_OUTPUT_DIR=/app ^
-                          -e JEST_JUNIT_OUTPUT_NAME=test-results.xml ^
                           -v "%cd%":/app ^
                           -w /app ^
                           %NODE_IMAGE% ^
-                          sh -c "npm run test -- --ci --coverage --watchAll=false --reporters=default --reporters=jest-junit --testResultsProcessor=jest-junit"
+                          sh -c "npm run test:ci"
                         """
                     }
                 }
@@ -76,12 +71,11 @@ pipeline {
                 always {
                     dir('fitmap') {
                         script {
-                            // Try multiple possible locations for test results
+                            // Check for test results based on your jest-junit config
                             def testFiles = [
-                                'test-results.xml',
-                                'junit.xml', 
-                                'test-report.xml',
-                                'coverage/junit.xml'
+                                'junit.xml',
+                                'test-results.xml', 
+                                'test-report.xml'
                             ]
                             
                             def foundTestFile = false
