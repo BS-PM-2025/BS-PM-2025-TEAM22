@@ -1,0 +1,480 @@
+/* MiniMap.module.css */
+
+/* עיצובים בסיסיים למפה המוקטנת */
+.minimap {
+  position: relative;
+  width: 280px;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  margin: 1rem;
+  background-color: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.minimap:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.minimapCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* מצפן */
+.compassRose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(108, 178, 235, 0.5);
+  color: #6CB2EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(108, 178, 235, 0.3);
+  text-shadow: 0 0 5px rgba(108, 178, 235, 0.5);
+  animation: pulseCompass 4s infinite ease-in-out;
+  user-select: none;
+}
+
+.compassRose::before {
+  content: '';
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(108, 178, 235, 0.2);
+  pointer-events: none;
+  animation: rotateCompass 20s linear infinite;
+}
+
+.compassRose::after {
+  content: '';
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(108, 178, 235, 0.1);
+  pointer-events: none;
+  animation: rotateCompassReverse 30s linear infinite;
+}
+
+/* סרגל קנה מידה */
+.distanceScale {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+}
+
+.scaleBar {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
+  border-radius: 3px;
+  margin-bottom: 3px;
+  position: relative;
+}
+
+.scaleBar::before,
+.scaleBar::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.8);
+  top: -2px;
+}
+
+.scaleBar::before {
+  left: 0;
+}
+
+.scaleBar::after {
+  right: 0;
+}
+
+.scaleText {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* קונטרולים נוספים */
+.zoomControls {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.zoomButton {
+  width: 25px;
+  height: 25px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.zoomButton:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.zoomButton:active {
+  transform: scale(0.95);
+}
+
+/* אווירה אינטראקטיבית */
+.minimap::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 70% 20%, rgba(108, 178, 235, 0.15), transparent 15%),
+    radial-gradient(circle at 30% 70%, rgba(255, 215, 0, 0.1), transparent 15%),
+    radial-gradient(circle at 90% 90%, rgba(76, 175, 80, 0.1), transparent 20%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* אנימציות */
+@keyframes pulseCompass {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(108, 178, 235, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(108, 178, 235, 0.5);
+  }
+}
+
+@keyframes rotateCompass {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateCompassReverse {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+/* ממשק מגע */
+@media (hover: none) {
+  .minimap:active {
+    transform: scale(1.01);
+  }
+  
+  .zoomButton {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 480px) {
+  .minimap {
+    width: 100%;
+    max-width: 250px;
+    height: 180px;
+    margin: 0.75rem auto;
+  }
+  
+  .compassRose {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+  }
+  
+  .compassRose::before {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .compassRose::after {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* התאמה למסכים רחבים */
+@media (min-width: 1024px) {
+  .minimap {
+    width: 320px;
+    height: 230px;
+  }
+}
+
+/* מתפרסם להראות "מטושטש" כשאין נתונים */
+.minimap.loading {
+  opacity: 0.7;
+  filter: blur(1px);
+}
+
+.minimap.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(108, 178, 235, 0.7);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* טיפול בהצגת פריטים על המפה */
+.legend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.legend:hover {
+  opacity: 1;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.legendColor {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.legendColor.gold {
+  background-color: #FFD700;
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.legendColor.silver {
+  background-color: #C0C0C0;
+  box-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+}
+
+.legendColor.bronze {
+  background-color: #CD7F32;
+  box-shadow: 0 0 5px rgba(205, 127, 50, 0.5);
+}
+
+.legendColor.culture {
+  background-color: #9C27B0;
+  box-shadow: 0 0 5px rgba(156, 39, 176, 0.5);
+}
+
+.legendColor.history {
+  background-color: #3F51B5;
+  box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+}
+
+.legendColor.nature {
+  background-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* מראה נייד אופקי */
+@media (max-height: 500px) and (orientation: landscape) {
+  .minimap {
+    width: 240px;
+    height: 160px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    margin: 0;
+  }
+  
+  .compassRose {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+  
+  .distanceScale {
+    bottom: 5px;
+    left: 5px;
+  }
+  
+  .scaleBar {
+    width: 40px;
+  }
+  
+  .scaleText {
+    font-size: 9px;
+  }
+}
+
+/* מצב התמקדות */
+.minimap.focused {
+  width: 100%;
+  height: 300px;
+  max-width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 25px;
+  height: 25px;
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.minimap:hover .closeButton {
+  opacity: 0.8;
+}
+
+.closeButton:hover {
+  opacity: 1 !important;
+  background: rgba(30, 41, 59, 0.9);
+}
+
+/* תמיכה במכשירים עם Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .compassRose,
+  .compassRose::before,
+  .compassRose::after {
+    animation: none;
+  }
+  
+  .minimap:hover {
+    transform: none;
+  }
+}
+
+/* מצב לילה */
+@media (prefers-color-scheme: dark) {
+  .minimap {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .compassRose {
+    background: rgba(10, 15, 30, 0.8);
+  }
+}
+
+/* מצב מופחת */
+.minimap.simplified {
+  background-color: rgba(15, 23, 42, 0.8);
+}
+
+.simplified .compassRose,
+.simplified .compassRose::before,
+.simplified .compassRose::after {
+  animation: none;
+  box-shadow: none;
+}
+
+.simplified::before {
+  background: none;
+}
+
+/* משקל תצוגת קנבס */
+.hiddenCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* סגנון מסגרת מפה חיצונית */
+.minimapBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid rgba(108, 178, 235, 0.3);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.minimapBorder::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, 
+    rgba(108, 178, 235, 0.5) 0%, 
+    transparent 10%, 
+    transparent 90%, 
+    rgba(108, 178, 235, 0.5) 100%
+  );
+  z-index: -1;
+}

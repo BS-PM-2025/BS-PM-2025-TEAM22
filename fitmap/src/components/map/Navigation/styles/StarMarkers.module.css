@@ -1,0 +1,536 @@
+/* AnimationUtils.css */
+
+/* ====================
+   אנימציות כלליות
+==================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes floatDown {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ====================
+   איסוף כוכבים
+==================== */
+.collectAnimation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1000;
+  direction: rtl;
+}
+
+.enterAnimation {
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+.starCollect {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.4s forwards;
+}
+
+.starCollectInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.points {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.7);
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  animation: floatUp 1s forwards;
+  opacity: 0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  z-index: 2;
+}
+
+.starPath {
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+}
+
+.starRing {
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+}
+
+.particlesCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particles circle {
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+}
+
+.fadeOut {
+  animation: fadeOut 0.3s forwards;
+}
+
+/* ====================
+   אנימציית הישגים
+==================== */
+.achievementAnimation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 450px;
+  z-index: 1100;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  direction: rtl;
+}
+
+.achievementUnlock {
+  display: flex;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: achievementEnter 0.5s forwards;
+}
+
+@keyframes achievementEnter {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.achievementIconContainer {
+  margin-left: 15px;
+  position: relative;
+  animation: pulse 3s infinite;
+}
+
+.achievementBadge {
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+}
+
+.achievementContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+}
+
+.achievementBanner {
+  margin-bottom: 10px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.achievementTitle {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.achievementDescription {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.achievementReward {
+  margin-top: 8px;
+}
+
+.rewardContainer {
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  border-radius: 20px;
+  animation: pulse 2s infinite;
+}
+
+.rewardIcon {
+  margin-left: 8px;
+  font-size: 18px;
+}
+
+.rewardText {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.confettiParticle {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(500px) rotate(720deg); opacity: 0; }
+}
+
+.sparkle {
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7));
+}
+
+/* ====================
+   אנימציית הליכה
+==================== */
+.walkAnimation {
+  position: fixed;
+  bottom: 150px;
+  right: 20px;
+  max-width: 300px;
+  z-index: 1000;
+  animation: slideInRight 0.4s forwards;
+  pointer-events: none;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.slideInAnimation {
+  transform: translateX(100px);
+  opacity: 0;
+  animation: slideInRight 0.4s forwards;
+}
+
+.walkMessage {
+  display: flex;
+  align-items: center;
+  background-color: rgba(15, 23, 42, 0.85);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(30, 136, 229, 0.3);
+  direction: rtl;
+}
+
+.walkIconContainer {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: rgba(30, 136, 229, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  position: relative;
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-3px); }
+}
+
+.walkIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.walkText {
+  flex: 1;
+}
+
+.walkDistance {
+  font-size: 16px;
+  font-weight: bold;
+  color: #f8fafc;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.walkProgressContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.walkProgressBar {
+  height: 6px;
+  background: linear-gradient(to right, #1E88E5, #64B5F6);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 2s ease-in-out;
+}
+
+.walkSteps {
+  font-size: 14px;
+  color: #a5b4fc;
+  margin-top: 6px;
+}
+
+/* ====================
+   אנימציית מעבר בין מיקומים
+==================== */
+.transitionAnimation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.9);
+  z-index: 9000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.5s forwards;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9000;
+}
+
+.transitionContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: scaleIn 0.5s 0.2s forwards;
+}
+
+.enterFromRight {
+  transform: translateX(50px);
+  animation: enterFromRight 0.6s 0.2s forwards;
+}
+
+.enterFromLeft {
+  transform: translateX(-50px);
+  animation: enterFromLeft 0.6s 0.2s forwards;
+}
+
+@keyframes enterFromRight {
+  from { transform: translateX(50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes enterFromLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.transitionLoader {
+  margin-bottom: 30px;
+}
+
+.transitionText {
+  text-align: center;
+  color: #f8fafc;
+  margin-bottom: 20px;
+}
+
+.transitionText h3 {
+  font-size: 18px;
+  margin: 0 0 10px 0;
+  opacity: 0.8;
+}
+
+.locationName {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  color: #f8fafc;
+  text-shadow: 0 0 10px rgba(30, 136, 229, 0.7);
+}
+
+.loadingDots {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.loadingDots span {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  background-color: #f8fafc;
+  border-radius: 50%;
+  display: inline-block;
+  animation: loadingDots 1.4s infinite ease-in-out both;
+}
+
+.loadingDots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loadingDots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes loadingDots {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+.transitionWaves {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%233498db' fill-opacity='0.2' d='M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,218.7C672,203,768,149,864,144C960,139,1056,181,1152,197.3C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: 100% 100px;
+  animation: wave 15s linear infinite;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.wave:nth-child(2) {
+  bottom: 10px;
+  opacity: 0.5;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%233498db' fill-opacity='0.3' d='M0,160L48,149.3C96,139,192,117,288,128C384,139,480,181,576,213.3C672,245,768,267,864,261.3C960,256,1056,224,1152,208C1248,192,1344,192,1392,192L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  animation: wave 20s linear infinite;
+}
+
+.wave:nth-child(3) {
+  bottom: 20px;
+  opacity: 0.3;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%233498db' fill-opacity='0.4' d='M0,64L48,69.3C96,75,192,85,288,106.7C384,128,480,160,576,165.3C672,171,768,149,864,160C960,171,1056,213,1152,213.3C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  animation: wave 30s linear infinite;
+}
+
+@keyframes wave {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 1440px; }
+}
+
+/* ====================
+   תאימות למסכים קטנים
+==================== */
+@media (max-width: 768px) {
+  .achievementAnimation {
+    max-width: 95%;
+  }
+  
+  .achievementUnlock {
+    padding: 15px;
+    flex-direction: column;
+  }
+  
+  .achievementIconContainer {
+    margin-left: 0;
+    margin-bottom: 15px;
+  }
+  
+  .walkAnimation {
+    max-width: 250px;
+    bottom: 120px;
+  }
+  
+  .transitionText h3 {
+    font-size: 16px;
+  }
+  
+  .locationName {
+    font-size: 20px;
+  }
+}
+
+/* ====================
+   תמיכה בהעדפת תנועה מופחתת
+==================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

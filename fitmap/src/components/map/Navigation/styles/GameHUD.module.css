@@ -1,0 +1,651 @@
+/* GameHUD.module.css */
+
+/* Main container */
+.gameHUD {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  direction: rtl;
+  --primary-color: #4f46e5;
+  --primary-light: #818cf8;
+  --primary-dark: #3730a3;
+  --secondary-color: #06b6d4;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --text-light: #f8fafc;
+  --text-dark: #0f172a;
+  --bg-panel: rgba(15, 23, 42, 0.85);
+  --bg-darker: rgba(15, 23, 42, 0.95);
+  --bg-lighter: rgba(51, 65, 85, 0.8);
+  --border-radius: 12px;
+  --transition-speed: 0.3s;
+}
+
+/* Compact mode */
+.gameHUD.compact .hudPanel {
+  max-height: 300px;
+  max-width: 300px;
+}
+
+/* Game mode specific themes */
+.gameHUD.gameMode-night {
+  --primary-color: #6366f1;
+  --bg-panel: rgba(10, 15, 30, 0.9);
+}
+
+.gameHUD.gameMode-desert {
+  --primary-color: #f59e0b;
+  --bg-panel: rgba(45, 30, 15, 0.85);
+}
+
+.gameHUD.gameMode-forest {
+  --primary-color: #22c55e;
+  --bg-panel: rgba(20, 40, 20, 0.85);
+}
+
+/* Player summary bar at top */
+.playerSummary {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 60px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-darker);
+  color: var(--text-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+  z-index: 110;
+}
+
+.playerAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.playerAvatar:hover {
+  transform: scale(1.1);
+}
+
+.playerLevel {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-light);
+}
+
+.playerStats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.playerStats span {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-lighter);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.statIcon {
+  margin-left: 6px;
+}
+
+.xpStat {
+  color: #fbbf24;
+}
+
+.coinStat {
+  color: #fbbf24;
+}
+
+.gemStat {
+  color: #ec4899;
+}
+
+.streakStat {
+  color: #f43f5e;
+}
+
+.notificationArea {
+  margin-right: auto;
+}
+
+.notificationButton {
+  background: transparent;
+  color: var(--text-light);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.notificationButton:hover {
+  background-color: var(--bg-lighter);
+}
+
+.notificationBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--danger-color);
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(30%, -30%);
+  animation: pulse 2s infinite;
+}
+
+/* Quick stats */
+.quickStats {
+  position: fixed;
+  top: 70px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--bg-panel);
+  padding: 10px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+  z-index: 105;
+}
+
+.quickStatItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.quickStatIcon {
+  color: var(--primary-light);
+}
+
+/* Panel area */
+.hudPanels {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 70px);
+  pointer-events: none;
+}
+
+/* Common panel styles */
+.hudPanel {
+  position: absolute;
+  background-color: var(--bg-panel);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  pointer-events: auto;
+  transition: opacity var(--transition-speed), transform var(--transition-speed);
+  max-width: 400px;
+  max-height: 500px;
+  min-height: 200px;
+  min-width: 250px;
+  opacity: 1;
+  z-index: 101;
+}
+
+.compactPanel {
+  border: 1px solid var(--primary-color);
+}
+
+/* Panel positioning for initial layout */
+.statsPanel {
+  top: 70px;
+  right: 16px;
+  width: 320px;
+  height: 400px;
+}
+
+.achievementsPanel {
+  top: 70px;
+  right: 350px;
+  width: 340px;
+  height: 450px;
+}
+
+.questsPanel {
+  top: 70px;
+  right: 700px;
+  width: 360px;
+  height: 450px;
+}
+
+.minimapPanel {
+  bottom: 80px;
+  left: 16px;
+  width: 300px;
+  height: 250px;
+}
+
+.activityPanel {
+  bottom: 80px;
+  right: 16px;
+  width: 320px;
+  height: 300px;
+}
+
+/* Panel closing animation */
+.panelClosing {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Panel headers */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--bg-darker);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: move;
+}
+
+.panelHeader h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.panelControls {
+  display: flex;
+  gap: 8px;
+}
+
+.settingsButton,
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.settingsButton:hover,
+.closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.closeButton:hover {
+  color: var(--danger-color);
+}
+
+/* Minimap specific styles */
+.starCount {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  background-color: rgba(255, 215, 0, 0.2);
+  color: #fbbf24;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-right: auto;
+  margin-left: 8px;
+}
+
+/* Quest panel specifics */
+.claimableBadge {
+  background-color: var(--warning-color);
+  color: var(--text-dark);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-right: 8px;
+}
+
+/* Activity list styles */
+.activityList {
+  padding: 12px;
+  overflow-y: auto;
+  max-height: calc(100% - 50px);
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-bottom: 8px;
+  transition: background-color 0.2s;
+}
+
+.activityItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.activityIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--bg-lighter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-light);
+}
+
+.activityDetails {
+  flex: 1;
+}
+
+.activityTitle {
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: var(--text-light);
+}
+
+.activityTime {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.activityReward {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #fbbf24;
+  font-size: 13px;
+  background-color: rgba(251, 191, 36, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.emptyActivityMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.emptyActivityMessage svg {
+  font-size: 24px;
+}
+
+/* Control panel (docked menu) */
+.controlPanel {
+  position: fixed;
+  bottom: 16px;
+  right: 50%;
+  transform: translateX(50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-darker);
+  padding: 8px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  z-index: 200;
+}
+
+.controlButton {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--bg-lighter);
+  color: var(--text-light);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.controlButton:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.controlButton.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.controlSeparator {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.controlBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--danger-color);
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(30%, -30%);
+}
+
+/* Toast notifications */
+.toast {
+  position: fixed;
+  top: 70px;
+  right: 50%;
+  transform: translateX(50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--bg-darker);
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: var(--text-light);
+  width: 90%;
+  max-width: 400px;
+  z-index: 300;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(-20px) translateX(50%);
+  transition: all 0.3s ease;
+}
+
+.toastShow {
+  opacity: 1;
+  transform: translateY(0) translateX(50%);
+}
+
+.toastIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.toastContent {
+  flex: 1;
+}
+
+.toastTitle {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.toastMessage {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.toastClose {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toastClose:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: translate(30%, -30%) scale(1);
+  }
+  50% {
+    transform: translate(30%, -30%) scale(1.2);
+  }
+  100% {
+    transform: translate(30%, -30%) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .playerSummary {
+    height: 50px;
+    padding: 6px 12px;
+  }
+  
+  .playerAvatar {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .playerLevel {
+    font-size: 16px;
+  }
+  
+  .playerStats {
+    gap: 8px;
+  }
+  
+  .playerStats span {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .hudPanel {
+    max-width: 100%;
+    width: calc(100% - 32px) !important;
+    right: 16px !important;
+    left: 16px !important;
+    height: auto !important;
+    max-height: 60vh !important;
+  }
+  
+  .statsPanel, .achievementsPanel, .questsPanel {
+    top: 60px;
+  }
+  
+  .minimapPanel, .activityPanel {
+    bottom: 70px;
+  }
+  
+  .controlPanel {
+    bottom: 12px;
+    padding: 6px;
+  }
+  
+  .controlButton {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+  
+  .quickStats {
+    top: 60px;
+    left: 10px;
+    padding: 8px;
+  }
+  
+  .quickStatItem {
+    font-size: 12px;
+  }
+}
+
+/* Dark mode and contrast enhancement */
+@media (prefers-color-scheme: dark) {
+  .gameHUD {
+    --bg-panel: rgba(10, 15, 25, 0.9);
+    --bg-darker: rgba(5, 10, 18, 0.95);
+  }
+}
+
+/* Motion reduction preference support */
+@media (prefers-reduced-motion: reduce) {
+  .gameHUD * {
+    animation: none !important;
+    transition-duration: 0.1s !important;
+  }
+}

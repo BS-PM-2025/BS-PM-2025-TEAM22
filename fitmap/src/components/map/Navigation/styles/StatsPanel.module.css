@@ -1,0 +1,964 @@
+/* StatsPanel.module.css */
+/* Main container */
+.statsPanel {
+  background-color: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  direction: rtl;
+  color: #333;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Compact mode for smaller displays */
+.compactMode {
+  padding: 12px;
+  font-size: 0.9rem;
+}
+
+/* Panel header */
+.statsPanelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+.statsPanelTitle {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.statsPanelTitle svg {
+  margin-left: 8px;
+  color: #3498db;
+}
+
+.statsSummary {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.levelBadge {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Section container */
+.sectionContainer {
+  margin-bottom: 18px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  border-bottom: 1px solid #e0e6ed;
+  transition: background-color 0.2s ease;
+}
+
+.sectionHeader:hover {
+  background-color: #edf2f7;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+  color: #34495e;
+}
+
+.sectionTitle svg {
+  margin-left: 8px;
+  color: #e74c3c;
+}
+
+.sectionActions {
+  display: flex;
+  align-items: center;
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  color: #95a5a6;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.expandButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #34495e;
+}
+
+/* Level information */
+.playerLevelInfo {
+  padding: 16px;
+}
+
+.levelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.levelTitle {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.levelIndicator {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-left: 8px;
+}
+
+.infoIcon {
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.infoIcon:hover {
+  color: #3498db;
+}
+
+.xpValue {
+  font-weight: 700;
+  color: #8e44ad;
+  font-size: 1.05rem;
+}
+
+/* Level progress bar */
+.levelProgressContainer {
+  margin-bottom: 12px;
+}
+
+.levelProgressBar {
+  height: 12px;
+  background-color: #ecf0f1;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.levelProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #9b59b6);
+  border-radius: 6px;
+  transition: width 0.5s ease-out;
+}
+
+.levelProgressInfo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+
+.progressPercent {
+  font-weight: 600;
+  color: #34495e;
+}
+
+.nextLevelInfo {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.nextLevelNeeded {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+/* Progress milestones */
+.progressMilestones {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.milestone {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Stats grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.statBlock {
+  background-color: white;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.statBlock:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+}
+
+.statValueIcon {
+  margin-left: 4px;
+  color: #e74c3c;
+}
+
+/* Achievements list */
+.achievementsList {
+  padding: 12px;
+}
+
+.achievementItem {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.achievementItem:last-child {
+  border-bottom: none;
+}
+
+.achievementIcon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  color: white;
+  font-size: 1rem;
+}
+
+.achievementContent {
+  flex: 1;
+}
+
+.achievementTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #2c3e50;
+}
+
+.achievementDesc {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 4px;
+}
+
+.achievementDate {
+  font-size: 0.75rem;
+  color: #95a5a6;
+}
+
+.achievementReward {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #f39c12;
+  font-size: 0.9rem;
+}
+
+.achievementReward svg {
+  margin-left: 4px;
+}
+
+.viewMoreLink {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  color: #3498db;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.viewMoreLink:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+.achievementStats {
+  background-color: #ecf0f1;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  margin-left: 10px;
+  color: #34495e;
+  font-weight: 600;
+}
+
+/* Activity list */
+.activityList {
+  padding: 12px;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.activityItem:last-child {
+  border-bottom: none;
+}
+
+.activityIcon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  color: white;
+  font-size: 1rem;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #2c3e50;
+}
+
+.activityTime {
+  font-size: 0.75rem;
+  color: #95a5a6;
+}
+
+.activityReward {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #f39c12;
+  font-size: 0.9rem;
+}
+
+.activityReward svg {
+  margin-left: 4px;
+}
+
+/* Perks list */
+.perksList {
+  padding: 12px;
+}
+
+.perkItem {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.perkItem:last-child {
+  border-bottom: none;
+}
+
+.perkIcon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+  color: white;
+  font-size: 1rem;
+}
+
+.perkDetails {
+  flex: 1;
+}
+
+.perkName {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: #2c3e50;
+}
+
+.perkDescription {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+/* Fitness section */
+.fitnessSection {
+  padding: 12px;
+}
+
+.fitnessStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.fitnessStat {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.fitnessLabel {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-bottom: 6px;
+}
+
+.fitnessValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Daily challenge */
+.dailyChallenge {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.dailyChallengeHeader {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 10px 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.dailyChallengeHeader svg {
+  margin-left: 8px;
+}
+
+.dailyChallengeContent {
+  padding: 16px;
+}
+
+.dailyChallengeTitle {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.dailyChallengeProgress {
+  margin-bottom: 16px;
+}
+
+.dailyChallengeProgressBar {
+  height: 10px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.dailyChallengeProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #e74c3c, #c0392b);
+  border-radius: 5px;
+  transition: width 0.5s ease-out;
+}
+
+.dailyChallengeProgressText {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+.dailyChallengeReward {
+  display: flex;
+  align-items: center;
+  color: #f39c12;
+  font-weight: 600;
+}
+
+.xpReward {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  color: #8e44ad;
+}
+
+.xpReward svg {
+  margin-left: 4px;
+}
+
+/* Empty states */
+.emptyState {
+  padding: 20px;
+  text-align: center;
+  color: #95a5a6;
+  font-size: 0.9rem;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltipText {
+  visibility: hidden;
+  background-color: rgba(44, 62, 80, 0.9);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 250px;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: normal;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltipText::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(44, 62, 80, 0.9) transparent transparent transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .fitnessStats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .fitnessStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .statsPanelTitle {
+    font-size: 1.1rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1rem;
+  }
+  
+  .statValue {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .statsPanel {
+    padding: 12px;
+  }
+  
+  .compactMode {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .fitnessStats {
+    grid-template-columns: 1fr;
+  }
+  
+  .statBlock {
+    padding: 8px;
+  }
+  
+  .statLabel {
+    font-size: 0.75rem;
+  }
+  
+  .statValue {
+    font-size: 1rem;
+  }
+  
+  .achievementItem, .activityItem, .perkItem {
+    padding: 8px;
+  }
+  
+  .achievementIcon, .activityIcon, .perkIcon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 0.9rem;
+  }
+  
+  .levelProgressBar {
+    height: 8px;
+  }
+  
+  .levelIndicator {
+    font-size: 1rem;
+  }
+  
+  .xpValue {
+    font-size: 0.95rem;
+  }
+  
+  .dailyChallengeHeader {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+  
+  .dailyChallengeTitle {
+    font-size: 0.9rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .statsPanel {
+    background-color: #1a202c;
+    color: #e2e8f0;
+  }
+  
+  .statsPanelHeader {
+    border-bottom-color: #2d3748;
+  }
+  
+  .statsPanelTitle {
+    color: #e2e8f0;
+  }
+  
+  .sectionContainer {
+    background-color: #2d3748;
+  }
+  
+  .sectionHeader {
+    background-color: #2d3748;
+    border-bottom-color: #4a5568;
+  }
+  
+  .sectionHeader:hover {
+    background-color: #4a5568;
+  }
+  
+  .sectionTitle {
+    color: #e2e8f0;
+  }
+  
+  .expandButton {
+    color: #a0aec0;
+  }
+  
+  .expandButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+  }
+  
+  .levelIndicator {
+    color: #e2e8f0;
+  }
+  
+  .infoIcon {
+    color: #a0aec0;
+  }
+  
+  .levelProgressBar {
+    background-color: #4a5568;
+  }
+  
+  .levelProgressInfo {
+    color: #a0aec0;
+  }
+  
+  .progressPercent {
+    color: #e2e8f0;
+  }
+  
+  .nextLevelNeeded {
+    color: #a0aec0;
+  }
+  
+  .statBlock {
+    background-color: #2d3748;
+  }
+  
+  .statLabel {
+    color: #a0aec0;
+  }
+  
+  .statValue {
+    color: #e2e8f0;
+  }
+  
+  .achievementItem, .activityItem, .perkItem {
+    border-bottom-color: #4a5568;
+  }
+  
+  .achievementTitle, .activityTitle, .perkName {
+    color: #e2e8f0;
+  }
+  
+  .achievementDesc, .perkDescription {
+    color: #a0aec0;
+  }
+  
+  .achievementDate, .activityTime {
+    color: #718096;
+  }
+  
+  .emptyState {
+    color: #a0aec0;
+  }
+  
+  .fitnessStat {
+    background-color: #2d3748;
+  }
+  
+  .fitnessLabel {
+    color: #a0aec0;
+  }
+  
+  .fitnessValue {
+    color: #e2e8f0;
+  }
+  
+  .dailyChallenge {
+    background-color: #2d3748;
+  }
+  
+  .dailyChallengeTitle {
+    color: #e2e8f0;
+  }
+  
+  .dailyChallengeProgressBar {
+    background-color: #4a5568;
+  }
+  
+  .dailyChallengeProgressText {
+    color: #a0aec0;
+  }
+  
+  /* Tooltip dark mode */
+  .tooltipText {
+    background-color: rgba(226, 232, 240, 0.9);
+    color: #1a202c;
+  }
+  
+  .tooltipText::after {
+    border-color: rgba(226, 232, 240, 0.9) transparent transparent transparent;
+  }
+}
+
+/* Animation effects */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.statsPanel {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.achievementsList, .activityList, .perksList, .fitnessSection {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Print styles */
+@media print {
+  .statsPanel {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .expandButton {
+    display: none;
+  }
+  
+  .achievementsList, .activityList, .perksList, .fitnessSection {
+    display: block !important;
+  }
+  
+  .statBlock:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* RTL specific adjustments */
+[dir="rtl"] .statsPanel {
+  direction: rtl;
+}
+
+[dir="rtl"] .statsPanelTitle svg,
+[dir="rtl"] .sectionTitle svg,
+[dir="rtl"] .statValueIcon,
+[dir="rtl"] .achievementIcon,
+[dir="rtl"] .activityIcon,
+[dir="rtl"] .perkIcon,
+[dir="rtl"] .dailyChallengeHeader svg {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+[dir="rtl"] .achievementReward svg,
+[dir="rtl"] .activityReward svg,
+[dir="rtl"] .xpReward svg {
+  margin-right: 0;
+  margin-left: 4px;
+}
+
+[dir="rtl"] .xpReward {
+  margin-left: 12px;
+  margin-right: 0;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: #2d3748;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #4a5568;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+  }
+}

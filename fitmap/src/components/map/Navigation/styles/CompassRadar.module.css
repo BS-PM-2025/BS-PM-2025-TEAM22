@@ -1,0 +1,235 @@
+/* src/components/map/Navigation/styles/CompassRadar.module.css */
+.compassContainer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: visible;
+}
+
+/* מצפן */
+.compass {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compassInner {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background-color: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #e0e0e0;
+  transition: transform 0.1s ease-out;
+}
+
+.compassDirection {
+  position: absolute;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+}
+
+.compassN {
+  top: 5px;
+  color: #d32f2f;
+}
+
+.compassE {
+  right: 5px;
+}
+
+.compassS {
+  bottom: 5px;
+}
+
+.compassW {
+  left: 5px;
+}
+
+.compassArrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 30px solid #4285f4;
+  position: absolute;
+  top: 5px;
+  transform-origin: center 30px;
+}
+
+/* מכ"ם כוכבים */
+.radar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.7;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.radarRings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.radarRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(66, 133, 244, 0.3);
+  box-sizing: border-box;
+}
+
+.radarRing:nth-child(1) {
+  width: 33%;
+  height: 33%;
+}
+
+.radarRing:nth-child(2) {
+  width: 66%;
+  height: 66%;
+}
+
+.radarRing:nth-child(3) {
+  width: 100%;
+  height: 100%;
+}
+
+.radarSweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 50%, rgba(66, 133, 244, 0.3) 100%);
+  border-radius: 50%;
+  animation: sweep 4s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.radarCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: #4285f4;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(66, 133, 244, 0.8);
+}
+
+/* כוכבים במכ"ם */
+.radarStar {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  margin-left: -4px;
+  background-color: gold;
+  border-radius: 50%;
+  transition: transform 0.2s ease-out;
+}
+
+.radarStar:hover {
+  transform: scale(1.8);
+  z-index: 10;
+}
+
+.radarStarPoint {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.radarStar:hover .radarStarPoint {
+  opacity: 1;
+}
+
+.radarStarGold {
+  background-color: gold;
+  box-shadow: 0 0 5px gold;
+}
+
+.radarStarSilver {
+  background-color: silver;
+  box-shadow: 0 0 5px silver;
+}
+
+.radarStarBronze {
+  background-color: #cd7f32;
+  box-shadow: 0 0 5px #cd7f32;
+}
+
+/* אינדיקטור כוכבים נראים */
+.visibleIndicator {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #d32f2f;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7);
+  }
+  70% {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px 5px rgba(211, 47, 47, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
+  }
+}

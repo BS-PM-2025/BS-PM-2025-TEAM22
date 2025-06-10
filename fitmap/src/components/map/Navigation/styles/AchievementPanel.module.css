@@ -1,0 +1,536 @@
+/* AchievementPanel.module.css */
+:root {
+  --bronze-color: #cd7f32;
+  --silver-color: #c0c0c0;
+  --gold-color: #ffd700;
+  --platinum-color: #e5e4e2;
+  --locked-bg: rgba(30, 30, 30, 0.7);
+  --unlocked-bg: rgba(40, 40, 40, 0.85);
+  --progress-bar-bg: rgba(0, 0, 0, 0.3);
+  --achievement-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --glow-animation-time: 2s;
+}
+
+/* עיצוב בסיסי לפאנל ההישגים */
+.achievements {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-family: 'Rubik', 'Heebo', sans-serif;
+  max-width: 100%;
+  direction: rtl;
+  overflow: hidden;
+  position: relative;
+}
+
+.achievements::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--bronze-color), var(--silver-color), var(--gold-color), var(--platinum-color));
+  z-index: 1;
+}
+
+.achievements h4 {
+  font-size: 1.8rem;
+  margin: 0 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.achievements h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+}
+
+.unlockedCount {
+  margin-right: auto;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #ffcc33;
+}
+
+/* קטגוריות הישגים */
+.achievementCategory {
+  margin-bottom: 2rem;
+}
+
+.categoryTitle {
+  font-size: 1.2rem;
+  margin: 1rem 0 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+/* כרטיס הישג */
+.achievementItem {
+  display: flex;
+  background: var(--locked-bg);
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  box-shadow: var(--achievement-shadow);
+  padding: 1rem;
+  gap: 1rem;
+  align-items: center;
+}
+
+.achievementItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.achievementItem:active {
+  transform: translateY(1px);
+}
+
+/* הישג פתוח */
+.achievementUnlocked {
+  background: var(--unlocked-bg);
+}
+
+.achievementUnlocked::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.achievementIcon {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.achievementIcon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.achievementText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.achievementTitle {
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.achievementUnlocked .achievementTitle {
+  color: #ffcc33;
+}
+
+.achievementDescription {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  line-height: 1.3;
+}
+
+/* התקדמות */
+.achievementProgressWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.achievementProgressText {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: left;
+  direction: ltr;
+}
+
+.achievementProgress {
+  height: 6px;
+  background: var(--progress-bar-bg);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.achievementProgressBar {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 3px;
+  transition: width 1s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+}
+
+.achievementProgressBar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+.achievementUnlockedBadge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  color: #ffcc33;
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 3px rgba(255, 204, 51, 0.7));
+  animation: pulse 2s infinite;
+}
+
+.achievementReward {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #ffcc33;
+}
+
+.achievementReward span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.emptyAchievements {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* סגנונות רמות */
+.bronze {
+  border-right: 4px solid var(--bronze-color);
+}
+
+.silver {
+  border-right: 4px solid var(--silver-color);
+}
+
+.gold {
+  border-right: 4px solid var(--gold-color);
+}
+
+.platinum {
+  border-right: 4px solid var(--platinum-color);
+}
+
+.platinum.achievementUnlocked {
+  background: linear-gradient(135deg, rgba(40, 40, 40, 0.85) 0%, rgba(50, 50, 60, 0.9) 100%);
+}
+
+.bronze .achievementIcon {
+  color: var(--bronze-color);
+}
+
+.silver .achievementIcon {
+  color: var(--silver-color);
+}
+
+.gold .achievementIcon {
+  color: var(--gold-color);
+}
+
+.platinum .achievementIcon {
+  color: var(--platinum-color);
+}
+
+/* אנימציות */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* אנימציית פתיחת הישג */
+.achievementAnim {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+  z-index: 1000;
+  text-align: center;
+  min-width: 300px;
+  animation: fadeIn 0.5s ease-out, glow var(--glow-animation-time) infinite;
+}
+
+.achievementAnimContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.achievementAnimIcon {
+  font-size: 3rem;
+  animation: pulse 2s infinite;
+}
+
+.achievementAnimTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffcc33;
+}
+
+.achievementAnimDescription {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.achievementAnimReward {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* תכונות מותאמות למסך */
+@media (max-width: 768px) {
+  .achievements {
+    padding: 1rem;
+  }
+  
+  .achievements h4 {
+    font-size: 1.5rem;
+  }
+  
+  .achievementItem {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .achievementIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .achievementText {
+    align-items: center;
+  }
+  
+  .achievementTitle {
+    justify-content: center;
+  }
+  
+  .achievementProgressText {
+    text-align: center;
+  }
+  
+  .achievementReward {
+    position: static;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .achievementUnlockedBadge {
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievementCategory {
+    margin-bottom: 1.5rem;
+  }
+  
+  .achievements h4 {
+    font-size: 1.3rem;
+  }
+  
+  .categoryTitle {
+    font-size: 1rem;
+  }
+  
+  .achievementDescription {
+    font-size: 0.85rem;
+  }
+  
+  .unlockedCount {
+    font-size: 0.8rem;
+    padding: 0.15rem 0.5rem;
+  }
+  
+  .achievementAnim {
+    min-width: 250px;
+    padding: 1.5rem;
+  }
+}
+
+/* רטינה */
+@media (min-resolution: 192dpi) {
+  .achievements::before {
+    height: 2px;
+  }
+  
+  .achievementProgressBar {
+    height: 5px;
+  }
+}
+
+/* אפקטים מותאמים למכשירים מודרניים */
+@supports (backdrop-filter: blur(5px)) {
+  .achievementAnim {
+    background: rgba(20, 20, 30, 0.85);
+    backdrop-filter: blur(5px);
+  }
+  
+  .unlockedCount {
+    backdrop-filter: blur(3px);
+  }
+}
+
+/* אנימציה סופית לפתיחת הישג חדש */
+.achievementUnlocked.animate {
+  animation: glow var(--glow-animation-time) forwards;
+}
+
+/* צבעי רקע מותאמים לכל קטגוריה */
+.achievementCategory[data-category="general"] .achievementItem {
+  background: linear-gradient(135deg, rgba(30, 30, 40, 0.7) 0%, rgba(40, 40, 50, 0.7) 100%);
+}
+
+.achievementCategory[data-category="steps"] .achievementItem {
+  background: linear-gradient(135deg, rgba(30, 40, 60, 0.7) 0%, rgba(40, 50, 70, 0.7) 100%);
+}
+
+.achievementCategory[data-category="stars"] .achievementItem {
+  background: linear-gradient(135deg, rgba(60, 40, 30, 0.7) 0%, rgba(70, 50, 40, 0.7) 100%);
+}
+
+.achievementCategory[data-category="stars_gold"] .achievementItem {
+  background: linear-gradient(135deg, rgba(60, 50, 30, 0.7) 0%, rgba(70, 60, 40, 0.7) 100%);
+}
+
+.achievementCategory[data-category="distance"] .achievementItem {
+  background: linear-gradient(135deg, rgba(30, 50, 40, 0.7) 0%, rgba(40, 60, 50, 0.7) 100%);
+}
+
+.achievementCategory[data-category="streak"] .achievementItem {
+  background: linear-gradient(135deg, rgba(50, 30, 50, 0.7) 0%, rgba(60, 40, 60, 0.7) 100%);
+}
+
+.achievementCategory[data-category="level"] .achievementItem {
+  background: linear-gradient(135deg, rgba(40, 30, 60, 0.7) 0%, rgba(50, 40, 70, 0.7) 100%);
+}
+
+.achievementCategory[data-category="zones"] .achievementItem {
+  background: linear-gradient(135deg, rgba(30, 60, 60, 0.7) 0%, rgba(40, 70, 70, 0.7) 100%);
+}
+
+.achievementCategory[data-category="routes"] .achievementItem {
+  background: linear-gradient(135deg, rgba(60, 30, 60, 0.7) 0%, rgba(70, 40, 70, 0.7) 100%);
+}
+
+.achievementCategory[data-category="community"] .achievementItem {
+  background: linear-gradient(135deg, rgba(50, 50, 30, 0.7) 0%, rgba(60, 60, 40, 0.7) 100%);
+}

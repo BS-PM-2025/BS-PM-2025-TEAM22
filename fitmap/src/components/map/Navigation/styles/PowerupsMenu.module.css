@@ -1,0 +1,602 @@
+/* PowerupsMenu.module.css */
+.powerupsMenu {
+  background-color: #f7f9fc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+  direction: rtl;
+  color: #333;
+  width: 100%;
+  position: relative;
+  transform-origin: top center;
+}
+
+/* מצבי הצגה והעלמה */
+.hidden {
+  transform: translateY(-20px) scale(0.95);
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* מצב מתרחב ומתכווץ עם אנימציה */
+.collapsing {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s, transform 0.3s;
+}
+
+.expanding {
+  max-height: 500px; /* גובה מקסימלי בהתרחבות - יש להתאים לפי הצורך */
+  transition: max-height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s, transform 0.3s;
+}
+
+/* כותרת התפריט */
+.powerupTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+/* כפתור המידע */
+.infoButton {
+  background: none;
+  border: none;
+  color: #7f8c8d;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.infoButton:hover {
+  color: #3498db;
+  transform: scale(1.1);
+}
+
+/* תיבת מידע נוסף */
+.infoBox {
+  position: absolute;
+  top: 50px;
+  right: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  width: calc(100% - 32px);
+  z-index: 10;
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid #e0e6ed;
+}
+
+.infoHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.infoHeader h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #7f8c8d;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #e74c3c;
+}
+
+.infoBox p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  color: #34495e;
+}
+
+.infoBox ul {
+  margin: 0;
+  padding-right: 20px;
+  font-size: 0.9rem;
+  color: #34495e;
+}
+
+.infoBox li {
+  margin-bottom: 6px;
+}
+
+/* רשימת הכוחות המיוחדים */
+.powerupsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* כפתור כוח מיוחד */
+.powerupButton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 2px solid #e0e6ed;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: center;
+  min-height: 140px;
+}
+
+.powerupButton:hover:not(:disabled) {
+  border-color: #3498db;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.2);
+}
+
+.powerupButton:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(52, 152, 219, 0.2);
+}
+
+.powerupButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #f5f7fa;
+}
+
+/* כפתור פעיל */
+.powerupButton.active {
+  border-color: #8e44ad;
+  background-color: rgba(142, 68, 173, 0.1);
+  box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
+}
+
+/* אייקון הכוח המיוחד */
+.powerupIcon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+/* שם הכוח המיוחד */
+.powerupName {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* תג מחיר */
+.powerupCost {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #f39c12;
+  font-size: 0.9rem;
+}
+
+.coinIcon {
+  margin-left: 4px;
+}
+
+/* טיימר פעילות */
+.powerupTimer {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #e74c3c;
+  font-size: 0.9rem;
+}
+
+.timerIcon {
+  margin-left: 4px;
+  animation: pulse 1s infinite alternate;
+}
+
+/* טבעת התקדמות */
+.progressRing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* סימן פעיל */
+.activeBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  animation: zoomPulse 1.5s infinite;
+}
+
+/* אפקטים למגנט */
+.magnetEffectContainer {
+  position: absolute;
+  top: 45%;
+  left: 26%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.magnetEffectRings {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(142, 68, 173, 0.7);
+  animation: expandRings 2s infinite;
+}
+
+.magnetEffectParticles {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: rgba(142, 68, 173, 0.8);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 8px rgba(142, 68, 173, 0.6),
+    8px 8px 0 -1px rgba(142, 68, 173, 0.6),
+    -8px -8px 0 -1px rgba(142, 68, 173, 0.6),
+    8px -8px 0 -1px rgba(142, 68, 173, 0.6),
+    -8px 8px 0 -1px rgba(142, 68, 173, 0.6);
+  animation: rotateMagnet 3s infinite linear;
+}
+
+/* אנימציות */
+@keyframes pulse {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes expandRings {
+  0% {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+  }
+  100% {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+  }
+}
+
+@keyframes rotateMagnet {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { 
+    transform: translateY(-20px);
+    opacity: 0;
+    max-height: 0; 
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+    max-height: 500px; 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(0);
+    opacity: 1;
+    max-height: 500px; 
+  }
+  to { 
+    transform: translateY(-20px);
+    opacity: 0;
+    max-height: 0; 
+  }
+}
+
+/* תאימות למכשירים שונים */
+@media (max-width: 768px) {
+  .powerupsList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .powerupButton {
+    padding: 12px;
+    min-height: 120px;
+  }
+  
+  .powerupIcon {
+    font-size: 1.8rem;
+  }
+  
+  .powerupName {
+    font-size: 0.85rem;
+  }
+  
+  .magnetEffectContainer {
+    left: 24%; /* Adjusted for smaller screens */
+  }
+
+  /* התאמות להופעה והעלמה במסכים קטנים */
+  .powerupsMenu.expanding,
+  .powerupsMenu.collapsing {
+    transition-duration: 0.3s;
+  }
+
+  .toggleButton {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .powerupsList {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .powerupButton {
+    min-height: auto;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: right;
+  }
+  
+  .powerupIcon {
+    font-size: 1.6rem;
+    margin-bottom: 0;
+    margin-left: 12px;
+  }
+  
+  .powerupName {
+    margin-bottom: 0;
+    margin-left: auto;
+  }
+  
+  .infoBox {
+    top: 45px;
+    width: calc(100% - 20px);
+    right: 10px;
+  }
+  
+  .magnetEffectContainer {
+    display: none; /* Hidden on very small screens */
+  }
+
+  /* התאמות נוספות להופעה והעלמה במסכים קטנים מאוד */
+  .powerupsMenu.hidden {
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  .toggleButton {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    width: 100%;
+    max-width: 150px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+/* תמיכה במצב כהה */
+@media (prefers-color-scheme: dark) {
+  .powerupsMenu {
+    background-color: #1a202c;
+    color: #e2e8f0;
+  }
+  
+  .powerupTitle {
+    color: #e2e8f0;
+    border-bottom-color: #2d3748;
+  }
+  
+  .infoButton {
+    color: #a0aec0;
+  }
+  
+  .infoButton:hover {
+    color: #63b3ed;
+  }
+  
+  .infoBox {
+    background-color: #2d3748;
+    border-color: #4a5568;
+  }
+  
+  .infoHeader h4 {
+    color: #e2e8f0;
+  }
+  
+  .closeButton {
+    color: #a0aec0;
+  }
+  
+  .closeButton:hover {
+    color: #fc8181;
+  }
+  
+  .infoBox p, .infoBox ul {
+    color: #e2e8f0;
+  }
+  
+  .powerupButton {
+    background-color: #2d3748;
+    border-color: #4a5568;
+  }
+  
+  .powerupButton:hover:not(:disabled) {
+    border-color: #63b3ed;
+    box-shadow: 0 6px 12px rgba(99, 179, 237, 0.2);
+  }
+  
+  .powerupButton:active:not(:disabled) {
+    box-shadow: 0 2px 6px rgba(99, 179, 237, 0.2);
+  }
+  
+  .powerupButton:disabled {
+    background-color: #2d3748;
+    opacity: 0.5;
+  }
+  
+  .powerupButton.active {
+    border-color: #b794f4;
+    background-color: rgba(183, 148, 244, 0.2);
+    box-shadow: 0 0 15px rgba(183, 148, 244, 0.3);
+  }
+  
+  .powerupName {
+    color: #e2e8f0;
+  }
+
+  /* כפתור הצגה/הסתרה במצב כהה */
+  .toggleButton {
+    background: linear-gradient(135deg, #4a5568, #2d3748);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  }
+
+  .toggleButton:hover {
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* תמיכה ב-RTL */
+[dir="rtl"] .coinIcon,
+[dir="rtl"] .timerIcon {
+  margin-right: 0;
+  margin-left: 4px;
+}
+
+[dir="rtl"] .infoBox ul {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+/* תמיכה בהדפסה */
+@media print {
+  .powerupsMenu {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .infoButton, 
+  .closeButton {
+    display: none;
+  }
+  
+  .powerupButton {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .powerupButton.active {
+    box-shadow: none;
+  }
+  
+  .activeBadge, 
+  .magnetEffectContainer, 
+  .progressRing {
+    display: none;
+  }
+}
+
+/* טעינה עם אנימציה */
+.powerupsMenu {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* כפתור הצגה והסתרה של תפריט הכוחות */
+.toggleButton {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.toggleButton:hover {
+  background: linear-gradient(135deg, #2980b9, #3498db);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.toggleButton svg {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.toggleButton.active svg {
+  transform: rotate(180deg);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

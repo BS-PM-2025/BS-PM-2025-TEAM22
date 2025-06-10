@@ -1,0 +1,1607 @@
+/* StreetView.module.css - גרסה משחקית מלאה ומשודרגת */
+
+/* אנימציות מרכזיות */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+  100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* מיכל ראשי */
+.streetViewOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  font-family: 'Rubik', 'Segoe UI', Tahoma, sans-serif;
+  direction: rtl;
+}
+
+.streetViewContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-color: #232323;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* מצב לילה */
+.nightMode {
+  background-color: #121212;
+  color: #e0e0e0;
+  transition: all 0.5s ease;
+}
+
+.nightMode .streetViewHeader {
+  background-color: rgba(20, 20, 35, 0.85);
+  border-bottom: 2px solid #303060;
+}
+
+.nightMode .actionButton {
+  background-color: rgba(30, 30, 60, 0.6);
+  color: #a0a0ff;
+}
+
+.nightMode .actionButton.active {
+  background-color: rgba(60, 60, 120, 0.8);
+  color: #d0d0ff;
+}
+
+/* כותרת */
+.streetViewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: rgba(40, 120, 200, 0.85);
+  color: white;
+  border-bottom: 2px solid #1e6cb3;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.headerTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.icon {
+  font-size: 1.4rem;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+}
+
+.externalButton, .closeButton {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.externalButton:hover, .closeButton:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.closeButton:hover {
+  background-color: rgba(255, 70, 70, 0.3);
+}
+
+/* סטטיסטיקות שחקן בראש */
+.playerStats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.statIcon {
+  font-size: 1.1rem;
+}
+
+.levelBadge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ff9500, #ff3d00);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.levelBadge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(255, 100, 0, 0.5);
+}
+
+.levelNumber {
+  font-weight: 700;
+}
+
+/* גוף העמוד */
+.streetViewBody {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.streetView {
+  width: 100%;
+  height: 100%;
+}
+
+/* טעינה ושגיאות */
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 20, 20, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 5;
+}
+
+.loadingSpinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #3498db;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+  margin-bottom: 20px;
+}
+
+.error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 20, 20, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  z-index: 5;
+  padding: 20px;
+}
+
+.error p {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.errorButton {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.errorButton:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+/* כפתורי פעולה מהירים */
+.actionButtons {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.actionButton {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+.actionButton.active {
+  background-color: rgba(52, 152, 219, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.actionButtonIcon {
+  font-size: 1.2rem;
+}
+
+/* מצפן */
+.compass {
+  position: absolute;
+  left: 16px;
+  top: 80px;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.compassInner {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: transform 0.5s ease;
+}
+
+.compassDirection {
+  position: absolute;
+  font-weight: 700;
+  font-size: 0.8rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.compassN {
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff4d4d;
+}
+
+.compassE {
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+}
+
+.compassS {
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+}
+
+.compassW {
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+}
+
+.compassArrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 30px solid rgba(255, 77, 77, 0.8);
+  transform-origin: center 0;
+}
+
+/* תוויות ומידע */
+.locationLabel {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease;
+}
+
+.locationLabelIcon {
+  font-size: 1.1rem;
+  color: #3498db;
+}
+
+.visibleStarsIndicator {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease;
+}
+
+.starsCount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.starsCountIcon {
+  font-size: 1rem;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.starsCountValue {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffdd00;
+}
+
+.starsCountLabel {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* מצב הליכה */
+.gameModeBanner {
+  position: absolute;
+  top: 80px;
+  right: 50%;
+  transform: translateX(50%);
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  padding: 8px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 5;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+  color: white;
+  animation: slideUp 0.5s ease;
+}
+
+.modeIcon {
+  font-size: 1.3rem;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.modeInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.modeName {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.modeStats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.distanceValue, .stepValue, .speedValue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* אנימציות תגמולים */
+.rewardAnimation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  z-index: 1000;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  animation: float 2s infinite ease-in-out;
+}
+
+.rewardPoints {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f39c12;
+  text-shadow: 0 0 10px rgba(243, 156, 18, 0.7);
+}
+
+.rewardCoins {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #f1c40f;
+  text-shadow: 0 0 10px rgba(241, 196, 15, 0.7);
+}
+
+.rewardXp {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2ecc71;
+  text-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+}
+
+.bonusMultiplier {
+  margin-top: 5px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 5px 15px;
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  border-radius: 20px;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+/* עלייה ברמה */
+.levelUpNotification {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #ff6b6b, #9b59b6);
+  padding: 20px 30px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  color: white;
+  min-width: 300px;
+  animation: float 3s infinite ease-in-out, glow 2s infinite ease-in-out;
+}
+
+.levelUpIcon {
+  font-size: 2.5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: spin 5s infinite linear;
+}
+
+.levelUpContent {
+  flex: 1;
+}
+
+.levelUpTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.levelUpRewards {
+  font-size: 1.1rem;
+}
+
+.coinsReward {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.newPerk {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+/* בונוס יומי */
+.dailyBonusNotification {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
+  padding: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  color: white;
+  min-width: 280px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.dailyBonusHeader {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  text-align: center;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.dailyBonusContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.streakMultiplier {
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.dailyRewards {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/* הודעה על איסוף כוכב */
+.messagePanel {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+.messageContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.messageIcon {
+  font-size: 1.4rem;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+.messageText {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* מדריך משחק */
+.tutorialOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.tutorialContent {
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  padding: 30px;
+  border-radius: 15px;
+  color: white;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.5s ease;
+}
+
+.tutorialContent h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #f8f8f8;
+}
+
+.tutorialContent p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+.tutorialContent button {
+  background-color: #2ecc71;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tutorialContent button:hover {
+  background-color: #27ae60;
+  transform: scale(1.05);
+}
+
+/* אנימציות לאיסוף כוכבים */
+.starCollect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.starParticle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(255, 215, 0, 0.7);
+  border-radius: 50%;
+  animation: fadeOut 1s forwards, moveUp 1s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes moveUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
+
+/* אנימציות הליכה */
+.walkingAnimation {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  z-index: 100;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease, moveUp 1.5s forwards, fadeOut 1.5s forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.walkingDistance {
+  color: #3498db;
+}
+
+.walkingSteps {
+  color: #2ecc71;
+}
+
+@keyframes moveUp {
+  from { transform: translate(-50%, 0); }
+  to { transform: translate(-50%, -40px); }
+}
+
+/* אנימציית השגים */
+.achievementAnimation {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #3498db, #8e44ad);
+  padding: 15px 25px;
+  border-radius: 15px;
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  animation: slideDown 0.5s ease, shake 0.5s 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+}
+
+.achievementHeader {
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.achievementTitle {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.achievementDescription {
+  opacity: 0.9;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.achievementRewards {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+@keyframes slideDown {
+  from { transform: translateX(-50%) translateY(-50px); opacity: 0; }
+  to { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* כפתורי פאוור אפים */
+.powerupsMenu {
+  position: absolute;
+  left: 16px;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+
+.powerupButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  font-size: 0.7rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.powerupButton:hover {
+  transform: scale(1.1);
+}
+
+.magnetButton {
+  border-color: #e74c3c;
+}
+
+.magnetButton:hover, .magnetButton.active {
+  background-color: rgba(231, 76, 60, 0.4);
+}
+
+.radarButton {
+  border-color: #3498db;
+}
+
+.radarButton:hover, .radarButton.active {
+  background-color: rgba(52, 152, 219, 0.4);
+}
+
+.powerupIcon {
+  font-size: 1.5rem;
+  margin-bottom: 2px;
+}
+
+.powerupCost {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.7rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px 5px;
+  border-radius: 10px;
+  margin-top: 2px;
+}
+
+.costIcon {
+  font-size: 0.8rem;
+  color: #f1c40f;
+}
+
+.powerupButton.active {
+  animation: pulse 1s infinite ease-in-out;
+}
+
+.magnetButton.active .powerupIcon {
+  animation: shake 1s infinite ease-in-out;
+}
+
+.radarButton.active .powerupIcon {
+  animation: spin 3s infinite linear;
+}
+
+/* מצב פעיל של פאוור אפ */
+.powerupActive {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.magnetField {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 3px solid rgba(231, 76, 60, 0.5);
+  background-color: rgba(231, 76, 60, 0.1);
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.radarScan {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 3px solid rgba(52, 152, 219, 0.5);
+  background-color: rgba(52, 152, 219, 0.1);
+  animation: spin 4s infinite linear;
+}
+
+.radarLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(to right, rgba(52, 152, 219, 0.8), transparent);
+  transform-origin: left center;
+  animation: spin 2s infinite linear;
+}
+
+/* חלון המשחק - HUD */
+.gameHUD {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* פאנל הישגים */
+.achievementsPanel {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(20, 20, 20, 0.85);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  color: white;
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(52, 152, 219, 0.5);
+  direction: rtl;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.panelTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panelIcon {
+  font-size: 1.6rem;
+  color: #f39c12;
+}
+
+.closePanel {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.closePanel:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.achievementsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.achievementCard {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievementCard:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.achievementCard.completed {
+  border: 2px solid rgba(46, 204, 113, 0.5);
+}
+
+.achievementCard.locked {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+.achievementIcon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #f39c12;
+}
+
+.achievementCardTitle {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.achievementCardDescription {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.achievementProgress {
+  margin-top: 10px;
+}
+
+.progressBar {
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(to right, #3498db, #2ecc71);
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.achievementReward {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.rewardIcon {
+  color: #f1c40f;
+}
+
+/* פאנל סטטיסטיקות */
+.statsPanel {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(20, 20, 20, 0.85);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  color: white;
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(46, 204, 113, 0.5);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  transition: all 0.2s ease;
+}
+
+.statCard:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.statIcon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #3498db;
+}
+
+.statTitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.statValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.levelProgress {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.levelProgressText {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.levelProgressBar {
+  height: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 7.5px;
+  overflow: hidden;
+}
+
+.levelProgressFill {
+  height: 100%;
+  background: linear-gradient(to right, #f39c12, #e74c3c);
+  transition: width 0.3s ease;
+}
+
+/* פאנל מיני-מפה */
+.minimapPanel {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 200px;
+  background-color: rgba(20, 20, 20, 0.8);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease;
+  border: 2px solid rgba(52, 152, 219, 0.5);
+}
+
+.minimapContent {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.playerMarker {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: #3498db;
+  border-radius: 50%;
+  border: 2px solid white;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.8);
+}
+
+.directionIndicator {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 15px solid #3498db;
+  transform-origin: center bottom;
+}
+
+.starMarker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f1c40f;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 2s infinite ease-in-out;
+  z-index: 1;
+}
+
+.starMarker.collected {
+  background-color: rgba(241, 196, 15, 0.3);
+  animation: none;
+}
+
+.minimapControls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.minimapControl {
+  width: 24px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.minimapControl:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* פאנל משימות */
+.questsPanel {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(20, 20, 20, 0.85);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  color: white;
+  pointer-events: auto;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(5px);
+  border: 2px solid rgba(241, 196, 15, 0.5);
+  direction: rtl;
+}
+
+.questsTabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.questTab {
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.questTab:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.questTab.active {
+  background-color: #f39c12;
+  color: #222;
+}
+
+.questsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.questCard {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  transition: all 0.2s ease;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.questCard:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.questIcon {
+  font-size: 2rem;
+  color: #f39c12;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.questContent {
+  flex: 1;
+}
+
+.questTitle {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.questDescription {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.questProgress {
+  margin-top: 10px;
+}
+
+.questRewards {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.questReward {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+.questClaimButton {
+  background-color: #f39c12;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #222;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.questClaimButton:hover {
+  background-color: #f1c40f;
+  transform: scale(1.05);
+}
+
+.questCard.completed {
+  border: 2px solid rgba(46, 204, 113, 0.5);
+}
+
+.questCard.claimed {
+  opacity: 0.7;
+}
+
+/* תוספות אווירה */
+.starsBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* תמיכה במסכים קטנים */
+@media (max-width: 768px) {
+  .achievementsPanel,
+  .statsPanel,
+  .questsPanel {
+    width: 90%;
+    top: 60px;
+    max-height: 75vh;
+  }
+
+  .minimapPanel {
+    width: 250px;
+    height: 150px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionButtons {
+    flex-direction: row;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 16px;
+    top: auto;
+  }
+
+  .powerupsMenu {
+    flex-direction: row;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 80px;
+  }
+
+  .compass {
+    width: 60px;
+    height: 60px;
+    top: 70px;
+  }
+
+  .compassInner {
+    width: 50px;
+    height: 50px;
+  }
+
+  .levelUpNotification,
+  .dailyBonusNotification {
+    width: 90%;
+  }
+}
+
+/* אנימציות כוכבים בתמונה */
+.starSparkle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: white;
+  border-radius: 50%;
+  animation: sparkleAnimation 2s infinite;
+}
+
+@keyframes sparkleAnimation {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* אפקטים צבעוניים בזמן פאוור אפ פעיל */
+.powerupEffect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.2;
+}
+
+.magnetEffect {
+  background: radial-gradient(circle at center, rgba(231, 76, 60, 0.3), transparent 70%);
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.radarEffect {
+  background: conic-gradient(
+    rgba(52, 152, 219, 0) 0deg,
+    rgba(52, 152, 219, 0.3) 90deg,
+    rgba(52, 152, 219, 0) 180deg,
+    transparent 180deg
+  );
+  animation: spin 4s infinite linear;
+}
+
+/* שיפור הגינות משחק נגיש */
+.accessibilityFocus:focus {
+  outline: 3px solid #3498db;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* CSS Variables למראה קל להתאמה */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --accent-color: #f39c12;
+  --danger-color: #e74c3c;
+  --dark-bg: rgba(20, 20, 20, 0.85);
+  --light-text: #f8f8f8;
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --card-hover-bg: rgba(255, 255, 255, 0.15);
+  --border-light: rgba(255, 255, 255, 0.1);
+}
