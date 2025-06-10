@@ -126,7 +126,7 @@ function PersonalTrainer() {
   // שליחת הודעה ל-API של GPT
   const sendMessageToGPT = async (message, retryCount = 0) => {
     try {
-      const response = await fetch("https://serverfitmap.vercel.app/api/gpt", {
+      const response = await fetch("https://sfitmap.vercel.app/api/gpt", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

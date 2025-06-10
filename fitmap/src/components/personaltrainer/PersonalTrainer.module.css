@@ -17,8 +17,8 @@
 
 /* === אזור כותרת === */
 .header {
-  background: var(--gradient-fitness);
-  color: var(--text-light);
+  background: var(--gradient-primary);
+  color: var(--text-primary);
   padding: var(--space-6);
   position: relative;
   z-index: var(--z-10);
@@ -121,7 +121,7 @@
 }
 
 .styleOption:hover {
-  background-color: var(--bg-light);
+  background-color: var(--bg-input);
 }
 
 .selectedStyle {
