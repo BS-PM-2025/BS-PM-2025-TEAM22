@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../utils/supabaseClient";
 import { useAuth } from "../../hooks/useAuth";
-import styles from "../../styles/Favorites.module.css";
+import styles from "./styles/Favorites.module.css";
 import ExerciseCard from "../workouts/ExerciseCard";
 
 import {
@@ -32,6 +32,7 @@ function Favorites() {
       setLoadingFacilities(false);
       setLoadingExercises(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile]);
 
   const fetchFacilityFavorites = async () => {

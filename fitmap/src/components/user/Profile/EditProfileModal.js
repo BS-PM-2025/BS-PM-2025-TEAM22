@@ -12,7 +12,7 @@ import {
   FaIdCard,
   FaCity,
 } from "react-icons/fa";
-import styles from "./Profile.module.css";
+import styles from "./EditProfileForm.module.css";
 
 function EditProfileModal({
   profileData,
