@@ -12,13 +12,14 @@ import {
   FaMinus,
   FaChevronDown,
   FaEnvelope,
-  FaExternalLinkAlt
+  FaExternalLinkAlt,FaStar
 } from "react-icons/fa";
 import styles from "./styles/About.module.css";
 
 const About = () => {
   const [activeFaq, setActiveFaq] = useState(null);
   const [quickNavVisible, setQuickNavVisible] = useState(false);
+  const currentYear = new Date().getFullYear();
 
   // טיפול בתצוגת ניווט מהיר בעת גלילה
   useEffect(() => {
@@ -268,6 +269,26 @@ const About = () => {
           </div>
         </div>
       </section>
+      <section >
+         <div className={styles.copyright}>
+            <span>&copy; {currentYear}</span>
+            <span>Dray.Apps</span>
+            <span>| FitMap Group 22:</span>
+
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Yakir
+            </span>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Matan
+            </span>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Tomer
+            </span>
+            <span className={styles.nameWithIcon}>
+              <FaStar className={styles.starIcon} /> Alon
+            </span>
+            </div>
+</section>
     </div>
   );
 };

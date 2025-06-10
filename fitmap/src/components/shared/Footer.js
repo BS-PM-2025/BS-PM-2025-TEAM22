@@ -9,12 +9,10 @@ import {
   FaEnvelope,
   FaWhatsapp,
   FaTimes,
-  FaStar,
 } from "react-icons/fa";
 import styles from "./styles/Footer.module.css";
 
 function Footer() {
-  const currentYear = new Date().getFullYear();
   const [showWhatsapp, setShowWhatsapp] = useState(true);
 
   return (
@@ -45,14 +43,7 @@ function Footer() {
               >
                 <FaInstagram className={styles.socialIcon} />
               </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-              >
-                <FaTwitter className={styles.socialIcon} />
-              </a>
+           
             </div>
           </div>
 
@@ -99,30 +90,13 @@ function Footer() {
         </div>
         {/* תחתית */}
         <div className={styles.footerBottom}>
-          <div className={styles.copyright}>
-            <span>&copy; {currentYear}</span>
-            <span>Dray.Apps</span>
-            <span>| FitMap Group 22:</span>
 
-            <span className={styles.nameWithIcon}>
-              <FaStar className={styles.starIcon} /> Yakir
-            </span>
-            <span className={styles.nameWithIcon}>
-              <FaStar className={styles.starIcon} /> Matan
-            </span>
-            <span className={styles.nameWithIcon}>
-              <FaStar className={styles.starIcon} /> Tomer
-            </span>
-            <span className={styles.nameWithIcon}>
-              <FaStar className={styles.starIcon} /> Alon
-            </span>
           </div>
 
           <div className={styles.legalLinks}>
             <Link to="/privacy">מדיניות פרטיות</Link>
             <Link to="/terms">תנאי שימוש</Link>
           </div>
-        </div>
       </footer>
 
       {/* כפתור וואטסאפ עם טוגל */}

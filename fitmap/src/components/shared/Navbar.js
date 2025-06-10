@@ -1,8 +1,7 @@
 // src/components/Navbar.js
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../utils/supabaseClient";
-import { useAuth } from "../../hooks/useAuth";
 import { useNotifications } from "../../hooks/useNotifications";
 import {
   FaUser,
@@ -24,7 +23,6 @@ import {
   FaRobot,
   FaComments,
   FaBell,
-  FaSearch,
   FaHome,
   FaUserPlus,
   FaHeart,
@@ -32,8 +30,11 @@ import {
   FaEnvelope,
   FaCheck,
   FaClock,
+  FaShieldAlt,
+  FaGift,
 } from "react-icons/fa";
 import styles from "./styles/Navbar.module.css";
+
 
 const Navbar = ({ toggleTheme, theme }) => {
   const [user, setUser] = useState(null);
@@ -42,8 +43,7 @@ const Navbar = ({ toggleTheme, theme }) => {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [fitnessDropdownOpen, setFitnessDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // שימוש בהוק התראות מהמערכת
   const { notifications, unreadCount, markAsRead, markAllAsRead } =
@@ -54,7 +54,16 @@ const Navbar = ({ toggleTheme, theme }) => {
   const dropdownRef = useRef();
   const fitnessDropdownRef = useRef();
   const notificationsRef = useRef();
-  const searchRef = useRef();
+
+  // האזנה לגלילה לשינוי עיצוב הניווט
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // האזנה לשינויים במצב האימות
   useEffect(() => {
@@ -93,7 +102,6 @@ const Navbar = ({ toggleTheme, theme }) => {
     setProfileDropdownOpen(false);
     setFitnessDropdownOpen(false);
     setNotificationsOpen(false);
-    setIsSearchOpen(false);
   }, [location.pathname]);
 
   // סגירת התפריטים הנפתחים בלחיצה מחוץ לאלמנט
@@ -114,13 +122,6 @@ const Navbar = ({ toggleTheme, theme }) => {
       ) {
         setNotificationsOpen(false);
       }
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target) &&
-        !event.target.classList.contains(styles.searchToggle)
-      ) {
-        setIsSearchOpen(false);
-      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -129,23 +130,51 @@ const Navbar = ({ toggleTheme, theme }) => {
     };
   }, []);
 
+  // טיפול במקשי מקלדת
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // ESC לסגירת תפריטים
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setProfileDropdownOpen(false);
+        setFitnessDropdownOpen(false);
+        setNotificationsOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   // שליפת פרופיל המשתמש מ-Supabase
   const fetchUserProfile = async (userId) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("user_id", userId)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", userId)
+        .single();
 
-    if (!error && data) {
-      setProfile(data);
+      if (!error && data) {
+        setProfile(data);
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
     }
   };
 
   // טיפול בהתנתקות
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/auth";
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      setProfile(null);
+      navigate("/auth");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   // פתיחת/סגירת תפריט המשתמש
@@ -185,6 +214,10 @@ const Navbar = ({ toggleTheme, theme }) => {
         return <FaTrophy />;
       case "new_message":
         return <FaEnvelope />;
+      case "achievement":
+        return <FaGift />;
+      case "system":
+        return <FaShieldAlt />;
       default:
         return <FaBell />;
     }
@@ -193,17 +226,21 @@ const Navbar = ({ toggleTheme, theme }) => {
   const getIconBackground = (type) => {
     switch (type) {
       case "follow":
-        return "var(--primary)";
+        return "#3b82f6";
       case "like":
-        return "#ff4757";
+        return "#ef4444";
       case "comment":
-        return "#3498db";
+        return "#06b6d4";
       case "challenge_complete":
-        return "#f39c12";
+        return "#f59e0b";
       case "new_message":
-        return "#1abc9c";
+        return "#10b981";
+      case "achievement":
+        return "#8b5cf6";
+      case "system":
+        return "#64748b";
       default:
-        return "var(--primary)";
+        return "#3b82f6";
     }
   };
 
@@ -232,6 +269,10 @@ const Navbar = ({ toggleTheme, theme }) => {
           : notification.sender_id
           ? `/chat/${notification.sender_id}`
           : "#";
+      case "achievement":
+        return "/profile?tab=achievements";
+      case "system":
+        return "/notifications";
       default:
         return "/notifications";
     }
@@ -239,7 +280,6 @@ const Navbar = ({ toggleTheme, theme }) => {
 
   // הפונקציה המשופרת לתוכן ההתראה - כוללת שם השולח
   const getNotificationMessage = (notification) => {
-    // שם השולח, עם ברירת מחדל אם אין
     const senderName =
       notification.sender?.name || notification.sender_name || "משתמש";
 
@@ -278,8 +318,19 @@ const Navbar = ({ toggleTheme, theme }) => {
             {notification.content || "שלח לך הודעה חדשה"}
           </span>
         );
+      case "achievement":
+        return (
+          <span className={styles.richMessage}>
+            🎉 השגת הישג חדש: {notification.content || "ברכות!"}
+          </span>
+        );
+      case "system":
+        return (
+          <span className={styles.richMessage}>
+            📢 {notification.content || "עדכון מערכת"}
+          </span>
+        );
       default:
-        // במקרה שיש כותרת או תוכן בהתראה
         if (notification.content) {
           return (
             <span className={styles.richMessage}>{notification.content}</span>
@@ -290,7 +341,6 @@ const Navbar = ({ toggleTheme, theme }) => {
             <span className={styles.richMessage}>{notification.title}</span>
           );
         }
-        // ברירת מחדל
         return <span className={styles.richMessage}>התראה חדשה</span>;
     }
   };
@@ -301,12 +351,7 @@ const Navbar = ({ toggleTheme, theme }) => {
 
     const now = new Date();
     const date = new Date(isoTime);
-    const diff = Math.floor((now - date) / 1000); // הפרש בשניות
-
-    // בדיקה אם מדובר באותו יום
-    const isToday = now.toDateString() === date.toDateString();
-    const isYesterday =
-      new Date(now - 86400000).toDateString() === date.toDateString();
+    const diff = Math.floor((now - date) / 1000);
 
     if (diff < 60) {
       return "הרגע";
@@ -314,20 +359,9 @@ const Navbar = ({ toggleTheme, theme }) => {
       return `לפני ${Math.floor(diff / 60)} דקות`;
     } else if (diff < 86400) {
       return `לפני ${Math.floor(diff / 3600)} שעות`;
-    } else if (isToday) {
-      // שעה ביום הנוכחי
-      return `היום בשעה ${date.getHours()}:${date
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}`;
-    } else if (isYesterday) {
-      // שעה באתמול
-      return `אתמול בשעה ${date.getHours()}:${date
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}`;
+    } else if (diff < 604800) {
+      return `לפני ${Math.floor(diff / 86400)} ימים`;
     } else {
-      // פורמט תאריך רגיל לדברים ישנים יותר
       return date.toLocaleDateString("he-IL", {
         year: "numeric",
         month: "numeric",
@@ -368,25 +402,19 @@ const Navbar = ({ toggleTheme, theme }) => {
 
   return (
     <header
-      className={`${styles.header} ${theme === "dark" ? styles.darkMode : ""}`}
+      className={`${styles.header} ${theme === "dark" ? styles.darkMode : ""} ${
+        isScrolled ? styles.scrolled : ""
+      }`}
     >
       <div className={styles.container}>
         {/* לוגו */}
         <Link to="/" className={styles.logo}>
-          <img
-            src="/FM1.png"
-            alt="לוגו מתקני כושר עירוניים"
-            className={styles.logoImage}
-          />
+          <img src="/Fmap.png" alt="לוגו FitMap" className={styles.logoImage} />
           <span className={styles.logoText}>FitMap</span>
         </Link>
 
         {/* כפתור תפריט למובייל */}
         <div className={styles.mobileControls}>
-          <button className={styles.searchToggle} aria-label="פתח חיפוש">
-            <FaSearch />
-          </button>
-
           <button
             className={`${styles.menuToggle} ${menuOpen ? styles.open : ""}`}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -414,7 +442,16 @@ const Navbar = ({ toggleTheme, theme }) => {
                 <span>דף הבית</span>
               </Link>
             </li>
-
+            <li>
+              <Link
+                to="/profile"
+                className={styles.navIcon}
+                onClick={() => setProfileDropdownOpen(false)}
+              >
+                <FaUser className={styles.navIcon} />
+                <span>פרופיל</span>
+              </Link>
+            </li>
             <li>
               <Link
                 to="/fitness-map"
@@ -527,15 +564,19 @@ const Navbar = ({ toggleTheme, theme }) => {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to="/chats"
-                className={location.pathname === "/chats" ? styles.active : ""}
-              >
-                <FaComments className={styles.navIcon} />
-                <span>צ'אטים</span>
-              </Link>
-            </li>
+            {user && (
+              <li>
+                <Link
+                  to="/chats"
+                  className={
+                    location.pathname === "/chats" ? styles.active : ""
+                  }
+                >
+                  <FaComments className={styles.navIcon} />
+                  <span>צ'אטים</span>
+                </Link>
+              </li>
+            )}
 
             {/* תפריטים תלויי תפקיד */}
             {role === "facility_manager" && (
@@ -612,14 +653,17 @@ const Navbar = ({ toggleTheme, theme }) => {
             )}
           </button>
 
-        {/* התראות עם עיצוב משופר */}
           {user && (
             <div
-              className={`${styles.notificationsContainer} ${unreadCount > 0 ? styles.hasUnread : ''}`}
+              className={`${styles.notificationsContainer} ${
+                unreadCount > 0 ? styles.hasUnread : ""
+              }`}
               ref={notificationsRef}
             >
               <button
-                className={`${styles.notificationsButton} ${!unreadCount ? styles.noNotifications : ''}`}
+                className={`${styles.notificationsButton} ${
+                  !unreadCount ? styles.noNotifications : ""
+                }`}
                 onClick={toggleNotifications}
                 aria-label={`התראות${unreadCount ? ` (${unreadCount})` : ""}`}
                 aria-expanded={notificationsOpen}
@@ -628,7 +672,9 @@ const Navbar = ({ toggleTheme, theme }) => {
                 <FaBell className={styles.bellIcon} />
                 {unreadCount > 0 && (
                   <span
-                    className={`${styles.notificationBadge} ${unreadCount > 99 ? styles.high : ''}`}
+                    className={`${styles.notificationBadge} ${
+                      unreadCount > 99 ? styles.high : ""
+                    }`}
                     title={`${unreadCount} התראות חדשות`}
                   >
                     {unreadCount > 99 ? "99+" : unreadCount}
