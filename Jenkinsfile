@@ -29,43 +29,40 @@ pipeline {
         }
 
         /* ---------- Tests & Quality Gate ---------- */
-stage('Run Tests (Docker + JUnit)') {
+       stage('Run Tests (Docker + JUnit)') {
     steps {
         dir('fitmap') {
             /* pull image if missing */
             bat "docker pull %NODE_IMAGE%"
 
-            /* run Jest tests inside the container, but don’t fail the build */
-            catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-                bat """
-                docker run --rm ^
-                  -e CI=true ^
-                  -e JEST_JUNIT_OUTPUT=/app/junit.xml ^
-                  -v "%cd%":/app ^
-                  -w /app ^
-                  %NODE_IMAGE% ^
-                  sh -c "npm run test:ci"
-                """
-            }
+            /* run Jest tests inside the container */
+            bat """
+            docker run --rm ^
+              -e CI=true ^
+              -e JEST_JUNIT_OUTPUT=/app/junit.xml ^
+              -v "%cd%":/app ^
+              -w /app ^
+              %NODE_IMAGE% ^
+              sh -c "npm run test:ci"
+            """
         }
     }
-
     post {
         always {
             junit testResults: 'fitmap/*.xml', allowEmptyResults: true
         }
-        /* Optional quality-gate that only _flags_ instability instead of failing */
-        changed {
+        success {
             script {
                 def tr = currentBuild.testResultAction
-                if (tr) {
-                    def ratio  = tr.passCount / tr.totalCount
-                    echo "🧪  Pass-rate = ${(ratio*100).round(2)} %"
+                if (!tr) { error '❌  No test results found.' }
 
-                    if (ratio < 0.90) {
-                        echo "⚠️  Pass-rate below 90 % – marking build UNSTABLE."
-                        currentBuild.result = 'UNSTABLE'
-                    }
+                def total  = tr.totalCount ?: 0
+                def passed = tr.passCount  ?: 0
+                def ratio  = total ? passed / total : 0
+                echo "🧪  Pass-rate = ${(ratio*100).round(2)} %"
+
+                if (ratio < 0.90) {
+                    error "❌  Pass-rate below 90 % – failing the build."
                 }
             }
         }
