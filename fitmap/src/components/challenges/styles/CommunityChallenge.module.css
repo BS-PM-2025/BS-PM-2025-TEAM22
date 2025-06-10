@@ -1,241 +1,595 @@
-/* src/components/challenges/styles/CommunityChallenge.module.css */
+/* CommunityChallenge.module.css */
+/* === משתנים גלובליים === */
+:root {
+  --transition-collapse: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    direction: rtl;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+/* === כותרת עליונה - Header עם גרדיאנט ואנימציה === */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 2rem clamp(1rem, 4vw, 2rem);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: var(--text-light);
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: fadeInHeader 0.5s ease-in-out;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.header:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl), 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes fadeInHeader {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === כותרת וטקסט מוביל === */
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.titleSection h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+.titleSection p {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: var(--text-light);
+  margin: 0;
+  max-width: 50ch;
+  opacity: 0.9;
+}
+
+/* מצב כהה */
+.darkMode .header {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  box-shadow: var(--shadow-lg), 0 10px 30px rgba(255, 255, 255, 0.1);
+}
+
+.darkMode .titleSection h1,
+.darkMode .titleSection p {
+  color: var(--text-light);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.createButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--secondary-light), var(--secondary));
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--shadow), 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.createButton:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+  box-shadow: var(--shadow-lg), 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.createButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--secondary-light-transparent);
+}
+
+/* Dark Mode */
+.darkMode .createButton {
+  background: linear-gradient(135deg, var(--secondary-dark), var(--secondary));
+  color: var(--text-light);
+  box-shadow: var(--shadow), 0 3px 10px rgba(255, 255, 255, 0.08);
+}
+
+.darkMode .createButton:hover {
+  background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+}
+
+/* === אזור סינון וחיפוש === */
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  animation: fadeInUp 0.4s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === שדה חיפוש === */
+.searchContainer {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.7rem 2.75rem 0.7rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+  color: var(--text);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light-transparent);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.searchInput:focus + .searchIcon {
+  color: var(--primary);
+}
+
+/* === כפתורי פילטרים === */
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.filterButton {
+  background-color: var(--bg-light);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterButton:hover {
+  background-color: var(--primary-light);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.activeFilter {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: var(--shadow);
+}
+
+/* מצב כהה */
+.darkMode .searchInput {
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-card-dark));
+  color: var(--text-light);
+  border-color: var(--border-color-dark);
+}
+
+.darkMode .searchIcon {
+  color: var(--text-light);
+}
+
+.darkMode .filterButton {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  border-color: var(--border-color-dark);
+}
+
+.darkMode .activeFilter {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-color: var(--primary-dark);
+  box-shadow: var(--shadow-lg);
+}
+
+/* === טעינה מתקדמת === */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.5rem;
+  color: var(--text-secondary);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--primary-light);
+  border-top: 5px solid var(--primary);
+  border-radius: 50%;
+  animation: rotate3D 1s linear infinite;
+  box-shadow: 0 0 8px var(--primary-light-transparent);
+}
+
+@keyframes rotate3D {
+  0% {
+    transform: rotate(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotate(360deg) rotateY(360deg);
+  }
+}
+
+/* === הודעת שגיאה משודרגת === */
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: linear-gradient(135deg, var(--accent), #f87171);
+  color: #fff;
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 5px 15px rgba(255, 100, 100, 0.3);
+  font-size: 1.05rem;
+  font-weight: 600;
+  animation: shakeIn 0.4s ease;
+}
+
+.errorMessage svg {
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes shakeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* === מצב ריק מעוצב === */
+.emptyChallenges {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-light));
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.4s ease;
+}
+
+.emptyIcon {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  animation: float 2.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.emptyChallenges h3 {
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.resetFilterButton {
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  font-weight: 500;
+}
+
+.resetFilterButton:hover {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  transform: translateY(-2px);
+}
+
+/* מצב כהה */
+.darkMode .emptyChallenges {
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-card-dark));
+  color: var(--text-light);
+}
+
+.darkMode .resetFilterButton {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+/* === סקשנים כלליים === */
+.userChallengesSection,
+.allChallengesSection {
+  margin-block: 3rem;
+  animation: fadeInSection 0.5s ease-in-out;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* === עיצוב חדש לכותרת המתקפלת של האתגרים שלי === */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, var(--primary-light), var(--primary));
+  color: var(--text-light);
+  padding: 1rem 1.5rem;
+  border-top-right-radius: var(--radius-xl);
+  border-top-left-radius: var(--radius-xl);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  background: transparent;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  text-align: right;
+  width: 100%;
+}
+
+.toggleButton h2 {
+  color: var(--text-light) !important;
+  margin: 0 !important;
+  font-size: clamp(1.4rem, 3vw, 1.7rem) !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.toggleIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  transition: transform var(--transition);
+}
+
+.toggleButton:hover .toggleIcon {
+  transform: translateY(2px);
+}
+
+.challengeCount {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  padding: 0.3rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+/* === אנימציית הסתרה והצגה === */
+.challengesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  align-items: stretch;
+  transition: all var(--transition-collapse);
+}
+
+.expanded {
+  max-height: 5000px; /* גבוה מספיק כדי להכיל תוכן רב */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.allChallengesSection h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  margin: 0;
+  padding: 1.5rem 2rem;
+  color: var(--primary-dark);
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* === אנימציית הופעה לכל כרטיס === */
+.challengesGrid > * {
+  animation: floatCard 0.5s ease-in-out forwards;
+  transform: translateY(10px);
+  opacity: 0;
+}
+
+@keyframes floatCard {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInSection {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === מצב כהה === */
+.darkMode .sectionHeader {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+}
+
+.darkMode .userChallengesSection,
+.darkMode .allChallengesSection {
+  background: var(--bg-card-dark);
+}
+
+.darkMode .allChallengesSection h2 {
+  color: var(--primary-light);
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-color-dark);
+}
+
+/* === רספונסיביות === */
+@media (max-width: 1024px) {
+  .challengesGrid {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionHeader {
+    padding: 1rem;
   }
   
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 24px;
+  .challengeCount {
+    padding: 0.25rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .challengesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 1.2rem;
+  }
+
+  .userChallengesSection,
+  .allChallengesSection {
+    margin-block: 2rem;
   }
   
-  .titleSection {
-    flex: 1;
+  .allChallengesSection h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1.2rem;
   }
   
-  .titleSection h1 {
-    margin: 0 0 8px;
-    font-size: 1.8rem;
-    color: #333;
+  .toggleButton h2 {
+    font-size: 1.3rem !important;
   }
   
-  .titleSection p {
-    margin: 0;
-    color: #666;
+  .challengeCount {
+    font-size: 0.8rem;
   }
-  
+}
+
+@media (max-width: 480px) {
   .createButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .createButton:hover {
-    background-color: #0060d3;
-  }
-  
-  .filterSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  
-  .searchContainer {
-    position: relative;
-    flex: 1;
-    max-width: 400px;
-  }
-  
-  .searchInput {
     width: 100%;
-    padding: 10px 12px 10px 40px;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    transition: border-color 0.2s;
-  }
-  
-  .searchInput:focus {
-    outline: none;
-    border-color: #0070f3;
-  }
-  
-  .searchIcon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
+    justify-content: center;
     font-size: 1rem;
   }
   
   .filterButtons {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
   }
-  
+
   .filterButton {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background-color: #f5f5f5;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    padding: 8px 12px;
-    color: #333;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .filterButton:hover {
-    background-color: #e5e5e5;
-  }
-  
-  .activeFilter {
-    background-color: #e6f7ff;
-    border-color: #0070f3;
-    color: #0070f3;
-  }
-  
-  .errorMessage {
-    display: flex;
-    align-items: center;
-    background-color: #fff2f0;
-    border: 1px solid #ffccc7;
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin-bottom: 20px;
-    color: #f5222d;
-  }
-  
-  .errorMessage svg {
-    margin-left: 8px;
-    font-size: 1.1rem;
-  }
-  
-  .userChallengesSection,
-  .allChallengesSection {
-    margin-bottom: 32px;
-  }
-  
-  .userChallengesSection h2,
-  .allChallengesSection h2 {
-    margin: 0 0 16px;
-    font-size: 1.4rem;
-    color: #333;
-  }
-  
-  .challengesGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
-  
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0;
+    width: 100%;
     text-align: center;
+    font-size: 1rem;
+  }
+
+  .searchContainer {
+    max-width: 100%;
+  }
+
+  .searchInput {
+    font-size: 1rem;
   }
   
-  .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    border-top: 4px solid #0070f3;
-    width: 36px;
-    height: 36px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 16px;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .emptyChallenges {
-    display: flex;
+  .sectionHeader {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0;
-    text-align: center;
-    color: #666;
+    gap: 0.5rem;
+    align-items: flex-start;
   }
   
-  .emptyIcon {
-    font-size: 3rem;
-    color: #d9d9d9;
-    margin-bottom: 16px;
+  .challengeCount {
+    align-self: flex-start;
   }
-  
-  .emptyChallenges h3 {
-    margin: 0 0 8px;
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  .emptyChallenges p {
-    margin: 0 0 16px;
-  }
-  
-  .resetFilterButton {
-    background-color: #f5f5f5;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    padding: 8px 16px;
-    color: #333;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .resetFilterButton:hover {
-    background-color: #e5e5e5;
-  }
-  
-  @media (max-width: 768px) {
-    .header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    
-    .createButton {
-      width: 100%;
-      justify-content: center;
-    }
-    
-    .filterSection {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    
-    .searchContainer {
-      max-width: 100%;
-    }
-    
-    .challengesGrid {
-      grid-template-columns: 1fr;
-    }
-  }
+}
