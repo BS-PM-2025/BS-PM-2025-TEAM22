@@ -1,0 +1,110 @@
+.indicatorContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-right: var(--space-1);
+    transition: all var(--transition-fast); /* חדש */
+  }
+  
+  .indicator {
+    font-size: var(--font-size-xs);
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transition: all var(--transition-fast); /* חלק יותר */
+  }
+  
+  .online {
+    color: var(--success);
+    background-color: var(--success);
+    filter: drop-shadow(0 0 4px var(--success-light));
+    animation: pulseOnline 2s infinite;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.4); /* חדש */
+  }
+  
+  @keyframes pulseOnline {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(0.95);
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.2);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+    }
+  }
+  
+  .online::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    background-color: var(--success-light);
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulseCircle 2s infinite;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  @keyframes pulseCircle {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0.25;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0.4;
+    }
+  }
+  
+  .offline {
+    color: var(--gray-400);
+    background-color: var(--gray-300);
+    opacity: 0.6;
+    box-shadow: none;
+  }
+  
+  .label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium); /* מודגש יותר */
+    color: var(--text-secondary);
+    background-color: var(--bg-light-darker);
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    backdrop-filter: saturate(180%) blur(4px); /* Glassmorphism */
+  }
+  
+  .online + .label {
+    background-color: rgba(34, 197, 94, 0.15); /* רך יותר */
+    color: var(--success-dark);
+    border: 1px solid var(--success-light);
+  }
+  
+  .offline + .label {
+    background-color: rgba(148, 163, 184, 0.1); /* אפור בהיר */
+    color: var(--gray-500);
+  }
+  
+  /* תוספת של גדלים לפי מוד (למשל compact) */
+  .indicator.sm {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .indicator.lg {
+    width: 18px;
+    height: 18px;
+  }
+  

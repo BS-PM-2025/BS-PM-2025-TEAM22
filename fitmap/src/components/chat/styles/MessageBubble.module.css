@@ -1,0 +1,272 @@
+/* הגדרות כלליות */
+.messageContainer {
+  display: flex;
+  margin-bottom: var(--space-1);
+  animation: fadeInMessage 0.4s ease;
+  max-width: 100%;
+  position: relative;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  direction: rtl; /* תמיכה בשפה העברית */
+}
+
+@keyframes fadeInMessage {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.currentUser { justify-content: flex-start; }
+.otherUser { justify-content: flex-end; }
+
+/* בועת ההודעה */
+.messageBubble {
+  max-width: 85%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  position: relative;
+  word-break: break-word;
+  transition: all var(--transition);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  line-height: 1.6;
+  hyphens: auto;
+  backdrop-filter: blur(4px);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.messageBubble:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  z-index: 5;
+}
+
+/* בועת המשתמש הנוכחי */
+.currentUserBubble {
+  background: linear-gradient(135deg, var(--energy-light), var(--power-light));
+  color: var(--gray-900);
+  font-weight: var(--font-weight-bold);
+  border: 1px solid var(--energy);
+  border-top-right-radius: var(--space-1);
+  margin-left: auto;
+  margin-right: var(--space-4);
+}
+
+.currentUserBubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  border-radius: 1px;
+  background: linear-gradient(-45deg, var(--energy-light), var(--power-light));
+  border-top: 1px solid var(--energy);
+  border-right: 1px solid var(--energy);
+  display: none;
+}
+
+.firstInSequence.currentUserBubble::before { display: block; }
+
+/* בועת משתמש אחר */
+.otherUserBubble {
+  background: var(--gradient-calm);
+  color: white;
+  border-top-left-radius: var(--space-1);
+  margin-right: auto;
+  margin-left: var(--space-4);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md), 0 2px 8px rgba(0, 165, 233, 0.3);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.01em;
+}
+
+.otherUserBubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  border-radius: 1px;
+  display: none;
+}
+
+.firstInSequence.otherUserBubble::before { display: block; }
+
+.firstInSequence { margin-top: var(--space-5); position: relative; }
+.notFirstInSequence { margin-top: var(--space-1); }
+.lastInSequence { margin-bottom: var(--space-4); }
+
+/* תוכן ההודעה */
+.messageContent {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  word-break: break-word;
+  white-space: pre-wrap;
+  animation: fadeInMessage 0.3s ease-in-out;
+  width: 100%;
+}
+
+/* הצגת השעה בתוך הבועה */
+.messageTime {
+  font-size: 0.8rem;
+  color: var(--gray-900);
+  margin-top: 0.3rem;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+/* אייקונים למצב ההודעה */
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.readIcon, .sentIcon, .errorIcon {
+  font-size: 0.9rem;
+  color: var(--power-light);
+}
+
+.pendingDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--gray-900);
+  border-radius: 50%;
+}
+
+/* הודעות עם אימוג'ים בלבד */
+.emojiOnlyMessage {
+  font-size: 2.8em;
+  text-align: center;
+  animation: bounceEmoji 1.8s ease-in-out infinite;
+  line-height: 1.2;
+  padding: var(--space-3) 0;
+  color: var(--primary);
+  text-shadow: 0 0 6px rgba(255, 179, 0, 0.6);
+}
+
+@keyframes bounceEmoji {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.2) translateY(-6px); }
+}
+
+/* אימוג'ים מונפשים */
+.animatedEmoji {
+  display: inline-block;
+  font-size: 1.4em;
+  transition: transform 0.3s, filter 0.3s;
+  will-change: transform, filter;
+}
+
+.animatedEmoji[data-emoji="😊"] {
+  animation: floatEmoji 2s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="👍"] {
+  animation: bounceThumb 1.5s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="❤️"] {
+  animation: pulseHeart 1.6s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="😂"] {
+  animation: shakeLaugh 1.2s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="🔥"] {
+  animation: flickerFire 1.8s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="👏"] {
+  animation: clapHands 1.6s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="🙏"] {
+  animation: bowPray 1.8s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="💪"] {
+  animation: flexMuscle 2s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="🤔"] {
+  animation: tiltThink 2.2s ease-in-out infinite;
+}
+
+.animatedEmoji[data-emoji="😍"] {
+  animation: popLove 1.8s ease-in-out infinite;
+}
+
+@keyframes floatEmoji {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px) scale(1.1); }
+}
+
+@keyframes bounceThumb {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+
+@keyframes pulseHeart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); filter: drop-shadow(0 0 6px red); }
+}
+
+@keyframes shakeLaugh {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(5deg); }
+}
+
+@keyframes flickerFire {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@keyframes clapHands {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2) rotate(10deg); }
+}
+
+@keyframes bowPray {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+@keyframes flexMuscle {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(10deg) scale(1.1); }
+}
+
+@keyframes tiltThink {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes popLove {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.5); filter: drop-shadow(0 0 8px pink); }
+}
+
+/* אימוג'ים לחיצים */
+.animatedEmoji.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.animatedEmoji.clickable:active {
+  transform: scale(1.4) rotate(10deg);
+  filter: drop-shadow(0 0 6px var(--accent));
+}

@@ -1,0 +1,107 @@
+.indicatorContainer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-right: var(--space-1);
+  }
+  
+  /* אייקון אינדיקציה */
+  .indicator {
+    font-size: var(--font-size-xs);
+    position: relative;
+    z-index: 1;
+    transition: transform var(--transition-fast);
+  }
+  
+  /* מצב מקוון עם אנימציה */
+  .online {
+    color: var(--success);
+    filter: drop-shadow(0 0 4px var(--success-light));
+    animation: pulseOnline 1.6s ease-in-out infinite;
+    transition: color var(--transition), filter var(--transition);
+  }
+  
+  @keyframes pulseOnline {
+    0%, 100% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 6px var(--success-light));
+    }
+  }
+  
+  /* טבעת זוהרת */
+  .online::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    background-color: var(--success-light);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: pulseCircle 1.6s ease-in-out infinite;
+    opacity: 0.4;
+  }
+  
+  @keyframes pulseCircle {
+    0% {
+      transform: translate(-50%, -50%) scale(0.9);
+      opacity: 0.2;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0.9);
+      opacity: 0.2;
+    }
+  }
+  
+  /* מצב לא מקוון */
+  .offline {
+    color: var(--gray-500);
+    opacity: 0.5;
+    transition: opacity var(--transition-fast);
+  }
+  
+  /* תווית טקסט */
+  .label {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    background-color: var(--overlay-light);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color var(--transition), color var(--transition);
+  }
+  
+  /* צבע מותאם למקוון */
+  .online + .label {
+    background-color: var(--success-light);
+    color: var(--success-dark);
+  }
+  
+  /* מצב כהה */
+  [data-theme='dark'] .offline {
+    color: var(--gray-600);
+  }
+  
+  [data-theme='dark'] .label {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-tertiary);
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+  }
+  
+  [data-theme='dark'] .online + .label {
+    background-color: var(--success-light);
+    color: var(--success-dark);
+  }
+  
