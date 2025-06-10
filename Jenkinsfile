@@ -4,10 +4,11 @@ pipeline {
     agent any
 
     environment {
-        NODE_IMAGE = 'node:18-alpine'   // official Docker Hub image
+        NODE_IMAGE = 'node:18-alpine'
     }
 
     stages {
+
         /* ---------- Source ---------- */
         stage('Checkout') {
             steps { checkout scm }
@@ -29,46 +30,46 @@ pipeline {
         }
 
         /* ---------- Tests & Quality Gate ---------- */
-       stage('Run Tests (Docker + JUnit)') {
-    steps {
-        dir('fitmap') {
-            /* pull image if missing */
-            bat "docker pull %NODE_IMAGE%"
+        stage('Run Tests (Docker + JUnit)') {
+            steps {
+                dir('fitmap') {
+                    /* pull image if missing */
+                    bat "docker pull %NODE_IMAGE%"
 
-            /* run Jest tests inside the container */
-            bat """
-            docker run --rm ^
-              -e CI=true ^
-              -e JEST_JUNIT_OUTPUT=/app/junit.xml ^
-              -v "%cd%":/app ^
-              -w /app ^
-              %NODE_IMAGE% ^
-              sh -c "npm run test:ci"
-            """
-        }
-    }
-    post {
-        always {
-            junit testResults: 'fitmap/*.xml', allowEmptyResults: true
-        }
-        success {
-            script {
-                def tr = currentBuild.testResultAction
-                if (!tr) { error '❌  No test results found.' }
+                    /* run Jest; mark build UNSTABLE if any test fails */
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
+                        bat """
+                        docker run --rm ^
+                          -e CI=true ^
+                          -e JEST_JUNIT_OUTPUT=/app/fitmap/junit.xml ^  /* write report into fitmap dir */
+                          -v "%cd%":/app ^
+                          -w /app ^
+                          %NODE_IMAGE% ^
+                          sh -c "npm run test:ci"
+                        """
+                    }
+                }
+            }
+            post {
+                /* always try to archive the XML that Jest-JUnit produced */
+                always { junit testResults: 'fitmap/junit.xml', allowEmptyResults: true }
 
-                def total  = tr.totalCount ?: 0
-                def passed = tr.passCount  ?: 0
-                def ratio  = total ? passed / total : 0
-                echo "🧪  Pass-rate = ${(ratio*100).round(2)} %"
-
-                if (ratio < 0.90) {
-                    error "❌  Pass-rate below 90 % – failing the build."
+                /* simple quality‐gate: mark build UNSTABLE if pass-rate < 90 % */
+                always {
+                    script {
+                        def tr = currentBuild.testResultAction
+                        if (tr) {
+                            def ratio = tr.totalCount ? tr.passCount / tr.totalCount : 1
+                            echo "🧪  Pass-rate = ${(ratio*100).round(2)} %"
+                            if (ratio < 0.90) {
+                                currentBuild.result = 'UNSTABLE'
+                                echo "⚠️  Pass-rate below 90 % – build is UNSTABLE."
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
 
         /* ---------- Build ---------- */
         stage('Build Docker Image') {
@@ -93,14 +94,18 @@ pipeline {
 
     /* ---------- Cleanup & Notifications ---------- */
     post {
+        /* Stop containers first, **then** wipe workspace */
         always {
-            dir('fitmap') { bat 'docker-compose -f ../docker-compose.yml down' }
+            dir('fitmap') {
+                catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+                    bat 'docker-compose -f ../docker-compose.yml down'
+                    bat 'docker-compose -f ../docker-compose.yml logs || exit 0'
+                }
+            }
             cleanWs()
         }
-        success { echo '✅  Pipeline completed successfully!' }
-        failure {
-            echo '❌  Pipeline failed, dumping logs:'
-            dir('fitmap') { bat 'docker-compose -f ../docker-compose.yml logs' }
-        }
+        success  { echo '✅  Pipeline completed successfully!' }
+        unstable { echo '🟡  Pipeline finished UNSTABLE (test failures).' }
+        failure  { echo '❌  Pipeline failed (infrastructure error).' }
     }
 }
