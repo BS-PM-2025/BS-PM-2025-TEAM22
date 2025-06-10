@@ -222,8 +222,10 @@ pipeline {
         always {
             script {
                 echo "🧹 Starting cleanup..."
-                
-                dir('fitmap') {
+            }
+            
+            dir('fitmap') {
+                script {
                     // Always try to clean up containers
                     if (fileExists(env.COMPOSE_FILE)) {
                         bat "docker-compose -f ${env.COMPOSE_FILE} down --remove-orphans || echo 'Cleanup completed with warnings'"
@@ -231,7 +233,9 @@ pipeline {
                         echo "⚠️  docker-compose.yml not found, skipping container cleanup"
                     }
                 }
-                
+            }
+            
+            script {
                 // Clean workspace
                 cleanWs()
                 echo "✅ Cleanup completed"
@@ -246,15 +250,19 @@ pipeline {
         failure {
             script {
                 echo '❌ Pipeline failed!'
-                
-                // Try to dump logs for debugging
-                dir('fitmap') {
+            }
+            
+            // Try to dump logs for debugging
+            dir('fitmap') {
+                script {
                     if (fileExists(env.COMPOSE_FILE)) {
                         echo "📋 Dumping container logs for debugging:"
                         bat "docker-compose -f ${env.COMPOSE_FILE} logs --tail=50 || echo 'Could not retrieve logs'"
                     }
                 }
-                
+            }
+            
+            script {
                 // Show some debugging info
                 echo "💡 Debugging information:"
                 bat 'docker ps -a || echo "Could not list containers"'
@@ -267,11 +275,15 @@ pipeline {
         }
         
         aborted {
-            echo '🛑 Pipeline was aborted'
+            script {
+                echo '🛑 Pipeline was aborted'
+            }
             // Still try to cleanup
             dir('fitmap') {
-                if (fileExists(env.COMPOSE_FILE)) {
-                    bat "docker-compose -f ${env.COMPOSE_FILE} down --remove-orphans || echo 'Cleanup after abort completed'"
+                script {
+                    if (fileExists(env.COMPOSE_FILE)) {
+                        bat "docker-compose -f ${env.COMPOSE_FILE} down --remove-orphans || echo 'Cleanup after abort completed'"
+                    }
                 }
             }
         }
