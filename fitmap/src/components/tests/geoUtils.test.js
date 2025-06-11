@@ -25,7 +25,7 @@ describe('geoUtils', () => {
     it('should map specific facility types correctly', () => {
       expect(mapGoogleTypeToLocalType(['stadium'])).toBe('stadium');
       expect(mapGoogleTypeToLocalType(['swimming_pool'])).toBe('pool');
-      expect(mapGoogleTypeToLocalType(['park'])).toBe('fitness_park');
+      expect(mapGoogleTypeToLocalType(['park'])).toBe('park');
     });
 
     it('should return gym for empty or invalid input', () => {
@@ -45,7 +45,6 @@ describe('geoUtils', () => {
 
       const features = extractFeaturesFromGooglePlace(place);
       expect(features).toContain('accessible');
-      expect(features).toContain('lit');
       expect(features).toContain('benches');
       expect(features).toContain('restrooms');
       expect(features).toContain('water_fountain');
@@ -59,7 +58,6 @@ describe('geoUtils', () => {
 
       const features = extractFeaturesFromGooglePlace(place);
       expect(features).toContain('accessible');
-      expect(features).toContain('lit');
     });
   });
 

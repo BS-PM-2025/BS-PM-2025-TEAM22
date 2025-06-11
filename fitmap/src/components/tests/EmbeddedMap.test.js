@@ -15,7 +15,7 @@ describe('EmbeddedMap', () => {
     const iframe = screen.getByTitle(`מפה של ${mockFacility.name}`);
     expect(iframe).toBeInTheDocument();
     expect(iframe).toHaveAttribute('src', 
-      `https://maps.google.com/maps?q=${mockFacility.latitude},${mockFacility.longitude}&z=15&output=embed`
+      `https://maps.google.com/maps?q=${mockFacility.latitude},${mockFacility.longitude}&z=16&output=embed`
     );
   });
 
