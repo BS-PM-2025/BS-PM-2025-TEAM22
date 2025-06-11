@@ -1,0 +1,308 @@
+/* src/styles/Dashboard.module.css */
+.container {
+  max-width: 1200px;
+  margin: 5rem auto;
+  padding: 0 1.5rem;
+  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+  
+  .dashboardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 24px;
+    color: var(--text-color);
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background-color: var(--light-gray);
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .addButton i {
+    margin-left: 8px;
+  }
+  
+  .errorMessage {
+    background-color: #ffebee;
+    color: var(--secondarylight);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: var(--secondary);
+  }
+  
+  .emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: var(--primary);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .emptyIcon {
+    font-size: 60px;
+    color: var(--primary);
+    margin-bottom: 20px;
+  }
+  
+  .emptyState h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  .emptyState p {
+    color: var(--darkgray);
+    margin-bottom: 30px;
+  }
+  
+  .emptyActionButton {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .emptyActionButton i {
+    margin-left: 8px;
+  }
+  
+  .facilitiesList {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .tableHeader {
+    display: flex;
+    background-color: var(--lightgray);
+    padding: 15px;
+    font-weight: 500;
+  }
+  
+  .tableRow {
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid var(--bordercolor);
+  }
+  
+  .tableRow:last-child {
+    border-bottom: none;
+  }
+  
+  .nameColumn {
+    flex: 2;
+  }
+  
+  .addressColumn {
+    flex: 3;
+    color: var(--darkgray);
+    font-size: 14px;
+  }
+  
+  .typeColumn {
+    flex: 1;
+  }
+  
+  .statsColumn {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .ratingColumn {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .actionsColumn {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+  
+  .facilityType {
+    display: inline-block;
+    background-color: var(--light-gray);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  
+  .stars {
+    color: var(--warning-color);
+    font-size: 14px;
+  }
+  
+  .filledStar {
+    color: var(--warning-color);
+  }
+  
+  .emptyStar {
+    color: #ddd;
+  }
+  
+  .editAction, .eventsAction, .viewAction {
+    color: var(--dark-gray);
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .editAction:hover {
+    color: var(--primary-color);
+  }
+  
+  .eventsAction:hover {
+    color: var(--secondary-color);
+  }
+  
+  .viewAction:hover {
+    color: var(--accent-color);
+  }
+  
+  .dashboardTabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tabButton {
+    padding: 10px 20px;
+    background-color: var(--light-gray);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+  
+  .tabButton.active {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .statsCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .statsCard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .statValue {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+  }
+  
+  .statLabel {
+    color: var(--dark-gray);
+    font-size: 14px;
+  }
+  
+  /* מצב רספונסיבי */
+  @media (max-width: 768px) {
+    .tableHeader {
+      display: none;
+    }
+    
+    .tableRow {
+      flex-direction: column;
+      padding: 15px;
+    }
+    
+    .nameColumn {
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .addressColumn, .typeColumn {
+      margin-bottom: 10px;
+    }
+    
+    .statsColumn, .ratingColumn {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .statsColumn:before {
+      content: 'ביקורות: ';
+      margin-left: 5px;
+      font-weight: 500;
+    }
+    
+    .ratingColumn:before {
+      content: 'דירוג: ';
+      margin-left: 5px;
+      font-weight: 500;
+    }
+    
+    .actionsColumn {
+      margin-top: 10px;
+      justify-content: flex-start;
+    }
+  }
+  
+  /* מצב כהה */
+  :global([data-theme='dark']) .emptyState,
+  :global([data-theme='dark']) .facilitiesList,
+  :global([data-theme='dark']) .statsCard {
+    background-color: #333;
+  }
+  
+  :global([data-theme='dark']) .tableHeader {
+    background-color: #444;
+  }
+  
+  :global([data-theme='dark']) .tableRow {
+    border-bottom-color: #444;
+  }
+  
+  :global([data-theme='dark']) .facilityType {
+    background-color: #444;
+  }
+  
+  :global([data-theme='dark']) .tabButton {
+    background-color: #444;
+  }
+  
+  :global([data-theme='dark']) .emptyStar {
+    color: #555;
+  }
+  
+  :global([data-theme='dark']) .errorMessage {
+    background-color: rgba(244, 67, 54, 0.1);
+  }
