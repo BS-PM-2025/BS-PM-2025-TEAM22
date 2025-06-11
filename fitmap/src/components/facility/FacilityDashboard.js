@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../hooks/useAuth';
-import styles from '../../styles/Dashboard.module.css';
+import styles from './styles/Dashboard.module.css';
 
 function FacilityDashboard() {
   const { user } = useAuth();
