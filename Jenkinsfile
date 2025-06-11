@@ -58,10 +58,10 @@ stage('SUS Usability Check') {
 try {
     $csv = Import-Csv sus.csv -Header (1..20 | ForEach-Object { "Col$_" })
     
-    $susAvg = $csv[0].Col15
+    $susAvg = $csv[1].Col15
     
     if ([string]::IsNullOrWhiteSpace($susAvg)) {
-        $susAvg = $csv[1].Col15
+        $susAvg = $csv[2].Col15
     }
     
     $susAvg = $susAvg.Trim()
