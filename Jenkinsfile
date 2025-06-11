@@ -46,68 +46,64 @@ pipeline {
             }
         }
 
-/* ---------- SUS Usability Gate ---------- */
+/* ---------- SUS Usability Gate (Read from O2) ---------- */
 stage('SUS Usability Check') {
     steps {
         script {
-            echo "📈 Fetching SUS data from Google Sheets..."
+            echo "📈 Fetching SUS average from Google Sheets..."
             
             bat "powershell -Command \"Invoke-WebRequest -Uri '%SUS_CSV_URL%' -OutFile sus.csv\""
             
-            writeFile file: 'check_sus_temp.ps1', text: '''
-$ErrorActionPreference = "Stop"
+            writeFile file: 'get_sus_avg.ps1', text: '''
 try {
-    $data = Import-Csv sus.csv
-    if ($data.Count -eq 0) {
-        Write-Output "No SUS responses yet"
-        "SUS_AVG=0" | Out-File -FilePath sus_result.txt -Encoding ASCII
-        exit 0
+    $csv = Import-Csv sus.csv -Header (1..20 | ForEach-Object { "Col$_" })
+    
+    $susAvg = $csv[0].Col15
+    
+    if ([string]::IsNullOrWhiteSpace($susAvg)) {
+        $susAvg = $csv[1].Col15
     }
     
-    $validScores = $data | Where-Object { $_."SUS Score" -match "^[0-9.]+$" }
-    
-    if ($validScores.Count -eq 0) {
-        Write-Output "No valid SUS scores found"
+    $susAvg = $susAvg.Trim()
+    if ($susAvg -match '^[0-9.]+$') {
+        Write-Output "SUS_AVG=$susAvg"
+        "SUS_AVG=$susAvg" | Out-File -FilePath sus_result.txt -Encoding ASCII
+    } else {
+        Write-Output "Invalid SUS average value: $susAvg"
         "SUS_AVG=0" | Out-File -FilePath sus_result.txt -Encoding ASCII
-        exit 0
     }
-    
-    $avg = [math]::Round(($validScores | Measure-Object -Property "SUS Score" -Average).Average, 2)
-    Write-Output "Average SUS = $avg (from $($validScores.Count) responses)"
-    "SUS_AVG=$avg" | Out-File -FilePath sus_result.txt -Encoding ASCII
 } catch {
     Write-Error $_
     "SUS_AVG=0" | Out-File -FilePath sus_result.txt -Encoding ASCII
-    exit 1
 }
 '''
             
-            bat 'powershell -ExecutionPolicy Bypass -File check_sus_temp.ps1'
+            bat 'powershell -ExecutionPolicy Bypass -File get_sus_avg.ps1'
             
-            def susResult = readFile('sus_result.txt').trim()
             def susAvg = 0
-            
-            if (susResult.contains('=')) {
-                susAvg = susResult.split('=')[1] as double
+            if (fileExists('sus_result.txt')) {
+                def result = readFile('sus_result.txt').trim()
+                if (result.contains('=')) {
+                    susAvg = result.split('=')[1] as double
+                }
             }
             
-            echo "📊 Average SUS score: ${susAvg}"
-
+            echo "📊 SUS Average Score (from O2): ${susAvg}"
+            currentBuild.description = "SUS: ${susAvg}"
+            
             if (susAvg == 0) {
-                echo "⚠️  No SUS responses available yet - skipping threshold check"
+                echo "⚠️  Could not read SUS average - please check Google Sheets manually"
             } else if (susAvg < 80) {
                 currentBuild.result = 'UNSTABLE'
-                error("⚠️  Average SUS (${susAvg}) is below the 80% usability threshold!")
+                unstable("⚠️  SUS Score (${susAvg}) is below the 80 threshold!")
             } else {
-                echo "✅ SUS usability gate passed (${susAvg} ≥ 80)."
+                echo "✅ SUS usability gate passed (${susAvg} ≥ 80)"
             }
             
-            // ניקוי
-            bat 'del check_sus_temp.ps1 2>nul'
+            bat 'del get_sus_avg.ps1 sus.csv sus_result.txt 2>nul'
         }
     }
 }
-
 
         /* ---------- Tests & Quality Gate ---------- */
         stage('Run Tests (Docker + JUnit)') {
