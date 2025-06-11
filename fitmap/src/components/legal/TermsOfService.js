@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { FaFileAlt, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
-import styles from '../../styles/LegalPages.module.css';
+import styles from './styles/LegalPages.module.css';
 
 const TermsOfService = () => {
   useEffect(() => {

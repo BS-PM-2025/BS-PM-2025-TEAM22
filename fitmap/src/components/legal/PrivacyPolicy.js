@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { FaShieldAlt, FaCheck, FaInfoCircle } from 'react-icons/fa';
-import styles from '../../styles/LegalPages.module.css';
+import styles from './styles/LegalPages.module.css';
 
 const PrivacyPolicy = () => {
   useEffect(() => {
