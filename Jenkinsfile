@@ -7,7 +7,7 @@ pipeline {
         NODE_IMAGE = 'node:18-alpine'
         COMPOSE_FILE = '../docker-compose.yml'
         DOCKERFILE_PATH = '../Dockerfile'
-        SUS_CSV_URL    = 'https://docs.google.com/spreadsheets/d/1t-_lPown673fsUrAbxnrzbJ8Wazf45fHAcHwNIVUfVY/edit?usp=sharing'
+        SUS_CSV_URL    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQG10607vVkoy3p3_oCcHAnCP7wk5knybmmkc_SXU7Ui1FiVHLyAH1YlVgtPoSZm9mwoJQ_4z7zNPm0/pub?gid=306676688&single=true&output=csv'
     }
 
     stages {
