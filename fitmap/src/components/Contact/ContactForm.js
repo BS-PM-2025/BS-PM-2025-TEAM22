@@ -10,7 +10,7 @@ import {
   FaInfoCircle
 } from 'react-icons/fa';
 import { supabase } from '../../utils/supabaseClient';
-import styles from '../../styles/Contact.module.css';
+import styles from './styles/Contact.module.css';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({

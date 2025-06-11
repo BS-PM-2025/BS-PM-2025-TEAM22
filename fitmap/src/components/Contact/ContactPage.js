@@ -15,7 +15,7 @@ import {
   FaAccessibleIcon,
   FaRegClock
 } from "react-icons/fa";
-import styles from "../../styles/Contact.module.css";
+import styles from "./styles/Contact.module.css";
 
 const ContactPage = () => {
   useEffect(() => {
