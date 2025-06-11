@@ -1,0 +1,828 @@
+/* 
+ * WorkoutDetailPage.module.css
+ * עיצוב לדף פרטי אימון קבוצתי
+ */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.backButton:hover {
+  background: var(--bg-light-darker);
+  transform: translateX(3px);
+  border-color: var(--primary-light);
+}
+
+.backIcon {
+  transition: transform var(--transition-fast);
+}
+
+.backButton:hover .backIcon {
+  transform: translateX(3px);
+}
+
+.headerActions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.editButton,
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--secondary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.editButton:hover,
+.actionButton:hover {
+  background: var(--secondary-dark);
+  transform: translateY(-1px);
+}
+
+.shareContainer {
+  position: relative;
+}
+
+.shareButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.shareButton:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.shareMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--space-2);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  z-index: var(--z-dropdown);
+  min-width: 180px;
+  animation: fadeIn var(--transition-fast);
+}
+
+.shareMenu button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-sm);
+  text-align: right;
+}
+
+.shareMenu button:hover {
+  background: var(--bg-light);
+}
+
+.whatsappIcon { color: #25D366; }
+.telegramIcon { color: #0088cc; }
+.clipboardIcon { color: var(--primary); }
+
+.shareSuccess {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--success);
+  color: var(--text-light);
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  animation: fadeIn var(--transition-fast);
+  z-index: var(--z-dropdown);
+  white-space: nowrap;
+}
+
+/* הודעות הצלחה ושגיאה */
+.successMessage,
+.errorMessage {
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  animation: slideInDown var(--transition) var(--bezier-smooth);
+  position: relative;
+}
+
+.successMessage {
+  background: var(--success-light);
+  color: var(--success-dark);
+  border: 1px solid var(--success);
+}
+
+.errorMessage {
+  background: var(--error-light);
+  color: var(--error-dark);
+  border: 1px solid var(--error);
+}
+
+.successIcon {
+  font-size: var(--font-size-xl);
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.errorIcon {
+  font-size: var(--font-size-xl);
+  color: var(--error);
+  flex-shrink: 0;
+}
+
+.errorCloseButton {
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  color: var(--error);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+  padding: var(--space-1);
+  border-radius: var(--radius);
+}
+
+.errorCloseButton:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* כותרת ופרטי אימון */
+.workoutHeader {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.workoutHeaderContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.workoutHeader h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: var(--line-height-tight);
+}
+
+.pastWorkoutBadge,
+.warningBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--warning-light);
+  color: var(--warning-dark);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  align-self: flex-start;
+}
+
+.timeRemaining {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--info-light);
+  color: var(--info-dark);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  align-self: flex-start;
+}
+
+.timeIcon {
+  font-size: var(--font-size-base);
+}
+
+.workoutDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.workoutDetail {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.detailIcon {
+  color: var(--primary);
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.remainingSpots {
+  color: var(--primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.directionsLink,
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--primary);
+  text-decoration: none;
+  margin-right: var(--space-2);
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-fast);
+}
+
+.directionsLink:hover,
+.mapLink:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* כרטיס הרשמה */
+.registrationCard {
+  background: var(--bg-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  border: 1px solid var(--border-color);
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.registrationTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.registrationStatus {
+  text-align: center;
+}
+
+.registeredBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--success-light);
+  color: var(--success-dark);
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  justify-content: center;
+  width: 100%;
+}
+
+.registeredIcon {
+  font-size: var(--font-size-xl);
+}
+
+.fullBadge,
+.pastBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--error-light);
+  color: var(--error-dark);
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  justify-content: center;
+  width: 100%;
+}
+
+.fullIcon {
+  font-size: var(--font-size-xl);
+}
+
+.spotsAvailable {
+  color: var(--success);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+}
+
+.registrationActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.registerButton,
+.cancelRegistrationButton {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-base);
+}
+
+.registerButton {
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  box-shadow: var(--shadow-primary);
+}
+
+.registerButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary), var(--shadow-lg);
+}
+
+.cancelRegistrationButton {
+  background: var(--error);
+  color: var(--text-light);
+}
+
+.cancelRegistrationButton:hover:not(:disabled) {
+  background: var(--error-dark);
+  transform: translateY(-1px);
+}
+
+.registerButton:disabled,
+.cancelRegistrationButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loadingIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.pastWorkoutMessage,
+.infoMessage {
+  text-align: center;
+  padding: var(--space-3);
+  background: var(--info-light);
+  color: var(--info-dark);
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+/* תוכן האימון */
+.workoutContent {
+  display: grid;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+.descriptionSection,
+.participantsSection {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.descriptionSection {
+  padding: var(--space-6);
+}
+
+.descriptionSection h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.descriptionContent {
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  background: var(--bg-light);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+}
+
+.participantsSection {
+  overflow: hidden;
+}
+
+.participantsHeader {
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--transition-fast);
+}
+
+.participantsHeader:hover {
+  background: var(--bg-light-darker);
+}
+
+.participantsHeader h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.toggleIcon {
+  color: var(--primary);
+  font-size: var(--font-size-lg);
+  transition: transform var(--transition-fast);
+}
+
+/* צ'אט קבוצתי */
+.chatSection {
+  margin-bottom: var(--space-8);
+}
+
+.chatToggleButton {
+  width: 100%;
+  padding: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  background: var(--gradient-primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-primary);
+}
+
+.chatToggleButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-primary), var(--shadow-lg);
+}
+
+.chatToggleButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--gray-500);
+  transform: none;
+}
+
+.activeChatButton {
+  background: var(--secondary);
+}
+
+.chatIcon {
+  font-size: var(--font-size-2xl);
+}
+
+.chatRestriction {
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+  font-weight: var(--font-weight-normal);
+}
+
+.chatContainer {
+  margin-top: var(--space-4);
+  animation: slideIn var(--transition) var(--bezier-smooth);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* מצבי טעינה ושגיאה */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: var(--space-4);
+  color: var(--text-secondary);
+}
+
+.loadingSpinner {
+  font-size: var(--font-size-5xl);
+  color: var(--primary);
+  animation: spin 1s linear infinite;
+}
+
+.errorContainer,
+.notFoundContainer {
+  text-align: center;
+  padding: var(--space-8);
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.errorContainer h2,
+.notFoundContainer h2 {
+  font-size: var(--font-size-2xl);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.errorContainer p,
+.notFoundContainer p {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: var(--line-height-relaxed);
+}
+
+/* אנימציות */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* מדיה קוואריס */
+@media (max-width: 1024px) {
+  .workoutHeader {
+    grid-template-columns: 1fr;
+  }
+  
+  .registrationCard {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .workoutDetails {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-3);
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .workoutHeader {
+    padding: var(--space-6);
+  }
+  
+  .workoutHeader h1 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .workoutDetails {
+    grid-template-columns: 1fr;
+  }
+  
+  .registrationCard {
+    padding: var(--space-4);
+  }
+  
+  .descriptionSection,
+  .participantsSection {
+    padding: var(--space-4);
+  }
+  
+  .participantsHeader {
+    padding: var(--space-3) var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .backButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .shareButton,
+  .editButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .shareMenu {
+    right: 0;
+    width: 100%;
+  }
+  
+  .workoutHeader {
+    padding: var(--space-4);
+  }
+  
+  .workoutHeader h1 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .chatToggleButton {
+    font-size: var(--font-size-base);
+    padding: var(--space-3);
+  }
+  
+  .chatIcon {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* תמיכה במצב כהה */
+[data-theme='dark'] .workoutHeader,
+[data-theme='dark'] .descriptionSection,
+[data-theme='dark'] .participantsSection,
+[data-theme='dark'] .errorContainer,
+[data-theme='dark'] .notFoundContainer {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .registrationCard {
+  background: var(--bg-dark-lighter);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .descriptionContent {
+  background: var(--bg-dark-lighter);
+}
+
+[data-theme='dark'] .participantsHeader {
+  background: var(--bg-dark-lighter);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .participantsHeader:hover {
+  background: var(--bg-dark);
+}
+
+[data-theme='dark'] .shareMenu {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .shareMenu button:hover {
+  background: var(--bg-dark-lighter);
+}
+
+[data-theme='dark'] .backButton {
+  background: var(--bg-dark-lighter);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .backButton:hover {
+  background: var(--bg-dark);
+}
+
+/* נגישות */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* אייקונים מותאמים אישית */
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  border-radius: var(--radius);
+  transition: all var(--transition-fast);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--bg-light);
+  color: var(--primary);
+}
+
+[data-theme='dark'] .iconButton:hover {
+  background: var(--bg-dark-lighter);
+}
