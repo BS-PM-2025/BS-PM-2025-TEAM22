@@ -1,42 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  FaDumbbell, 
-  FaUsers, 
-  FaUserCheck, 
-  FaEnvelope, 
-  FaEdit, 
-  FaTrash, 
-  FaEye, 
-  FaCheck, 
-  FaTimes, 
-  FaPlus, 
+import React, { useState, useEffect } from "react";
+import {
+  FaDumbbell,
+  FaUsers,
+  FaUserCheck,
+  FaEnvelope,
+  FaEdit,
+  FaTrash,
+  FaEye,
+  FaCheck,
+  FaTimes,
+  FaPlus,
   FaCheckCircle,
   FaExclamationTriangle,
   FaFilter,
   FaSearch,
   FaDownload,
-  FaPrint
-} from 'react-icons/fa';
-import { supabase } from '../../utils/supabaseClient';
-import { useAuth } from '../../hooks/useAuth';
-import { Navigate } from 'react-router-dom';
-import styles from '../../styles/AdminDashboard.module.css';
-
+  FaPrint,
+} from "react-icons/fa";
+import { supabase } from "../../utils/supabaseClient";
+import { useAuth } from "../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import styles from "./styles/AdminDashboard.module.css";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function AdminDashboard() {
   const { user, userProfile, loading } = useAuth();
   const [facilities, setFacilities] = useState([]);
   const [users, setUsers] = useState([]);
   const [contactRequests, setContactRequests] = useState([]);
   const [pendingManagers, setPendingManagers] = useState([]);
-  const [activeTab, setActiveTab] = useState('facilities');
+  const [activeTab, setActiveTab] = useState("facilities");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [userRoleFilter, setUserRoleFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [userRoleFilter, setUserRoleFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
   const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
-    if (!loading && (!userProfile || userProfile.role !== 'admin')) {
+    if (!loading && (!userProfile || userProfile.role !== "admin")) {
       return;
     }
 
@@ -45,8 +48,8 @@ function AdminDashboard() {
       try {
         // טעינת מתקנים
         const { data: facilitiesData, error: facilitiesError } = await supabase
-          .from('facilities')
-          .select('*');
+          .from("facilities")
+          .select("*");
 
         if (facilitiesError) {
           throw facilitiesError;
@@ -55,8 +58,8 @@ function AdminDashboard() {
 
         // טעינת משתמשים
         const { data: usersData, error: usersError } = await supabase
-          .from('profiles')
-          .select('*');
+          .from("profiles")
+          .select("*");
 
         if (usersError) {
           throw usersError;
@@ -65,9 +68,9 @@ function AdminDashboard() {
 
         // טעינת פניות צור קשר
         const { data: contactData, error: contactError } = await supabase
-          .from('contact_requests')
-          .select('*')
-          .order('created_at', { ascending: false });
+          .from("contact_requests")
+          .select("*")
+          .order("created_at", { ascending: false });
 
         if (contactError) {
           throw contactError;
@@ -76,25 +79,24 @@ function AdminDashboard() {
 
         // טעינת מנהלי מתקנים הממתינים לאישור
         const { data: pendingData, error: pendingError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('role', 'facility_manager')
-          .eq('approval_status', 'pending')
-          .order('created_at', { ascending: false });
+          .from("profiles")
+          .select("*")
+          .eq("role", "facility_manager")
+          .eq("approval_status", "pending")
+          .order("created_at", { ascending: false });
 
         if (pendingError) {
           throw pendingError;
         }
         setPendingManagers(pendingData || []);
-        
+
         // הגדרת הלשונית הראשונה להיות זו עם הפניות הממתינות אם יש כאלה
         if (pendingData && pendingData.length > 0) {
-          setActiveTab('approvals');
+          setActiveTab("approvals");
         }
-        
       } catch (err) {
-        console.error('Error fetching admin data:', err);
-        setError('שגיאה בטעינת נתונים');
+        console.error("Error fetching admin data:", err);
+        setError("שגיאה בטעינת נתונים");
       } finally {
         setIsLoading(false);
       }
@@ -108,185 +110,218 @@ function AdminDashboard() {
   };
 
   const getFilteredUsers = () => {
-    if (!searchTerm && userRoleFilter === 'all') {
+    if (!searchTerm && userRoleFilter === "all") {
       return users;
     }
-    
-    return users.filter(user => {
-      const matchesRole = userRoleFilter === 'all' || user.role === userRoleFilter;
-      const matchesSearch = !searchTerm || 
-        (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase()));
-      
+
+    return users.filter((user) => {
+      const matchesRole =
+        userRoleFilter === "all" || user.role === userRoleFilter;
+      const matchesSearch =
+        !searchTerm ||
+        (user.name &&
+          user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.email &&
+          user.email.toLowerCase().includes(searchTerm.toLowerCase()));
+
       return matchesRole && matchesSearch;
     });
   };
+  async function handleStatusChange(requestId, newStatus, userId) {
+    try {
+      // עדכון סטטוס הפנייה
+      const { error: updateError } = await supabase
+        .from("contact_requests")
+        .update({ status: newStatus })
+        .eq("id", requestId);
+        console.log({ requestId, newStatus, userId });
 
+      if (updateError) throw updateError;
+  
+      // יצירת התראה חדשה למשתמש
+      const notification = {
+        user_id: userId,
+        type: "contact_update",
+        title: "עדכון מצב פנייה",
+        content: {
+          pending: "הפנייה שלך ממתינה לטיפול.",
+          in_progress: "הפנייה שלך נמצאת כעת בטיפול.",
+          resolved: "הפנייה שלך טופלה.",
+        }[newStatus],
+        is_read: false,
+        created_at: new Date(),
+      };
+  
+      const { error: notifyError } = await supabase
+        .from("notifications")
+        .insert(notification);
+  
+      if (notifyError) throw notifyError;
+  
+      toast.success("הסטטוס עודכן ונשלחה התראה!");
+    } catch (error) {
+      toast.error(`שגיאה: ${error.message}`);
+      console.error(error);
+    }
+  }
+  
+  
   const getFilteredFacilities = () => {
     if (!searchTerm) {
       return facilities;
     }
-    
-    return facilities.filter(facility => 
-      facility.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      facility.address.toLowerCase().includes(searchTerm.toLowerCase())
+
+    return facilities.filter(
+      (facility) =>
+        facility.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        facility.address.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  };
-
-  const handleStatusChange = async (id, newStatus) => {
-    try {
-      const { error } = await supabase
-        .from('contact_requests')
-        .update({ status: newStatus })
-        .eq('id', id);
-
-      if (error) {
-        throw error;
-      }
-
-      setContactRequests(prev => 
-        prev.map(req => req.id === id ? { ...req, status: newStatus } : req)
-      );
-    } catch (err) {
-      console.error('Error updating status:', err);
-      setError('שגיאה בעדכון סטטוס');
-    }
   };
 
   // פונקציה לאישור מנהל מתקן
   const approveManager = async (userId) => {
     try {
       const { error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
-          approval_status: 'approved',
+          approval_status: "approved",
           approved_at: new Date().toISOString(),
-          approved_by: user.id
+          approved_by: user.id,
         })
-        .eq('user_id', userId);
+        .eq("user_id", userId);
 
       if (error) {
         throw error;
       }
 
       // עדכון הרשימה המקומית
-      setPendingManagers(prev => prev.filter(manager => manager.user_id !== userId));
-      
+      setPendingManagers((prev) =>
+        prev.filter((manager) => manager.user_id !== userId)
+      );
+
       // עדכון רשימת המשתמשים
-      setUsers(prev => prev.map(u => 
-        u.user_id === userId ? {...u, approval_status: 'approved'} : u
-      ));
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.user_id === userId ? { ...u, approval_status: "approved" } : u
+        )
+      );
 
       // יש להוסיף כאן קוד לשליחת אימייל למנהל המתקן שאושר
       // sendApprovalEmail(userId);
 
       // הצג הודעת הצלחה
-      setSuccessMessage('מנהל המתקן אושר בהצלחה!');
+      setSuccessMessage("מנהל המתקן אושר בהצלחה!");
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
-      console.error('שגיאה באישור מנהל:', err);
-      setError('אירעה שגיאה באישור מנהל המתקן');
+      console.error("שגיאה באישור מנהל:", err);
+      setError("אירעה שגיאה באישור מנהל המתקן");
     }
   };
 
   // פונקציה לדחיית מנהל מתקן
   const rejectManager = async (userId) => {
-    const isConfirmed = window.confirm('האם אתה בטוח שברצונך לדחות את הבקשה?');
+    const isConfirmed = window.confirm("האם אתה בטוח שברצונך לדחות את הבקשה?");
     if (!isConfirmed) {
       return;
     }
 
     try {
       const { error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
-          approval_status: 'rejected',
+          approval_status: "rejected",
           approved_at: new Date().toISOString(),
-          approved_by: user.id
+          approved_by: user.id,
         })
-        .eq('user_id', userId);
+        .eq("user_id", userId);
 
       if (error) {
         throw error;
       }
 
       // עדכון הרשימה המקומית
-      setPendingManagers(prev => prev.filter(manager => manager.user_id !== userId));
-      
+      setPendingManagers((prev) =>
+        prev.filter((manager) => manager.user_id !== userId)
+      );
+
       // עדכון רשימת המשתמשים
-      setUsers(prev => prev.map(u => 
-        u.user_id === userId ? {...u, approval_status: 'rejected'} : u
-      ));
+      setUsers((prev) =>
+        prev.map((u) =>
+          u.user_id === userId ? { ...u, approval_status: "rejected" } : u
+        )
+      );
 
       // הצג הודעת הצלחה
-      setSuccessMessage('בקשת מנהל המתקן נדחתה בהצלחה');
+      setSuccessMessage("בקשת מנהל המתקן נדחתה בהצלחה");
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
-      console.error('שגיאה בדחיית מנהל:', err);
-      setError('אירעה שגיאה בדחיית מנהל המתקן');
+      console.error("שגיאה בדחיית מנהל:", err);
+      setError("אירעה שגיאה בדחיית מנהל המתקן");
     }
   };
-  
+
   const handleExportData = () => {
     setIsExporting(true);
-    
+
     setTimeout(() => {
       let dataToExport;
       let filename;
-      
-      switch(activeTab) {
-        case 'facilities':
+
+      switch (activeTab) {
+        case "facilities":
           dataToExport = getFilteredFacilities();
-          filename = 'facilities_export.csv';
+          filename = "facilities_export.csv";
           break;
-        case 'users':
+        case "users":
           dataToExport = getFilteredUsers();
-          filename = 'users_export.csv';
+          filename = "users_export.csv";
           break;
-        case 'contacts':
+        case "contacts":
           dataToExport = contactRequests;
-          filename = 'contact_requests_export.csv';
+          filename = "contact_requests_export.csv";
           break;
         default:
           dataToExport = [];
-          filename = 'export.csv';
+          filename = "export.csv";
       }
-      
+
       if (dataToExport.length === 0) {
-        alert('אין נתונים לייצוא');
+        alert("אין נתונים לייצוא");
         setIsExporting(false);
         return;
       }
-      
+
       // המרת הנתונים לפורמט CSV
       const headers = Object.keys(dataToExport[0]);
       const csvContent = [
-        headers.join(','),
-        ...dataToExport.map(row => 
-          headers.map(header => {
-            const cell = row[header] || '';
-            return typeof cell === 'string' && cell.includes(',') 
-              ? `"${cell}"` 
-              : cell;
-          }).join(',')
-        )
-      ].join('\n');
-      
+        headers.join(","),
+        ...dataToExport.map((row) =>
+          headers
+            .map((header) => {
+              const cell = row[header] || "";
+              return typeof cell === "string" && cell.includes(",")
+                ? `"${cell}"`
+                : cell;
+            })
+            .join(",")
+        ),
+      ].join("\n");
+
       // יצירת קובץ להורדה
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', filename);
-      link.style.visibility = 'hidden';
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", filename);
+      link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       setIsExporting(false);
     }, 1000);
   };
-  
+
   const [successMessage, setSuccessMessage] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(null);
 
@@ -300,38 +335,44 @@ function AdminDashboard() {
     if (!showConfirmDelete) {
       return;
     }
-    
+
     const { item, type } = showConfirmDelete;
-    
+
     try {
       let error;
-      
-      switch(type) {
-        case 'facility':
-          ({ error } = await supabase.from('facilities').delete().eq('id', item.id));
+
+      switch (type) {
+        case "facility":
+          ({ error } = await supabase
+            .from("facilities")
+            .delete()
+            .eq("id", item.id));
           if (!error) {
-            setFacilities(prev => prev.filter(f => f.id !== item.id));
+            setFacilities((prev) => prev.filter((f) => f.id !== item.id));
           }
           break;
-        case 'user':
-          ({ error } = await supabase.from('profiles').delete().eq('id', item.id));
+        case "user":
+          ({ error } = await supabase
+            .from("profiles")
+            .delete()
+            .eq("id", item.id));
           if (!error) {
-            setUsers(prev => prev.filter(u => u.id !== item.id));
+            setUsers((prev) => prev.filter((u) => u.id !== item.id));
           }
           break;
         default:
           break;
       }
-      
+
       if (error) {
         throw error;
       }
-      
+
       setSuccessMessage(`הפריט נמחק בהצלחה`);
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err) {
-      console.error('שגיאה במחיקה:', err);
-      setError('אירעה שגיאה במחיקת הפריט');
+      console.error("שגיאה במחיקה:", err);
+      setError("אירעה שגיאה במחיקת הפריט");
     } finally {
       setShowConfirmDelete(null);
     }
@@ -348,15 +389,19 @@ function AdminDashboard() {
     );
   }
 
-  if (!userProfile || userProfile.role !== 'admin') {
+  if (!userProfile || userProfile.role !== "admin") {
     return <Navigate to="/" />;
   }
+
+  const handleCreateChallenge = () => {
+    navigate("/challenges/create");
+  };
 
   return (
     <div className={styles.adminContainer}>
       <div className={styles.adminHeader}>
         <h1 className={styles.adminTitle}>פאנל ניהול מערכת</h1>
-        
+
         <div className={styles.adminActions}>
           <div className={styles.searchContainer}>
             <input
@@ -368,8 +413,14 @@ function AdminDashboard() {
             />
             <FaSearch className={styles.searchIcon} />
           </div>
-          
-          <button 
+
+          <button
+            className={styles.createButton}
+            onClick={handleCreateChallenge}
+          >
+            <FaPlus /> צור אתגר חדש
+          </button>
+          <button
             className={styles.actionButton}
             onClick={handleExportData}
             disabled={isExporting}
@@ -381,7 +432,7 @@ function AdminDashboard() {
             )}
             <span>ייצוא נתונים</span>
           </button>
-          
+
           <button className={styles.actionButton}>
             <FaPrint />
             <span>הדפסה</span>
@@ -395,52 +446,57 @@ function AdminDashboard() {
           {successMessage}
         </div>
       )}
-      
+
       {error && (
         <div className={styles.errorMessage}>
           <FaExclamationTriangle />
           {error}
-          <button 
-            className={styles.closeError} 
-            onClick={() => setError(null)}
-          >
+          <button className={styles.closeError} onClick={() => setError(null)}>
             <FaTimes />
           </button>
         </div>
       )}
 
       <div className={styles.tabsContainer}>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'facilities' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('facilities')}
+        <button
+          className={`${styles.tabButton} ${
+            activeTab === "facilities" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("facilities")}
         >
-          <FaDumbbell /> 
+          <FaDumbbell />
           <span>מתקנים</span>
           <span className={styles.tabCount}>{facilities.length}</span>
         </button>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'users' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('users')}
+        <button
+          className={`${styles.tabButton} ${
+            activeTab === "users" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("users")}
         >
-          <FaUsers /> 
+          <FaUsers />
           <span>משתמשים</span>
           <span className={styles.tabCount}>{users.length}</span>
         </button>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'approvals' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('approvals')}
+        <button
+          className={`${styles.tabButton} ${
+            activeTab === "approvals" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("approvals")}
         >
-          <FaUserCheck /> 
+          <FaUserCheck />
           <span>אישור מנהלים</span>
-          {pendingManagers.length > 0 && 
+          {pendingManagers.length > 0 && (
             <span className={styles.badge}>{pendingManagers.length}</span>
-          }
+          )}
         </button>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'contacts' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('contacts')}
+        <button
+          className={`${styles.tabButton} ${
+            activeTab === "contacts" ? styles.activeTab : ""
+          }`}
+          onClick={() => setActiveTab("contacts")}
         >
-          <FaEnvelope /> 
+          <FaEnvelope />
           <span>פניות</span>
           <span className={styles.tabCount}>{contactRequests.length}</span>
         </button>
@@ -453,7 +509,7 @@ function AdminDashboard() {
         </div>
       ) : (
         <div className={styles.tabContent}>
-          {activeTab === 'facilities' && (
+          {activeTab === "facilities" && (
             <div className={styles.facilitiesTab}>
               <div className={styles.tabHeader}>
                 <h2>ניהול מתקנים</h2>
@@ -461,7 +517,7 @@ function AdminDashboard() {
                   <FaPlus /> הוסף מתקן חדש
                 </button>
               </div>
-              
+
               <div className={styles.tableContainer}>
                 <table className={styles.dataTable}>
                   <thead>
@@ -477,42 +533,57 @@ function AdminDashboard() {
                     {getFilteredFacilities().length === 0 ? (
                       <tr>
                         <td colSpan="5" className={styles.noData}>
-                          {searchTerm ? 'לא נמצאו תוצאות מתאימות לחיפוש' : 'אין מתקנים במערכת'}
+                          {searchTerm
+                            ? "לא נמצאו תוצאות מתאימות לחיפוש"
+                            : "אין מתקנים במערכת"}
                         </td>
                       </tr>
                     ) : (
-                      getFilteredFacilities().map(facility => (
+                      getFilteredFacilities().map((facility) => (
                         <tr key={facility.id}>
                           <td>{facility.name}</td>
                           <td>{facility.address}</td>
                           <td>{facility.type}</td>
                           <td>
                             <div className={styles.ratingDisplay}>
-                              <span className={styles.ratingValue}>{facility.rating || '0'}</span>
+                              <span className={styles.ratingValue}>
+                                {facility.rating || "0"}
+                              </span>
                               <div className={styles.ratingStars}>
-                                {[1, 2, 3, 4, 5].map(star => (
-                                  <span key={star} className={star <= (facility.rating || 0) ? styles.filledStar : styles.emptyStar}>★</span>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <span
+                                    key={star}
+                                    className={
+                                      star <= (facility.rating || 0)
+                                        ? styles.filledStar
+                                        : styles.emptyStar
+                                    }
+                                  >
+                                    ★
+                                  </span>
                                 ))}
                               </div>
                             </div>
                           </td>
                           <td className={styles.actionButtons}>
-                            <button 
+                            <button
                               className={styles.viewButton}
                               title="צפה בפרטים"
                             >
                               <FaEye />
                             </button>
-                            <button 
+                            <button
                               className={styles.editButton}
                               title="ערוך מתקן"
                             >
                               <FaEdit />
                             </button>
-                            <button 
+                            <button
                               className={styles.deleteButton}
                               title="מחק מתקן"
-                              onClick={() => confirmDelete(facility, 'facility')}
+                              onClick={() =>
+                                confirmDelete(facility, "facility")
+                              }
                             >
                               <FaTrash />
                             </button>
@@ -526,14 +597,14 @@ function AdminDashboard() {
             </div>
           )}
 
-          {activeTab === 'users' && (
+          {activeTab === "users" && (
             <div className={styles.usersTab}>
               <div className={styles.tabHeader}>
                 <h2>ניהול משתמשים</h2>
                 <div className={styles.userFilterDropdown}>
                   <FaFilter className={styles.filterIcon} />
-                  <select 
-                    value={userRoleFilter} 
+                  <select
+                    value={userRoleFilter}
                     onChange={(e) => handleUserRoleFilter(e.target.value)}
                     className={styles.filterSelect}
                   >
@@ -544,7 +615,7 @@ function AdminDashboard() {
                   </select>
                 </div>
               </div>
-              
+
               <div className={styles.tableContainer}>
                 <table className={styles.dataTable}>
                   <thead>
@@ -561,46 +632,68 @@ function AdminDashboard() {
                     {getFilteredUsers().length === 0 ? (
                       <tr>
                         <td colSpan="6" className={styles.noData}>
-                          {searchTerm ? 'לא נמצאו תוצאות מתאימות לחיפוש' : 'אין משתמשים מסוג זה במערכת'}
+                          {searchTerm
+                            ? "לא נמצאו תוצאות מתאימות לחיפוש"
+                            : "אין משתמשים מסוג זה במערכת"}
                         </td>
                       </tr>
                     ) : (
-                      getFilteredUsers().map(user => (
+                      getFilteredUsers().map((user) => (
                         <tr key={user.id}>
-                          <td>{user.name || 'ללא שם'}</td>
+                          <td>{user.name || "ללא שם"}</td>
                           <td>{user.email}</td>
                           <td>
-                            <span className={`${styles.roleTag} ${styles[`role_${user.role}`]}`}>
-                              {user.role === 'user' ? 'משתמש רגיל' : 
-                              user.role === 'facility_manager' ? 'מנהל מתקן' : 
-                              user.role === 'admin' ? 'מנהל מערכת' : user.role}
+                            <span
+                              className={`${styles.roleTag} ${
+                                styles[`role_${user.role}`]
+                              }`}
+                            >
+                              {user.role === "user"
+                                ? "משתמש רגיל"
+                                : user.role === "facility_manager"
+                                ? "מנהל מתקן"
+                                : user.role === "admin"
+                                ? "מנהל מערכת"
+                                : user.role}
                             </span>
                           </td>
                           <td>
-                            <span className={`${styles.statusBadge} ${styles[user.approval_status || 'approved']}`}>
-                              {user.approval_status === 'pending' ? 'ממתין לאישור' :
-                              user.approval_status === 'approved' ? 'מאושר' :
-                              user.approval_status === 'rejected' ? 'נדחה' : 'מאושר'}
+                            <span
+                              className={`${styles.statusBadge} ${
+                                styles[user.approval_status || "approved"]
+                              }`}
+                            >
+                              {user.approval_status === "pending"
+                                ? "ממתין לאישור"
+                                : user.approval_status === "approved"
+                                ? "מאושר"
+                                : user.approval_status === "rejected"
+                                ? "נדחה"
+                                : "מאושר"}
                             </span>
                           </td>
-                          <td>{new Date(user.created_at).toLocaleDateString('he-IL')}</td>
+                          <td>
+                            {new Date(user.created_at).toLocaleDateString(
+                              "he-IL"
+                            )}
+                          </td>
                           <td className={styles.actionButtons}>
-                            <button 
+                            <button
                               className={styles.viewButton}
                               title="צפה בפרטים"
                             >
                               <FaEye />
                             </button>
-                            <button 
+                            <button
                               className={styles.editButton}
                               title="ערוך משתמש"
                             >
                               <FaEdit />
                             </button>
-                            <button 
+                            <button
                               className={styles.deleteButton}
                               title="מחק משתמש"
-                              onClick={() => confirmDelete(user, 'user')}
+                              onClick={() => confirmDelete(user, "user")}
                             >
                               <FaTrash />
                             </button>
@@ -614,18 +707,20 @@ function AdminDashboard() {
             </div>
           )}
 
-          {activeTab === 'approvals' && (
+          {activeTab === "approvals" && (
             <div className={styles.approvalsTab}>
               <div className={styles.tabHeader}>
                 <h2>אישור מנהלי מתקנים</h2>
                 <div className={styles.approvalsMetrics}>
                   <div className={styles.metricBox}>
-                    <span className={styles.metricValue}>{pendingManagers.length}</span>
+                    <span className={styles.metricValue}>
+                      {pendingManagers.length}
+                    </span>
                     <span className={styles.metricLabel}>בקשות ממתינות</span>
                   </div>
                 </div>
               </div>
-              
+
               {pendingManagers.length === 0 ? (
                 <div className={styles.emptyState}>
                   <div className={styles.emptyIcon}>
@@ -646,28 +741,32 @@ function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {pendingManagers.map(manager => (
+                      {pendingManagers.map((manager) => (
                         <tr key={manager.id} className={styles.pendingRow}>
-                          <td>{manager.name || 'ללא שם'}</td>
+                          <td>{manager.name || "ללא שם"}</td>
                           <td>{manager.email}</td>
-                          <td>{manager.phone || 'לא צוין'}</td>
-                          <td>{new Date(manager.created_at).toLocaleDateString('he-IL')}</td>
+                          <td>{manager.phone || "לא צוין"}</td>
+                          <td>
+                            {new Date(manager.created_at).toLocaleDateString(
+                              "he-IL"
+                            )}
+                          </td>
                           <td className={styles.actionButtons}>
-                            <button 
+                            <button
                               className={styles.approveButton}
                               onClick={() => approveManager(manager.user_id)}
                               title="אשר מנהל מתקן"
                             >
                               <FaCheck /> אשר
                             </button>
-                            <button 
+                            <button
                               className={styles.rejectButton}
                               onClick={() => rejectManager(manager.user_id)}
                               title="דחה בקשה"
                             >
                               <FaTimes /> דחה
                             </button>
-                            <button 
+                            <button
                               className={styles.viewButton}
                               title="צפה בפרטים נוספים"
                             >
@@ -683,32 +782,44 @@ function AdminDashboard() {
             </div>
           )}
 
-          {activeTab === 'contacts' && (
+          {activeTab === "contacts" && (
             <div className={styles.contactsTab}>
               <div className={styles.tabHeader}>
                 <h2>פניות "צור קשר"</h2>
                 <div className={styles.contactsMetrics}>
                   <div className={styles.metricBox}>
                     <span className={styles.metricValue}>
-                      {contactRequests.filter(req => req.status === 'pending').length}
+                      {
+                        contactRequests.filter(
+                          (req) => req.status === "pending"
+                        ).length
+                      }
                     </span>
                     <span className={styles.metricLabel}>ממתינות לטיפול</span>
                   </div>
                   <div className={styles.metricBox}>
                     <span className={styles.metricValue}>
-                      {contactRequests.filter(req => req.status === 'in_progress').length}
+                      {
+                        contactRequests.filter(
+                          (req) => req.status === "in_progress"
+                        ).length
+                      }
                     </span>
                     <span className={styles.metricLabel}>בטיפול</span>
                   </div>
                   <div className={styles.metricBox}>
                     <span className={styles.metricValue}>
-                      {contactRequests.filter(req => req.status === 'resolved').length}
+                      {
+                        contactRequests.filter(
+                          (req) => req.status === "resolved"
+                        ).length
+                      }
                     </span>
                     <span className={styles.metricLabel}>טופלו</span>
                   </div>
                 </div>
               </div>
-              
+
               <div className={styles.tableContainer}>
                 <table className={styles.dataTable}>
                   <thead>
@@ -724,20 +835,37 @@ function AdminDashboard() {
                   <tbody>
                     {contactRequests.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className={styles.noData}>אין פניות במערכת</td>
+                        <td colSpan="6" className={styles.noData}>
+                          אין פניות במערכת
+                        </td>
                       </tr>
                     ) : (
-                      contactRequests.map(request => (
-                        <tr key={request.id} className={styles[`status_${request.status}`]}>
-                          <td>{new Date(request.created_at).toLocaleDateString('he-IL')}</td>
+                      contactRequests.map((request) => (
+                        <tr
+                          key={request.id}
+                          className={styles[`status_${request.status}`]}
+                        >
+                          <td>
+                            {new Date(request.created_at).toLocaleDateString(
+                              "he-IL"
+                            )}
+                          </td>
                           <td>{request.name}</td>
                           <td>{request.email}</td>
                           <td>{request.subject}</td>
                           <td>
-                            <select 
+                            <select
                               value={request.status}
-                              onChange={(e) => handleStatusChange(request.id, e.target.value)}
-                              className={`${styles.statusSelect} ${styles[request.status]}`}
+                              onChange={(e) =>
+                                handleStatusChange(
+                                  request.id,
+                                  e.target.value,
+                                  request.user_id
+                                )
+                              } // user_id שים לב
+                              className={`${styles.statusSelect} ${
+                                styles[request.status]
+                              }`}
                             >
                               <option value="pending">ממתין לטיפול</option>
                               <option value="in_progress">בטיפול</option>
@@ -745,7 +873,7 @@ function AdminDashboard() {
                             </select>
                           </td>
                           <td className={styles.actionButtons}>
-                            <button 
+                            <button
                               className={styles.viewButton}
                               title="צפה בפרטים"
                             >
@@ -762,22 +890,25 @@ function AdminDashboard() {
           )}
         </div>
       )}
-      
+
       {/* Modal אישור מחיקה */}
       {showConfirmDelete && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <h3>אישור מחיקה</h3>
-            <p>האם אתה בטוח שברצונך למחוק את {showConfirmDelete.type === 'facility' ? 'המתקן' : 'המשתמש'} הזה?</p>
+            <p>
+              האם אתה בטוח שברצונך למחוק את{" "}
+              {showConfirmDelete.type === "facility" ? "המתקן" : "המשתמש"} הזה?
+            </p>
             <p>פעולה זו אינה ניתנת לביטול.</p>
             <div className={styles.modalActions}>
-              <button 
+              <button
                 className={styles.cancelModalButton}
                 onClick={() => setShowConfirmDelete(null)}
               >
                 ביטול
               </button>
-              <button 
+              <button
                 className={styles.confirmDeleteButton}
                 onClick={handleDelete}
               >
