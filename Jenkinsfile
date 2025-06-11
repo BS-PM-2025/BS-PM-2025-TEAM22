@@ -7,6 +7,7 @@ pipeline {
         NODE_IMAGE = 'node:18-alpine'
         COMPOSE_FILE = '../docker-compose.yml'
         DOCKERFILE_PATH = '../Dockerfile'
+        SUS_CSV_URL    = 'https://docs.google.com/spreadsheets/d/1t-_lPown673fsUrAbxnrzbJ8Wazf45fHAcHwNIVUfVY/edit?usp=sharing'
     }
 
     stages {
@@ -106,6 +107,47 @@ pipeline {
                 }
             }
         }
+
+        /* ---------- SUS Usability Gate ---------- */
+stage('SUS Usability Check') {
+    steps {
+        script {
+            echo "📈 Fetching SUS data from Google Sheets..."
+
+            // הורדת ה-CSV
+            bat '''
+            powershell -Command "Invoke-WebRequest -Uri '%SUS_CSV_URL%' -OutFile sus.csv"
+            '''
+
+            // חישוב ממוצע SUS ב-PowerShell
+            bat '''
+            powershell -Command "
+              $data = Import-Csv sus.csv;
+              if ($data.Count -eq 0) {
+                  Write-Output 'No SUS responses yet';
+                  Write-Output 'SUS_AVG=0' | Out-File sus_result.txt;
+                  exit 0;
+              }
+              $avg = [math]::Round( ($data | Measure-Object -Property 'SUS Score' -Average).Average , 2 );
+              Write-Output (\\"Average SUS = $avg\\");
+              Write-Output ('SUS_AVG=' + $avg) | Out-File sus_result.txt;
+            "
+            '''
+
+            // קריאת התוצאה לקוד הגרובי
+            def susAvg = readFile('sus_result.txt').trim().split('=')[1] as double
+            echo "📊 Average SUS score: ${susAvg}"
+
+            if (susAvg < 80) {
+                // מסמן את ה-Build כ-UNSTABLE ומכשיל את השלב
+                currentBuild.result = 'UNSTABLE'
+                error("⚠️  Average SUS ($susAvg) is below the 80% usability threshold!")
+            } else {
+                echo "✅ SUS usability gate passed (≥80)."
+            }
+        }
+    }
+}
 
         /* ---------- Build ---------- */
         stage('Build Docker Image') {
