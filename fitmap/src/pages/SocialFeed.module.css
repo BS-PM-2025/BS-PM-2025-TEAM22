@@ -1,0 +1,416 @@
+/* SocialFeed.module.css */
+:root {
+  --feed-primary: #8b5cf6;
+  --feed-primary-light:#8b5cf6;
+  --feed-primary-dark: #2980b9;
+  --feed-accent: #2980b9;
+  --feed-accent-light: #f1948a;
+  --feed-accent-dark: #2980b9;
+  --feed-success: #2ecc71;
+  --feed-warning: #f39c12;
+  --feed-background: #f8f9fa;
+  --feed-card-bg: #ffffff;
+  --feed-text: #2c3e50;
+  --feed-text-secondary: #7f8c8d;
+  --feed-border: #ecf0f1;
+  --feed-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --feed-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.1);
+  --feed-transition: all 0.3s ease;
+  --feed-border-radius: 8px;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --feed-background: #1a1a1a;
+  --feed-card-bg: #2c3e50;
+  --feed-text: #ecf0f1;
+  --feed-text-secondary: #bdc3c7;
+  --feed-border: #34495e;
+  --feed-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --feed-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Main container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  direction: rtl;
+  background-color: var(--feed-background);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Page title with gradient */
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--feed-text);
+  text-align: center;
+  background: linear-gradient(135deg, var(--feed-primary), var(--feed-primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(to right, var(--feed-primary-light), var(--feed-primary-dark));
+  border-radius: 2px;
+}
+
+/* Feed list styles */
+.feedList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Post card animations */
+.feedList > * {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feedList > *:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--feed-shadow-hover);
+}
+
+/* Loading states */
+.loadingMore {
+  text-align: center;
+  padding: 1rem;
+  color: var(--feed-text-secondary);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.loadingMore::before {
+  content: '';
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--feed-border);
+  border-top-color: var(--feed-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background-color: var(--feed-card-bg);
+  border-radius: var(--feed-border-radius);
+  box-shadow: var(--feed-shadow);
+  color: var(--feed-text-secondary);
+  font-size: 1.1rem;
+  margin: 2rem 0;
+  border: 1px dashed var(--feed-border);
+}
+
+.empty::before {
+  content: '📭';
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Notifications wrapper */
+.notificationsWrapper {
+  background-color: var(--feed-card-bg);
+  border-radius: var(--feed-border-radius);
+  box-shadow: var(--feed-shadow);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid var(--feed-border);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Activity feed wrapper */
+.activityFeedWrapper {
+  background-color: var(--feed-card-bg);
+  border-radius: var(--feed-border-radius);
+  box-shadow: var(--feed-shadow);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid var(--feed-border);
+}
+
+/* Scroll to top button */
+.scrollTopButton {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  background-color: var(--feed-primary);
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--feed-transition);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border: none;
+  outline: none;
+}
+
+.scrollTopButton:hover {
+  background-color: var(--feed-primary-dark);
+  transform: translateY(-3px);
+}
+
+.scrollTopButton.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Feed grid layout for larger screens */
+@media (min-width: 992px) {
+  .feedContainer {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  
+  .sideContent {
+    position: sticky;
+    top: 2rem;
+  }
+}
+
+/* Refresh feed button */
+.refreshButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--feed-card-bg);
+  color: var(--feed-primary);
+  border: 1px solid var(--feed-primary);
+  border-radius: var(--feed-border-radius);
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--feed-transition);
+  margin: 0 auto 1.5rem;
+}
+
+.refreshButton:hover {
+  background-color: var(--feed-primary);
+  color: white;
+}
+
+.refreshButton.refreshing {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.refreshButton.refreshing .refreshIcon {
+  animation: spin 1s linear infinite;
+}
+
+.refreshIcon {
+  font-size: 1.2rem;
+}
+
+/* Post enter animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.postEnter {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Error message */
+.errorMessage {
+  background-color: rgba(231, 76, 60, 0.1);
+  border-left: 4px solid var(--feed-accent);
+  padding: 1rem;
+  margin: 1rem 0;
+  color: var(--feed-accent);
+  border-radius: 0 var(--feed-border-radius) var(--feed-border-radius) 0;
+}
+
+/* Tab content container */
+.tabContent {
+  min-height: 300px;
+  position: relative;
+}
+
+/* Loading overlay */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border-radius: var(--feed-border-radius);
+}
+
+[data-theme="dark"] .loadingOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Post action buttons */
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--feed-text-secondary);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: var(--feed-border-radius);
+  transition: var(--feed-transition);
+}
+
+.actionButton:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: var(--feed-primary);
+}
+
+.actionButton.liked {
+  color: var(--feed-accent);
+}
+
+.actionButton.liked:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Empty state with CTA */
+.emptyWithAction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1.5rem;
+  background-color: var(--feed-card-bg);
+  border-radius: var(--feed-border-radius);
+  box-shadow: var(--feed-shadow);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--feed-primary-light);
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--feed-text);
+}
+
+.emptyMessage {
+  color: var(--feed-text-secondary);
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.emptyActionButton {
+  background-color: var(--feed-primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--feed-transition);
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.emptyActionButton:hover {
+  background-color: var(--feed-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .notificationsWrapper,
+  .activityFeedWrapper {
+    padding: 1rem;
+  }
+  
+  .scrollTopButton {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .empty::before {
+    font-size: 2.5rem;
+  }
+  
+  .emptyIcon {
+    font-size: 3rem;
+  }
+  
+  .emptyTitle {
+    font-size: 1.3rem;
+  }
+}

@@ -1,0 +1,442 @@
+/* UserProfile.module.css - גרסה משודרגת */
+:root {
+  --profile-primary: #3498db;
+  --profile-primary-light: #5dade2;
+  --profile-primary-dark: #2980b9;
+  --profile-accent: #e74c3c;
+  --profile-accent-light: #f1948a;
+  --profile-success: #2ecc71;
+  --profile-warning: #f39c12;
+  --profile-purple: #9b59b6;
+  --profile-background: #ffffff;
+  --profile-card: #f8f9fa;
+  --profile-text: #2c3e50;
+  --profile-text-secondary: #7f8c8d;
+  --profile-border: #ecf0f1;
+  --profile-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  --profile-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.08);
+  --profile-transition: all 0.3s ease;
+  --profile-border-radius: 12px;
+}
+
+/* Dark mode variables */
+[data-theme="dark"] {
+  --profile-background: #1a1a1a;
+  --profile-card: #2c3e50;
+  --profile-text: #ecf0f1;
+  --profile-text-secondary: #bdc3c7;
+  --profile-border: #34495e;
+  --profile-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  --profile-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Container עם מרווחים משופרים */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  direction: rtl;
+  background-color: var(--profile-background);
+  min-height: 100vh;
+}
+
+/* עיצוב כפתור חזרה */
+.container .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--profile-primary);
+  border: 2px solid var(--profile-primary);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--profile-transition);
+  margin-bottom: 2rem;
+}
+
+.container .btn:hover {
+  background-color: var(--profile-primary);
+  color: white;
+  transform: translateX(-5px);
+}
+
+/* כותרת ראשית של הדף עם אפקט */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  border-radius: var(--profile-border-radius);
+  background-color: var(--profile-card);
+  padding: 1.5rem;
+  box-shadow: var(--profile-shadow);
+  transition: var(--profile-transition);
+  overflow: hidden;
+}
+
+.header:hover {
+  box-shadow: var(--profile-shadow-hover);
+  transform: translateY(-3px);
+}
+
+/* אפקט קישוט בצד הכותרת */
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--profile-primary), var(--profile-primary-dark));
+  border-radius: 5px 0 0 5px;
+}
+
+/* עיצוב האזור לכפתור העקיבה */
+.followAction {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* טאבים עם אנימציה */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--profile-border);
+  padding-bottom: 0.5rem;
+  position: relative;
+}
+
+.tab {
+  padding: 0.8rem 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--profile-text-secondary);
+  cursor: pointer;
+  transition: var(--profile-transition);
+  position: relative;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab:hover {
+  color: var(--profile-primary);
+}
+
+.active {
+  color: var(--profile-primary);
+}
+
+/* קו תחתון מונפש לטאב הפעיל */
+.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--profile-primary-light), var(--profile-primary), var(--profile-primary-dark));
+  border-radius: 3px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(5px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* תוכן הטאב עם אנימציה */
+.tabContent {
+  background-color: var(--profile-card);
+  border-radius: var(--profile-border-radius);
+  padding: 2rem;
+  min-height: 400px;
+  box-shadow: var(--profile-shadow);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* חלק הסקירה */
+.overviewSection {
+  display: grid;
+  gap: 2rem;
+}
+
+/* כותרת סקשן עם קו תחתון */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--profile-border);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--profile-text);
+  margin: 0;
+  position: relative;
+}
+
+/* כפתור הצג הכל */
+.viewAllButton {
+  color: var(--profile-primary);
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  transition: var(--profile-transition);
+}
+
+.viewAllButton:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+  transform: translateX(-3px);
+}
+
+/* סקשן אתגרים פעילים */
+.activeChallengesSection {
+  background-color: var(--profile-background);
+  border-radius: var(--profile-border-radius);
+  padding: 1.5rem;
+  border: 1px solid var(--profile-border);
+  transition: var(--profile-transition);
+}
+
+.activeChallengesSection:hover {
+  box-shadow: var(--profile-shadow);
+}
+
+/* קונטיינר עבור אתגרים */
+.challengesProgress {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* אייטם בודד של אתגר */
+.challengeProgressItem {
+  background-color: var(--profile-card);
+  border-radius: var(--profile-border-radius);
+  padding: 1.25rem;
+  border: 1px solid var(--profile-border);
+  transition: var(--profile-transition);
+}
+
+.challengeProgressItem:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--profile-shadow);
+}
+
+/* כותרת אתגר */
+.challengeTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--profile-text);
+  margin: 0 0 1rem;
+}
+
+/* מצב טעינה */
+.loadingData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: var(--profile-text-secondary);
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(52, 152, 219, 0.2);
+  border-top: 3px solid var(--profile-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* מצב ריק */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  color: var(--profile-text-secondary);
+  text-align: center;
+  background-color: var(--profile-background);
+  border-radius: var(--profile-border-radius);
+  border: 1px dashed var(--profile-border);
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* חלק הפוסטים */
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.posts h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  color: var(--profile-text);
+  position: relative;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--profile-border);
+}
+
+.posts h3::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, var(--profile-primary-light), var(--profile-primary), var(--profile-primary-dark));
+  border-radius: 3px;
+}
+
+/* סגנון הפוסטים */
+.posts > div {
+  transition: var(--profile-transition);
+}
+
+.posts > div:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--profile-shadow-hover);
+}
+
+/* Background gradient */
+.container::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(52, 152, 219, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* רספונסיביות */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .tabContent {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  
+  .tabs {
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .tab {
+    padding: 0.75rem 1.25rem;
+    white-space: nowrap;
+  }
+  
+  .overviewSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .container .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .tabContent {
+    padding: 1.25rem;
+  }
+  
+  .challengeProgressItem {
+    padding: 1rem;
+  }
+  
+  .posts h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* נגישות */
+.tab:focus-visible,
+.viewAllButton:focus-visible,
+.container .btn:focus-visible {
+  outline: 2px solid var(--profile-primary);
+  outline-offset: 2px;
+}
+
+/* הנפשות נוספות */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loadingPlaceholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+  min-height: 20px;
+}
