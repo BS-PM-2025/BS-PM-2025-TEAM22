@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../utils/supabaseClient';
-import styles from '../../styles/PendingApproval.module.css';
+import styles from './styles/PendingApproval.module.css';
 
 function PendingApproval() {
   const { user, userProfile, loading } = useAuth();
